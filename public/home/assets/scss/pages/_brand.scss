@@ -60,7 +60,7 @@
     }
     @media #{$tablet-device} {
         & .brand-title-wrap {
-            padding-right: 0px;
+            padding-right: 0;
             padding-bottom: 60px;
         }
     }
@@ -69,14 +69,14 @@
             padding-bottom: 20px;
         }
         & .brand-content-wrap {
-    
+
             &::before {
                 display: none;
             }
-    
+
             & .upstudy-brand-box {
                 border-right: 0;
- 
+
                 & .single-brand {
                     height: inherit;
                     line-height: inherit;
@@ -87,12 +87,12 @@
     }
     @media #{$extra-small-mobile} {
         & .brand-title-wrap {
-    
+
             & .title {
                 font-size: 34px;
                 line-height: 45px;
             }
-    
+
             & .btn {
                 padding: 0 55px;
                 margin-top: 45px;

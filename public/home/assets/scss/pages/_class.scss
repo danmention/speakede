@@ -1,7 +1,7 @@
 /*--
 /*  29 - Class CSS
 /*----------------------------------------*/
- 
+
 .upstudy-class-section {
     background: #eaf5ff;
     background-repeat: no-repeat;
@@ -73,20 +73,20 @@
         border: 2px dashed #64c1ea;
 
         & .class-image {
-    
+
             & .class-price {
                 & .price {
                     background: #64c1ea;
                 }
             }
         }
-        
+
     }
     &.color-3 {
         border: 2px dashed #77c721;
 
         & .class-image {
-    
+
             & .class-price {
                 & .price {
                     background: #77c721;
@@ -195,7 +195,7 @@
     &:hover {
 
         & .class-image {
-        
+
             & img {
                 transform: scale(1.05);
             }

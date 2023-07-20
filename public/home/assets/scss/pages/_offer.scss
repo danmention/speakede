@@ -58,11 +58,11 @@
         & .offer-content {
             width: 80%;
             padding: 20px 40px 15px;
-    
+
             & p {
                 margin-top: 10px;
             }
-    
+
             & .btn {
                 margin-top: 20px;
             }
@@ -72,11 +72,11 @@
         & .offer-content {
             width: 54%;
             padding: 65px 40px 55px;
-    
+
             & p {
                 margin-top: 20px;
             }
-    
+
             & .btn {
                 margin-top: 35px;
             }
@@ -86,11 +86,11 @@
         & .offer-content {
             width: 80%;
             padding: 30px 40px 15px;
-    
+
             & p {
                 margin-top: 10px;
             }
-    
+
             & .btn {
                 margin-top: 20px;
             }
@@ -105,36 +105,36 @@
             & .sub-title {
                 font-size: 16px;
             }
-    
+
             & .title {
                 font-size: 30px;
                 line-height: 45px;
             }
-    
+
             & p {
                 font-size: 16px;
             }
-    
+
             & .btn {
                 height: 40px;
                 line-height: 38px;
-                padding: 0px 30px;
+                padding: 0 30px;
                 font-size: 15px;
             }
         }
     }
     @media #{$extra-small-mobile} {
         & .offer-content {
-    
+
             & p {
                 display: none;
             }
-    
+
         }
     }
 }
 
- 
+
 // Home Style Two
 
 .upstudy-offer-section-02 {
@@ -169,32 +169,32 @@
         }
         & .offer-images {
             text-align: right;
-            
+
             & img {
                 width: 220px;
                 height: 140px;
                 object-fit: contain;
             }
         }
-    
+
         & .offer-content {
-            
-    
+
+
             & .sub-title {
                 font-size: 14px;
                 line-height: 26px;
                 font-weight: 600;
                 color: $heading-color;
             }
-    
+
             & .title {
                 font-size: 36px;
                 line-height: 48px;
                 font-weight: 600;
                 color: $heading-color;
             }
-    
-    
+
+
             & .link-btn {
                 font-size: 12px;
                 font-weight: 700;
@@ -214,7 +214,7 @@
                     background: $primary;
                     transition: $transition-default;
                 }
-    
+
                 &:hover {
 
                     &::before {

@@ -59,7 +59,7 @@
                 }
             }
         }
-        
+
         & .meta-action{
 
             &:first-child {
@@ -96,11 +96,11 @@
             & .rating{
                 display: flex;
                 align-items: center;
-        
+
                 & .rating-star{
                     display: block;
                     position: relative;
-        
+
                     &::before{
                         content: '\f13b \f13b \f13b \f13b \f13b';
                         font-family: "flaticon";
@@ -113,7 +113,7 @@
                         top: 0;
                         left: 0;
                         overflow: hidden;
-        
+
                         &::before{
                             content: '\f13b \f13b \f13b \f13b \f13b';
                             font-family: "flaticon";
@@ -132,12 +132,12 @@
     }
 }
 
-// Course Details 
+// Course Details
 .course-details-wrapper{
     @media #{$desktop-device}{
         padding-right: 35px;
     }
-    
+
     & .title{
         font-size: 22px;
         font-weight: 700;
@@ -146,7 +146,7 @@
     & p{
         margin-top: 10px;
     }
-    
+
     & .lessons-time{
         & > *{
             margin-right: 30px;
@@ -175,7 +175,7 @@
             flex-wrap: wrap;
             margin-left: -10px;
             margin-right: -10px;
-    
+
             & li{
                 font-size: 15px;
                 line-height: 2.25;
@@ -187,7 +187,7 @@
                 @media #{$large-mobile}{
                     width: 100%;
                 }
-    
+
                 &::before{
                     position: absolute;
                     top: 0;
@@ -217,10 +217,10 @@
 
     .course-review{
         margin-top: 50px;
-    }    
+    }
 }
 
-// Course Accordion 
+// Course Accordion
 .course-accordion{
     & .accordion-item{
         border-radius: 0;
@@ -261,7 +261,7 @@
                     padding: 15px 35px 8px 30px;
                     border-top: 1px solid #DCE4E6;
                     @media #{$extra-small-mobile} {
-                        padding: 15px 0px 8px 0px;
+                        padding: 15px 0 8px 0;
                     }
 
                     &:first-child {
@@ -327,11 +327,11 @@
             & .rating{
                 display: flex;
                 align-items: center;
-        
+
                 & .rating-star{
                     display: block;
                     position: relative;
-        
+
                     &::before{
                         content: '\f13b \f13b \f13b \f13b \f13b';
                         font-family: "flaticon";
@@ -344,7 +344,7 @@
                         top: 0;
                         left: 0;
                         overflow: hidden;
-        
+
                         &::before{
                             content: '\f13b \f13b \f13b \f13b \f13b';
                             font-family: "flaticon";
@@ -394,7 +394,7 @@
         width: 190px;
         background-color: $white;
         border-radius: 10px;
-        box-shadow: 0px 0px 57px 0px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0 57px 0 rgba(0, 0, 0, 0.08);
         padding: 33px 20px;
         flex-shrink: 0;
 
@@ -481,7 +481,7 @@
 // Review Items
 .review-items{
     padding-top: 30px;
-    
+
     & ul{
         & li{}
     }
@@ -524,7 +524,7 @@
                 display: inline-block;
                 position: relative;
                 margin-right: auto;
-    
+
                 &::before{
                     content: '\f13b \f13b \f13b \f13b \f13b';
                     font-family: "flaticon";
@@ -537,7 +537,7 @@
                     top: 0;
                     left: 0;
                     overflow: hidden;
-    
+
                     &::before{
                         content: '\f13b \f13b \f13b \f13b \f13b';
                         font-family: "flaticon";
@@ -574,10 +574,10 @@
 // Sidebar Details Video & Description
 .sidebar-details-video-description{
     background-color: $white;
-    box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0 65px 0 rgba(0, 0, 0, 0.12);
     overflow: hidden;
     border-radius: 6px;
-          
+
     & .sidebar-video{
         position: relative;
         padding: 10px;
@@ -623,7 +623,7 @@
             & .price{
                 margin-top: -5px;
                 margin-left: 10px;
-    
+
                 & .sale-price{
                     font-size: 24px;
                     font-weight: 700;

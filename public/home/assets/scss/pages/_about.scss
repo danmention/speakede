@@ -18,7 +18,7 @@
                 color: $primary;
             }
         }
-    
+
         & .text {
             font-size: 16px;
             line-height: 30px;
@@ -75,13 +75,13 @@
             padding-left: 40px;
 
             & .title {
-                padding-right: 0px;
+                padding-right: 0;
             }
-        
+
             & .about-list {
 
                 & .list-item {
-    
+
                     &  .title {
                         padding-right: 20px;
                     }
@@ -90,41 +90,41 @@
         }
 
         & .about-img {
-    
+
             & .shape-1 {
                 top: -12%;
             }
-    
+
         }
     }
     @media #{$tablet-device}  {
         & .about-content {
-            padding-left: 0px;
+            padding-left: 0;
             padding-top: 40px;
-        
+
             & .about-list {
 
                 & .list-item {
-    
+
                     &  .title {
-                        padding-right: 0px;
+                        padding-right: 0;
                     }
                 }
             }
         }
 
         & .about-img {
-    
+
             & .shape-1 {
                 top: -0%;
             }
-    
+
         }
     }
     @media #{$large-mobile}  {
         & .about-content {
             padding-top: 40px;
-        
+
             & .title {
                 font-size: 36px;
                 line-height: 46px;
@@ -132,16 +132,16 @@
         }
 
         & .about-img {
-    
+
             & .shape-1 {
                 height: 410px;
             }
-    
+
         }
     }
     @media #{$small-mobile}  {
         & .about-content {
-        
+
             & .title {
                 font-size: 30px;
                 line-height: 40px;
@@ -149,37 +149,37 @@
         }
 
         & .about-img {
-    
+
             & .shape-1 {
                 height: 380px;
             }
-    
+
         }
     }
     @media #{$extra-small-mobile}  {
-    
+
         & .about-content {
-    
-    
+
+
             & .about-list {
                 flex-direction: column;
                 gap: 10px;
                 & .list-item {
-    
+
                     &:last-child {
-                        padding-left: 0px;
+                        padding-left: 0;
                     }
                 }
             }
         }
 
         & .about-img {
-    
+
             & .shape-1 {
                 top: -7%;
                 height: 300px;
             }
-    
+
         }
     }
 }
@@ -206,7 +206,7 @@
 
     & .about-content {
         // padding-right: 80px;
-    
+
         & .text {
             font-size: 18px;
             line-height: 36px;
@@ -250,9 +250,9 @@
                 top: 40px;
                 width: 360px;
             }
-    
+
             & .image {
-                margin-top: 0px;
+                margin-top: 0;
             }
         }
     }
@@ -294,7 +294,7 @@
     }
 }
 
- 
+
 // Home Style Five
 
 .upstudy-about-section-03 {
@@ -353,7 +353,7 @@
         & .section-title-3 {
 
             & .sub-title {
-        
+
                 &::before {
                     content: "";
                     position: absolute;
@@ -417,25 +417,25 @@
 .upstudy-about-section-03  {
     @media #{$desktop-device} {
         & .about-img-wrap {
-    
+
             & .about-shape {
                 right: 8%;
             }
 
-    
+
             & .about-img-sm {
-                padding-left: 0px;
+                padding-left: 0;
             }
-    
-    
+
+
             & .about-text-shape {
-                right: 0px;
+                right: 0;
             }
         }
 
         & .about-content {
             padding-left: 50px;
-            padding-right: 0px;
+            padding-right: 0;
         }
     }
     @media #{$tablet-device} {
@@ -445,19 +445,19 @@
                 right: 37%;
                 top: -4%;
             }
-    
+
             & .about-img-bottom {
                 right: 160px;
- 
+
             }
-    
+
             & .about-text-shape {
                 right: 120px;
             }
         }
 
         & .about-content {
-            padding-left: 0px;
+            padding-left: 0;
             margin-top: 40px;
         }
     }
@@ -468,14 +468,14 @@
                 right: 17%;
                 top: -3%;
             }
-    
+
             & .about-img-bottom {
-                right: 0px;
- 
+                right: 0;
+
             }
-    
+
             & .about-text-shape {
-                right: 0px;
+                right: 0;
             }
         }
     }
@@ -485,14 +485,14 @@
             & .about-img-sm {
                 display: none;
             }
-    
+
             & .about-img-bottom {
                 position: relative;
                 text-align: center;
                 bottom: 0;
                 margin-top: 30px;
             }
-    
+
             & .about-text-shape {
                 top: 135px;
             }
@@ -607,7 +607,7 @@
                 }
             }
         }
-        
+
         & .about-img-small {
 
         }
@@ -618,12 +618,12 @@
     @media #{$desktop-device} {
         & .about-content {
             padding-right: 60px;
-    
+
             & .title {
-                padding-right: 0px;
+                padding-right: 0;
             }
         }
-    } 
+    }
     @media #{$tablet-device} {
         padding-bottom: 80px;
         & .about-img-wrap {
@@ -633,23 +633,23 @@
     @media #{$large-mobile} {
         padding-bottom: 60px;
         & .about-content {
-            padding-right: 0px;
-    
+            padding-right: 0;
+
             & .title {
                 font-size: 35px;
                 line-height: 45px;
             }
-    
+
         }
     }
     @media #{$small-mobile} {
         & .about-content {
-    
+
             & .title {
                 font-size: 30px;
                 line-height: 40px;
             }
-    
+
         }
     }
     @media #{$extra-small-mobile} {
@@ -663,7 +663,7 @@
     }
 }
 
-  
+
 .upstudy-about-section-05 {
 
     & .about-img-item {
@@ -756,7 +756,7 @@
             }
         }
     }
-      
+
 }
 
 .upstudy-about-section-05 {
@@ -824,7 +824,7 @@
                 color: $primary;
             }
         }
-    
+
         & .text {
             font-size: 16px;
             line-height: 30px;
@@ -862,7 +862,7 @@
 
                 &:hover {
                     & .icon {
-    
+
                         & img {
                             transform: rotateY(180deg);
                         }
@@ -894,16 +894,16 @@
 .upstudy-about-section-06 {
     @media #{$desktop-device} {
         & .about-img-wrap {
-    
+
             & .shape-1 {
                 right: -10px;
                 top: -50px;
                 width: 270px;
             }
-    
-    
+
+
             & .about-img-sm {
-                bottom: 0px;
+                bottom: 0;
             }
         }
 
@@ -911,15 +911,15 @@
             padding-left: 45px;
 
             & .about-title {
-                padding-right: 0px;
+                padding-right: 0;
             }
 
             & .about-list {
 
                 & .list-item {
-    
+
                     &  .title {
-                        padding-right: 0px;
+                        padding-right: 0;
                     }
                 }
             }
@@ -935,7 +935,7 @@
         }
 
         & .about-content {
-            padding-left: 0px;
+            padding-left: 0;
             padding-top: 50px;
         }
     }
@@ -959,12 +959,12 @@
     }
     @media #{$extra-small-mobile} {
         & .about-img-wrap {
-    
+
             & .shape-1 {
                 display: none;
             }
-    
-    
+
+
             & .about-img-sm {
                 position: relative;
                 margin-top: 30px;
@@ -972,4 +972,3 @@
         }
     }
 }
- 

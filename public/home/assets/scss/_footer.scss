@@ -85,26 +85,26 @@
 
     & .footer-copyright {
         border-top: 1px solid #ccc4c5;
-    
+
     }
 
     & .copyright-text {
-    
+
         & p {
             color: #7a7a7a;
         }
     }
 
     & .copyright-social {
-    
+
         & .social {
-    
+
             & li {
-    
+
                 & a {
                     background: #e5dcdd;
                     color: $black;
-    
+
                     &:hover {
                         color: #ff5562;
                     }
@@ -174,9 +174,9 @@
         }
 
         & svg {
-    
+
             &.progress-circle {
-    
+
                 & path {
                     stroke: #ff5562;
                 }

@@ -4,7 +4,7 @@
 
 
 // Event Page
- 
+
 .upstudy-event-section {
 
     & .event-wrap {
@@ -13,7 +13,7 @@
 
     & .single-item {
         background: $white;
-        box-shadow: 0px 0px 152px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 152px 0 rgba(0, 0, 0, 0.1);
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
         transition: $transition-default;
@@ -60,7 +60,7 @@
                 }
             }
         }
-    
+
         & .event-content {
             padding: 20px 40px 40px;
             @media #{$desktop-device} {
@@ -75,7 +75,7 @@
                     margin-right: 5px;
                 }
             }
-    
+
             & .title {
                 font-size: 24px;
                 line-height: 30px;
@@ -118,11 +118,11 @@
                     }
                 }
             }
-    
+
         }
-    
+
         &:hover {
-            box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.09);
+            box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.09);
         }
     }
 }

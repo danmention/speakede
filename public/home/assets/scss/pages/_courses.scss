@@ -2,7 +2,7 @@
 /*  06 - Courses CSS
 /*----------------------------------------*/
 
-// Courses Wrapper 
+// Courses Wrapper
 .courses-wrapper{
     margin-top: 30px;
 }
@@ -10,10 +10,10 @@
 // Courses Tab
 .courses-tab{}
 
-// Tab Menu 
+// Tab Menu
 .tab-menu{
     padding-top: 10px;
-    
+
     & .nav{
         & li{
             margin: 0 17px;
@@ -51,7 +51,7 @@
     padding-top: 10px;
 }
 
-// Single Courses 
+// Single Courses
 .single-course{
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -59,7 +59,7 @@
     transition: $transition-default;
     margin-top: 30px;
     position: relative;
-      
+
     & .courses-image{
         overflow: hidden;
         border-top-left-radius: 5px;
@@ -95,14 +95,14 @@
 
                 & .tag{
                     border-radius: 5px;
-                    background-color: rgba($primary, 0.071);     
+                    background-color: rgba($primary, 0.071);
                     font-size: 13px;
                     font-weight: 500;
                     color: $primary;
-                    padding: 0 15px;     
+                    padding: 0 15px;
                     height: 25px;
-                    line-height: 22px;    
-                    
+                    line-height: 22px;
+
                     &:hover{
                         background-color: $primary;
                         color: $white;
@@ -134,7 +134,7 @@
             margin-top: 15px;
 
             & a{
-                
+
             }
         }
         & .author-name{
@@ -158,11 +158,11 @@
                 display: flex;
                 align-items: center;
                 margin-top: 5px;
-    
+
                 & .rating-star{
                     display: block;
                     position: relative;
-    
+
                     &::before{
                         content: '\f13b \f13b \f13b \f13b \f13b';
                         font-family: "flaticon";
@@ -175,7 +175,7 @@
                         top: 0;
                         left: 0;
                         overflow: hidden;
-    
+
                         &::before{
                             content: '\f13b \f13b \f13b \f13b \f13b';
                             font-family: "flaticon";
@@ -193,7 +193,7 @@
         }
     }
 
-    &:hover{          
+    &:hover{
         & .courses-image{
             & a{
                 &::before{
@@ -291,7 +291,7 @@
         & .swiper-pagination-bullet {
             margin: 0 7px;
             background-color: #e1e1e1;
-            
+
             &.swiper-pagination-bullet-active{
                 background-color: $primary;
             }
@@ -332,7 +332,7 @@
 }
 
 
-  
+
 // Home Style Five
 
 .upstudy-courses-section-02 {
@@ -348,7 +348,7 @@
                 & .swiper-pagination-bullet {
                     margin: 0 7px;
                     background-color: #dbdbdb;
-                    
+
                     &.swiper-pagination-bullet-active{
                         background-color:#ee4f0a;
                     }
@@ -358,7 +358,7 @@
     }
 
     & .single-course {
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.16);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
         background-color: $white;
         border-radius: 30px;
         overflow: hidden;
@@ -369,15 +369,15 @@
         @media #{$tablet-device} {
             padding: 30px 20px 25px;
         }
-          
+
         & .courses-image{
             position: relative;
             border-radius: 30px;
-    
+
             & > a{
                 display: block;
                 position: relative;
-    
+
                 &::before{
                     position: absolute;
                     content: '';
@@ -390,12 +390,12 @@
                     opacity: 0;
                 }
             }
-    
+
             & .top-meta {
                 position: absolute;
                 top: 40px;
                 left: 25px;
-    
+
                 & .price {
                     font-size: 18px;
                     font-weight: 600;
@@ -424,13 +424,13 @@
             }
         }
         & .courses-content{
-    
+
             & .sub-title {
                 font-size: 13px;
                 font-weight: 400;
                 color: #f6520a;
             }
-    
+
             & .title{
                 font-size: 22px;
                 font-weight: 600;
@@ -445,9 +445,9 @@
                     }
                 }
             }
-    
+
         }
-        
+
         & .courses-meta{
             display: flex;
             justify-content: space-between;
@@ -455,7 +455,7 @@
             position: relative;
             margin-top: 25px;
             padding-top: 15px;
-    
+
             &::before {
                 position: absolute;
                 content: "";
@@ -465,9 +465,9 @@
                 left: 0;
                 background: #ebebeb;
             }
-    
+
             & .course-enroll-rating {
-    
+
                 & p {
                     color: #6e6e6e;
                     font-size: 13px;
@@ -485,14 +485,14 @@
                         color: #ffa300;
                     }
                 }
-    
+
             }
-            
+
         }
-    
+
         &:hover{
-    
-              
+
+
             & .courses-image{
                 & a{
                     &::before{

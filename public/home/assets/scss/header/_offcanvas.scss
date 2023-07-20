@@ -57,7 +57,7 @@
                 font-weight: 500;
                 text-transform: capitalize;
                 color: $white;
-                padding: 5px 0px;
+                padding: 5px 0;
                 position: relative;
             }
 
@@ -81,9 +81,9 @@
                     left: 50%;
                     transform: translate(-50%, -50%);
                     transition: $transition-default;
-            
+
                 }
-                
+
                 &::after {
                     position: absolute;
                     content: '';

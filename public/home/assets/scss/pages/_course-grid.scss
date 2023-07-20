@@ -8,7 +8,7 @@
 
 // Courses Hover
 .course-hover{
-    width: 350px;    
+    width: 350px;
     z-index: 11;
     padding: 35px 50px;
     position: relative;
@@ -30,14 +30,14 @@
 
         & .tag{
             border-radius: 5px;
-            background-color: rgba($primary, 0.071);     
+            background-color: rgba($primary, 0.071);
             font-size: 14px;
             font-weight: 600;
             color: $primary;
-            padding: 0 15px;     
+            padding: 0 15px;
             height: 25px;
-            line-height: 25px;    
-            
+            line-height: 25px;
+
             &:hover{
                 background-color: $primary;
                 color: $white;
@@ -112,7 +112,7 @@
         font-size: 14px;
         margin-top: 10px;
     }
-    
+
 
     & .courses-btn{
         padding-top: 25px;
@@ -124,7 +124,7 @@
             display: block;
         }
     }
-    
+
 }
 
 #powerTip{
@@ -134,7 +134,7 @@
     border-color: $white;
     color: inherit;
     white-space: normal;
-    box-shadow: 0px 0px 109px 0px rgba($black, 0.18);
+    box-shadow: 0 0 109px 0 rgba($black, 0.18);
     background-color: $white;
 }
 
@@ -192,7 +192,7 @@
     display: flex;
     align-items: center;
     margin-top: 15px;
-    
+
     & .nav{
         & li{
             margin-right: 10px;
@@ -299,7 +299,7 @@
 
 .course-collapse{
     background-color: $white;
-    box-shadow: 0px 0px 120px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 120px 0 rgba(0, 0, 0, 0.04);
     border-radius: 10px;
     margin-top: 50px;
     padding: 35px 40px ;
@@ -309,7 +309,7 @@
 .course-list-wrapper {
 
     & .sidebar-widget-02{
-        
+
         & .widget-title {
             font-size: 18px;
         }
@@ -321,7 +321,7 @@
 
     & + .sidebar-widget-02{
         padding-top: 22px;
-    }    
+    }
 }
 
 // Widget Checkbox
@@ -401,11 +401,11 @@
     &:last-child{
         padding-bottom: 0;
     }
-    
+
     & + .single-course-list{
-        border-top: 1px solid #ebebeb;        
+        border-top: 1px solid #ebebeb;
     }
-          
+
     & .course-image{
         overflow: hidden;
         flex-shrink: 0;
@@ -416,7 +416,7 @@
 
             & img{
                 border-radius: 10px;
-                
+
                 @media #{$large-mobile}{
                     width: 100%;
                 }
@@ -453,10 +453,10 @@
                 height: 25px;
                 line-height: 23px;
                 display: inline-block;
-                background-color: rgba($primary, 0.071); 
+                background-color: rgba($primary, 0.071);
                 color: $primary;
-                white-space: nowrap;  
-                
+                white-space: nowrap;
+
                 &:hover{
                     background-color: $primary;
                     color: $white;
@@ -479,7 +479,7 @@
             color: $heading-color;
 
             & a{
-                
+
             }
         }
         & .author-name{
@@ -505,7 +505,7 @@
                     margin-right: 0;
                 }
             }
-    
+
             & .meta-action{
                 font-size: 14px;
                 color: #838383;
@@ -521,11 +521,11 @@
                 display: flex;
                 align-items: center;
                 margin-top: 5px;
-    
+
                 & .rating-star{
                     display: block;
                     position: relative;
-    
+
                     &::before{
                         content: '\f13b \f13b \f13b \f13b \f13b';
                         font-family: "flaticon";
@@ -538,7 +538,7 @@
                         top: 0;
                         left: 0;
                         overflow: hidden;
-    
+
                         &::before{
                             content: '\f13b \f13b \f13b \f13b \f13b';
                             font-family: "flaticon";
@@ -557,4 +557,3 @@
     }
 }
 
-  

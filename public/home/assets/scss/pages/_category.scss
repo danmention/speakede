@@ -134,7 +134,7 @@
         left: 50%;
         transform: translateX(-50%);
         & .title {
-            
+
             font-size: 22px;
             font-weight: 700;
             margin-bottom: -3px;
@@ -153,10 +153,10 @@
         transform: translateY(-5px) translate3d(0, -5px, 0);
     }
 }
- 
+
 // Home Style Three
 
-  
+
 .upstudy-category-section-03 {
 
     & .category-item {
@@ -165,8 +165,8 @@
         border-radius: 10px;
         padding: 20px 25px;
         transition: $transition-default;
-    
-    
+
+
         & .category-icon {
             line-height: 68px;
             background: #f7efff;

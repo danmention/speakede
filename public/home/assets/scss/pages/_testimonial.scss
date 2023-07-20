@@ -1,7 +1,7 @@
 /*--
 /*  09 - Testimonial CSS
 /*----------------------------------------*/
-  
+
 // Testimonial Section
 .upstudy-testimonial-section {
 
@@ -32,7 +32,7 @@
                 top: 45px;
             }
         }
-        
+
 
         & .testimonial-author {
             width: 50%;
@@ -67,7 +67,7 @@
         & .testimonial-content {
             width: 50%;
             padding-left: 105px;
-    
+
             @media #{$desktop-device} {
                 padding-left: 80px;
                 // padding-right: 50px;
@@ -148,9 +148,9 @@
         }
     }
 }
-  
+
 // Home Style Three
- 
+
 .upstudy-testimonial-section-02 {
     background: #fdf8f4;
     padding-top: 460px;
@@ -218,7 +218,7 @@
 
 .single-testimonial-02 {
     background: $white;
-    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.09);
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.09);
     border-radius: 20px;
     width: 525px;
     margin: 10px 80px;
@@ -275,7 +275,7 @@
             margin-top: 5px;
             margin-bottom: 10px;
         }
-    
+
         & .name {
             font-size: 16px;
             font-weight: 600;
@@ -284,7 +284,7 @@
         }
     }
 }
-  
+
 .testimonial-02-active {
 
     & .swiper-pagination{
@@ -293,7 +293,7 @@
         & .swiper-pagination-bullet {
             margin: 0 7px;
             background-color: #e1e1e1;
-            
+
             &.swiper-pagination-bullet-active{
                 background-color: $primary;
             }
@@ -304,7 +304,7 @@
 // Home Style Four
 
 .upstudy-testimonial-section-03 {
-    
+
     & .testimonial-wrap {
         height: 610px;
         padding-top: 105px;
@@ -314,7 +314,7 @@
 
         & .testimonial-content {
             width: 50%;
-            padding-left: 0px;
+            padding-left: 0;
             padding-right: 105px;
         }
     }
@@ -368,7 +368,7 @@
         & .swiper-pagination-bullet {
             margin: 0 7px;
             background-color: #ededed;
-            
+
             &.swiper-pagination-bullet-active{
                 background-color: #ff5562;
             }
@@ -386,7 +386,7 @@
             & .swiper-pagination-bullet {
                 margin: 0 7px;
                 background-color: #ebebeb;
-                
+
                 &.swiper-pagination-bullet-active{
                     background-color: $primary;
                 }
@@ -394,4 +394,3 @@
         }
     }
 }
- 

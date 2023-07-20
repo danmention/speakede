@@ -9,9 +9,9 @@
     }
     & .section-title{
         & .title{
-    
+
             & span {
-    
+
                 &::before {
                     bottom: -15px;
                     background-image: url(../images/shape/text-shape3.png);
@@ -40,7 +40,7 @@
         @media #{$desktop-device} {
             padding-left: 0;
             padding-right: 0;
-        } 
+        }
 
         & .blog-meta {
 
@@ -63,7 +63,7 @@
             color: $heading-color;
             @media #{$large-mobile} {
                 font-size: 20px;
-                line-height: 32px; 
+                line-height: 32px;
             }
         }
 
@@ -99,7 +99,7 @@
         & .blog-img {
 
             & a {
-    
+
                 & img {
                     transform: scale(1.05);
                 }
@@ -113,8 +113,8 @@
     & .single-blog {
 
         & .blog-content {
-    
-    
+
+
             & .title {
                 color: #12283b;
 
@@ -125,14 +125,14 @@
                     }
                 }
             }
-    
+
             & .blog-btn {
                 color: #ff5562;
-    
+
                 &::before {
                     background: #ff5562;
                 }
-    
+
                 &:hover {
                     color: $secondary;
                     &::before {
@@ -142,12 +142,12 @@
                 }
             }
         }
-    
+
         &:hover {
             & .blog-img {
-    
+
                 & a {
-        
+
                     & img {
                         transform: scale(1.1);
                     }
@@ -226,7 +226,7 @@
                         display: none;
                     }
                 }
-                
+
             }
         }
         & .title {
@@ -268,7 +268,7 @@
 
 .single-blog-03 {
     margin-top: 40px;
-      
+
     & .blog-img{
         overflow: hidden;
         position: relative;
@@ -328,7 +328,7 @@
             margin-top: 5px;
             @media #{$large-mobile} {
                 font-size: 20px;
-                line-height: 32px; 
+                line-height: 32px;
             }
 
             &:hover {
@@ -355,7 +355,7 @@
 
 
 .upstudy-blog-event-section {
-    
+
 
     & .section-title {
 
@@ -406,7 +406,7 @@
             display: none;
         }
     }
-      
+
     & .event-img{
         overflow: hidden;
         position: relative;
@@ -464,7 +464,7 @@
             margin-bottom: 5px;
             @media #{$large-mobile} {
                 font-size: 20px;
-                line-height: 32px; 
+                line-height: 32px;
             }
 
             &:hover {
@@ -506,4 +506,3 @@
     }
 }
 
- 

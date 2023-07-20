@@ -12,7 +12,7 @@
         margin-top: 20px;
         padding: 0 30px;
         @media #{$desktop-device}  {
-            padding: 0 0px;
+            padding: 0 0;
         }
 
         & .title {
@@ -110,18 +110,18 @@
                 border-radius: 50%;
             }
         }
-    
+
         & .features-content {
             margin-left: 30px;
             padding-right: 40px;
-    
+
             & .title {
                 font-size: 24px;
                 line-height: 32px;
                 font-weight: 600;
                 color: #12283b;
             }
-    
+
             & p {
                 font-size: 16px;
                 line-height: 30px;
@@ -141,11 +141,11 @@
         padding-top: 100px;
 
         & .features-item-03 {
-        
+
             & .features-content {
                 margin-left: 18px;
-                padding-right: 0px;
-        
+                padding-right: 0;
+
             }
         }
     }
@@ -206,14 +206,14 @@
 .upstudy-features-section-04 {
     @media #{$desktop-device} {
         & .features-wrap {
-    
+
             & .shape-1 {
-                
+
                 & img {
                     width: 810px;
                 }
             }
-    
+
             & .shape-2 {
 
                 & img {
@@ -224,16 +224,16 @@
     }
     @media #{$tablet-device} {
         & .features-wrap {
-    
+
             & .shape-1 {
-                
+
                 & img {
                     width: 650px;
                 }
             }
-    
+
             & .shape-2 {
-                
+
                 & img {
                     width: 650px;
                 }
@@ -242,16 +242,16 @@
     }
     @media #{$large-mobile} {
         & .features-wrap {
-    
+
             & .shape-1 {
-                
+
                 & img {
                     width: 480px;
                 }
             }
-    
+
             & .shape-2 {
-                
+
                 & img {
                     width: 480px;
                 }
@@ -260,16 +260,16 @@
     }
     @media #{$small-mobile} {
         & .features-wrap {
-    
+
             & .shape-1 {
-                
+
                 & img {
                     width: 370px;
                 }
             }
-    
+
             & .shape-2 {
-                
+
                 & img {
                     width: 370px;
                 }
@@ -280,16 +280,16 @@
         & .features-wrap {
             padding-left: 25px;
             padding-right: 25px;
-    
+
             & .shape-1 {
-                
+
                 & img {
                     width: 275px;
                 }
             }
-    
+
             & .shape-2 {
-                
+
                 & img {
                     width: 275px;
                 }

@@ -17,14 +17,14 @@
         &:first-child {
             padding-right: 25px;
             @media #{$tablet-device}{
-                padding-right: 0px;
+                padding-right: 0;
             }
         }
 
         &:last-child {
             padding-left: 25px;
             @media #{$tablet-device}{
-                padding-left: 0px;
+                padding-left: 0;
             }
         }
     }
@@ -64,7 +64,7 @@
                 transition: $transition-default;
 
                 &::after{
-                   display: none;    
+                   display: none;
                 }
 
                 & .faq-button {
@@ -91,7 +91,7 @@
                     border: 0;
                     box-shadow: none;
                 }
-    
+
                 &:not(.collapsed) {
                     color: $heading-color;
                     background: $white;
@@ -108,7 +108,7 @@
                         border-radius: 50%;
                         transform: rotate(-90deg);
                         transition: $transition-default;
-    
+
                         & i {
                             font-size: 15px;
                         }
@@ -121,7 +121,7 @@
             }
         }
 
-        
+
 
         & .accordion-body {
             padding: 0;

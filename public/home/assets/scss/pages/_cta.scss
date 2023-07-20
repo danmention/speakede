@@ -22,7 +22,7 @@
 
         & .shape-2 {
             position: absolute;
-            right: 0px;
+            right: 0;
             top: 80px;
             z-index: -1;
         }
@@ -41,7 +41,7 @@
 .upstudy-cta-section  {
     @media #{$desktop-device} {
         & .cta-image {
-    
+
             & .shape-2 {
                 right: -25px;
                 top: 100px;
@@ -151,7 +151,7 @@
 }
 
 // Home Style Five
-  
+
 .upstudy-cta-section-03 {
 
     & .cta-wrap {
@@ -227,7 +227,7 @@
             }
         }
     }
-    
+
 }
 
 .upstudy-cta-section-03 {
@@ -253,16 +253,16 @@
         }
 
         & .cta-content {
-    
+
             & .price {
                 font-size: 45px;
             }
-    
+
             & .title {
                 font-size: 32px;
                 line-height: 44px;
             }
-    
+
         }
     }
     @media #{$extra-small-mobile} {

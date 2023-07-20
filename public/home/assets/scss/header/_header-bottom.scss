@@ -23,12 +23,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        
+
     }
 }
 
 
-// Header Logo 
+// Header Logo
 .header-logo{
     flex-shrink: 0;
 
@@ -48,7 +48,7 @@
     justify-content: space-between;
 }
 
-// Header Menu 
+// Header Menu
 .header-menu {
     position: relative;
     padding-left: 20px;
@@ -60,7 +60,7 @@
     &::before {
         content: "";
         position: absolute;
-        left: 0px;
+        left: 0;
         top: 50%;
         transform: translateY(-50%);
         background: #ebebeb;
@@ -85,7 +85,7 @@
             }
 
             & .menu-icon {
-                    
+
                 &::after{
                     content: '\f16c';
                     font-family: "flaticon";
@@ -170,7 +170,7 @@
     }
 }
 
-// Header Meta 
+// Header Meta
 .header-meta{
     display: flex;
     align-items: center;
@@ -245,8 +245,8 @@
         padding-left: 20px;
         padding-top: 4px;
         @media #{$tablet-device}{
-            margin-left: 0px;
-            padding-left: 0px;
+            margin-left: 0;
+            padding-left: 0;
             margin-right: 20px;
             padding-right: 20px;
         }
@@ -256,7 +256,7 @@
             content: '';
             top: 50%;
             transform: translateY(-50%);
-            left: 0px;
+            left: 0;
             width: 1px;
             height: 40px;
             background-color: #dedfe0;
@@ -265,7 +265,7 @@
                 right: 0;
             }
         }
-        
+
         & i{
             font-size: 18px;
             color: #322d58;
@@ -303,7 +303,7 @@
         border: 0;
         left: 50% !important;
         transform: translateX(-78%) !important;
-        top: 57px !important;    
+        top: 57px !important;
 
         @media #{$desktop-device}{
             left: 0 !important;
@@ -324,7 +324,7 @@
 
 .single-cart-item{
     display: flex;
-    align-items: center;    
+    align-items: center;
     position: relative;
 
     & + .single-cart-item{
@@ -385,7 +385,7 @@
 
     & .btn{
         width: 48%;
-    }    
+    }
 }
 
 .header-login{
@@ -424,7 +424,7 @@
 
 // Header Toggle
 .header-toggle {
-    
+
     & button {
         background: none;
         border: 0;
@@ -449,8 +449,8 @@
 .header-section-02 {
     border-bottom: 0;
         & .header-menu {
-            padding-left: 0px;
-            margin-left: 0px;
+            padding-left: 0;
+            margin-left: 0;
 
             &::before {
                 display: none;
@@ -463,13 +463,13 @@
 .header-section-03 {
 
     & .header-menu {
-    
+
         & .main-menu {
 
             & > li {
 
                 &.active-menu {
-    
+
                     & > .menu-icon {
                         &::after {
                             color: #ff5562;
@@ -479,7 +479,7 @@
                         color: #ff5562;
                     }
                 }
-    
+
                 &:hover {
                     & > .menu-icon {
                         &::after {
@@ -491,21 +491,21 @@
                     }
 
                 }
-    
+
                 & .sub-menu {
                     border-top: 3px solid #ff5562;
-    
+
                     & li {
 
-    
+
                         &.active {
                             & > a {
                                 color: #ff5562;
                             }
                         }
-    
+
                         &:hover {
-    
+
                             & > a {
                                 color: #ff5562;
                             }
@@ -515,7 +515,7 @@
             }
         }
     }
-    
+
     & .header-btn {
 
         & .btn {
@@ -535,11 +535,11 @@
     & .header-login{
 
         & .link{
-    
+
             & i{
                 color: #ff5562;
             }
-    
+
             &:hover{
                 color: #ff5562;
             }
@@ -549,11 +549,11 @@
     & .header-cart{
 
         & .cart-btn{
-    
+
             & .count{
                 background-color: #ff5562;
             }
-    
+
             &:hover {
                 & i{
                     color: #ff5562;
@@ -580,14 +580,14 @@
     }
 
     & .cart-btns{
-    
+
         & .btn-3{
             background: #ff5562;
 
             &:hover {
                 background: $secondary;
             }
-        }    
+        }
     }
 }
 
@@ -604,7 +604,7 @@
             & > li {
 
                 &.active-menu {
-    
+
                     & > .menu-icon {
                         &::after {
                             color: #f6520a;
@@ -614,7 +614,7 @@
                         color: #f6520a;
                     }
                 }
-    
+
                 &:hover {
                     & > .menu-icon {
                         &::after {
@@ -626,21 +626,21 @@
                     }
 
                 }
-    
+
                 & .sub-menu {
                     border-top: 3px solid #f6520a;
-    
+
                     & li {
 
-    
+
                         &.active {
                             & > a {
                                 color: #f6520a;
                             }
                         }
-    
+
                         &:hover {
-    
+
                             & > a {
                                 color: #f6520a;
                             }
@@ -661,7 +661,7 @@
             content: '';
             top: 50%;
             transform: translateY(-50%);
-            right: 0px;
+            right: 0;
             width: 1px;
             height: 40px;
             background-color: #dedfe0;
@@ -674,11 +674,11 @@
             &::before {
                 display: none;
             }
-    
+
             & .count{
                 background-color: #f6520a;
             }
-    
+
             &:hover {
                 & i{
                     color: #f6520a;
@@ -705,20 +705,20 @@
     }
 
     & .cart-btns{
-    
+
         & .btn-3{
             background: #f6520a;
 
             &:hover {
                 background: $secondary;
             }
-        }    
+        }
     }
 
     & .header-login{
 
         & .link{
-    
+
             & i{
                 color: #f6520a;
             }
@@ -742,7 +742,7 @@
                     color: $white;
                 }
             }
-    
+
             &:hover{
                 color: #f6520a;
             }
@@ -756,13 +756,13 @@
 .header-section-05 {
 
     & .header-menu {
-    
+
         & .main-menu {
 
             & > li {
 
                 &.active-menu {
-    
+
                     & > .menu-icon {
                         &::after {
                             color: $primary-2;
@@ -772,7 +772,7 @@
                         color: $primary-2;
                     }
                 }
-    
+
                 &:hover {
                     & > .menu-icon {
                         &::after {
@@ -784,21 +784,21 @@
                     }
 
                 }
-    
+
                 & .sub-menu {
                     border-top: 3px solid $primary-2;
-    
+
                     & li {
 
-    
+
                         &.active {
                             & > a {
                                 color: $primary-2;
                             }
                         }
-    
+
                         &:hover {
-    
+
                             & > a {
                                 color: $primary-2;
                             }
@@ -812,11 +812,11 @@
     & .header-login{
 
         & .link{
-    
+
             & i{
                 color: $primary-2;
             }
-    
+
             &:hover{
                 color: $primary-2;
             }
@@ -826,11 +826,11 @@
     & .header-cart{
 
         & .cart-btn{
-    
+
             & .count{
                 background-color: $primary-2;
             }
-    
+
             &:hover {
                 & i{
                     color: $primary-2;
@@ -857,14 +857,14 @@
     }
 
     & .cart-btns{
-    
+
         & .btn-3{
             background: $primary-2;
 
             &:hover {
                 background: $secondary;
             }
-        }    
+        }
     }
 }
 
@@ -877,7 +877,7 @@
 	left: 0;
 	width: 100%;
 	z-index: 999;
-    box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.07);
+    box-shadow: 0 0 16px 0 rgba(0,0,0,0.07);
 	animation: sticky 1s;
 }
 

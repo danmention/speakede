@@ -14,7 +14,7 @@
             font-size: 35px;
         }
     }
-    
+
     & .single-contact-info {
         display: flex;
         margin-top: 40px;
@@ -29,7 +29,7 @@
                 color: $primary;
 
             & i {
-                font-size: 25px;  
+                font-size: 25px;
             }
         }
 
@@ -61,7 +61,7 @@
     @media #{$tablet-device} {
         padding-top: 30px;
     }
-    
+
     & .single-form {
         margin-top: 20px;
         & input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
@@ -115,15 +115,14 @@
 
     & .contact-map-wrap {
         margin-bottom: -10px;
-    
+
         & iframe {
             height: 550px;
             width: 100%;
-            filter: brightness( 100% ) contrast( 100% ) saturate( 0% ) blur( 0px ) hue-rotate( 0deg );
+            filter: brightness( 100% ) contrast( 100% ) saturate( 0% ) blur( 0 ) hue-rotate( 0deg );
             @media #{$desktop-device} {
                 height: 450px;
             }
         }
     }
 }
-  

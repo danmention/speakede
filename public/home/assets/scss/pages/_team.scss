@@ -19,7 +19,7 @@
             top: 15px;
             z-index: 1;
         }
-        
+
         & a {
             position: relative;
             padding: 20px;
@@ -75,7 +75,7 @@
             color: #12283b;
 
             &:hover {
-                
+
                 & a {
                     color: #ff5562;
                 }
@@ -117,12 +117,12 @@
 
     & .single-team-02 {
         background: $white;
-        box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.09);
         border-radius: 10px;
-        padding: 20px 15px 0px;
+        padding: 20px 15px 0;
         margin-top: 30px;
         transition: $transition-default;
-    
+
         & .team-img {
             border-radius: 4px;
             position: relative;
@@ -130,7 +130,7 @@
             z-index: 1;
             & a {
                 display: block;
-    
+
                 &::before {
                     content: '';
                     position: absolute;
@@ -145,14 +145,14 @@
                     z-index: 1;
                     transition: $transition-default;
                 }
-    
+
                 & img {
                     width: 100%;
                     transition: $transition-default;
                 }
             }
         }
-    
+
         & .team-content {
             position: relative;
             padding: 15px 20px 30px;
@@ -160,7 +160,7 @@
             @media #{$desktop-device} {
                 padding: 15px 15px 30px;
             }
-    
+
             & .team-social {
                 position: absolute;
                 top: 0;
@@ -171,25 +171,25 @@
                 visibility: hidden;
                 transition: $transition-default;
                 & .social {
-    
+
                     & li {
                         display: inline-block;
-    
+
                         & + li {
                             margin-left: 15px;
                             @media #{$laptop-device} {
                                 margin-left: 12px;
                             }
                         }
-    
+
                         & a {
                             font-size: 17px;
                             transform: translate3d(0, 0, 0);
                             color: $white;
                         }
-    
+
                         &:hover {
-    
+
                             & a {
                                 transform: translateY(-5px);
                                 color: $primary;
@@ -198,7 +198,7 @@
                     }
                 }
             }
-    
+
             & .name {
                 font-size: 20px;
                 line-height: 24px;
@@ -209,24 +209,24 @@
                 color: #868686;
             }
         }
-    
+
         &:hover {
-            
+
             & .team-img {
-                
+
                 & a {
                     &::before {
                         opacity: 1;
-                        visibility: visible; 
+                        visibility: visible;
                     }
                     & img {
                         transform: scale(1.05);
                     }
                 }
             }
-    
+
             & .team-content {
-        
+
                 & .team-social {
                     opacity: 1;
                     visibility: visible;
