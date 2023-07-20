@@ -41,15 +41,6 @@
 
     <!-- Header Start  -->
     <div class="section header">
-        <div class="header-top-section">
-            <div class="container">
-                <div class="header-top-wrap">
-                    <div class="header-top-content text-center">
-                        <p>Learn the latest trends indrive business innovation with the <span>Oxford  Fintech Programe</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="header-bottom-section">
 
             <div class="container-fluid custom-container">
