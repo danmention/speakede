@@ -57,9 +57,9 @@
                         <!--  Header Menu Start  -->
                         <div class="header-menu d-none d-lg-block">
                             <ul class="main-menu">
-                                <li><a href="{{url('teachers/english')}}">Find a teacher</a></li>
-                                <li><a href="{{url('group-class/english')}}">Group Class</a></li>
-                                <li><a href="{{url('community')}}">Community</a></li>
+                                <li><a href="#">Find a teacher</a></li>
+                                <li><a href="#">Group Class</a></li>
+                                <li><a href="#">Community</a></li>
                                 <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                             </ul>
                         </div>
