@@ -119,9 +119,9 @@
         <div class="offcanvas-body">
             <div class="offcanvas-menu">
                 <ul class="main-menu">
-                    <li><a href="{{url('teachers/english')}}">Find a teacher</a></li>
-                    <li><a href="{{url('group-class/english')}}">Group Class</a></li>
-                    <li><a href="{{url('community')}}">Community</a></li>
+                    <li><a href="#">Find a teacher</a></li>
+                    <li><a href="#">Group Class</a></li>
+                    <li><a href="#">Community</a></li>
                     <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                     <li><a href="{{route('index.login')}}">Login</a></li>
                     <li><a href="{{route('index.register')}}">Register</a></li>
