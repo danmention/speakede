@@ -6,9 +6,10 @@ namespace App\Helpers;
 
 use App\Models\CustomerRating;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use PhpParser\Node\Expr\Cast\Double;
 
 class CommonHelpers
 {
@@ -54,39 +55,6 @@ class CommonHelpers
 
     }
 
-
-    /**
-     * @param $request
-     * @return CustomerRating
-     */
-    public static function StoreReviews($request) : CustomerRating {
-
-        $data = new CustomerRating();
-        $data->fullname = $request->fullname;
-        $data->email    = $request->email;
-        $data->review   = $request->review;
-        $data->user_id  = $request->identity ?? null;
-        $data->rating   = $request->rating ?? 5;
-        $data->save();
-
-
-        // updating user table
-        $numbers_of_rating =  CustomerRating::where('user_id',$request->identity)->sum('rating');
-        $number_of_people_rating = CustomerRating::where('user_id',$request->identity)->count();
-
-        $user_ids = User::where('identity',$request->identity)->value('id');
-        $data_ = User::find($user_ids);
-
-        if($number_of_people_rating == 0){
-            $data_->rating = 0;
-        }else {
-            $final_rating = $numbers_of_rating / $number_of_people_rating;
-            $data_->rating =  $data_->rating + $final_rating;
-        }
-        $data_->update();
-        return $data;
-    }
-
     /**
      * @param $type
      * @return string
@@ -98,29 +66,18 @@ class CommonHelpers
         $time = ((int)$mt[1]) * 1000000 + ((int)round($mt[0] * 1000000));
         $generated = $rand . $time;
 
-        return match ($type) {
-            "comments" => "3060" . $generated,
-            "payment" => "3061" . $generated,
-            "user" => "3062" . $generated,
-            default => "3069" . $generated,
-        };
-    }
-
-    /**
-     * @param $user_id
-     * @return float
-     */
-    public static function rating($user_id) : float {
-        $numbers_of_rating =  CustomerRating::where('user_id',$user_id)->sum('rating');
-        $number_of_people_rating = CustomerRating::where('user_id',$user_id)->count();
-
-        if($number_of_people_rating == 0){
-            $final_rating =  0;
-        }else {
-            $final_rating = $numbers_of_rating / $number_of_people_rating;
+        switch ($type) {
+            case "comments" :
+                return "3060" . $generated;
+            case "payment" :
+                return "3061" . $generated;
+            case "user" :
+                return "3062" . $generated;
+            default:
+                return "3069" . $generated;
         }
-        return $final_rating;
     }
+
 
     /**
      * @param $l
@@ -160,33 +117,96 @@ class CommonHelpers
         }
     }
 
-    public static function seoTemplate($type, $title_ = null) : array {
 
-        $title = "ArtisanOga is an online blue-collar recruitment agency for companies in Nigeria.";
-        $desc = "ArtisanOga connects local services such as cleaning, plumbing, electrical, carpentry, painting,
-                            beauty, home appliances repairs, etc to homes and offices using the quickest technology with great customer experience.";
-        $post_url = url('/');
-        $post_image = asset('artisanOga.png');
-        $listed = null;
-
-        switch ($type){
-            case "home" :
-                $listed = ["title" => $title,"desc" => $desc, "post_url" => $post_url,"post_image" => $post_image];
-                break;
-            case "about-us":
-                $desc_ ="At ArtisanOga we make it easy for businesses to hire bluecollar workers across Nigeria. Currently we have verified professionals in over 30 categories ranging from tailors, to beauticians, to plumbers, and tailors. Through the use of technology we unlock important career tools such as digital profiles, product galleries, customer reviews, and more.";
-                $listed = ["title" => "ArtisanOga - ".ucwords($type),"desc" => $desc_, "post_url" => $post_url,"post_image" => $post_image];
-                break;
-            default:
-                if(!empty($title_)){
-                    $listed = ["title" => "ArtisanOga - ".ucwords($type), "desc" => $title_, "post_url" => $post_url,"post_image" => $post_image];
-                }else {
-                    $listed = ["title" => "ArtisanOga - ".ucwords($type), "desc" => $desc, "post_url" => $post_url,"post_image" => $post_image];
-                }
-
+    public static function toZoomTimeFormat(string $dateTime): string
+    {
+        try {
+            $date = new \DateTime($dateTime);
+            return $date->format('Y-m-d\TH:i:s');
+        } catch(\Exception $e) {
+            Log::error('ZoomJWT->toZoomTimeFormat : ' . $e->getMessage());
+            return '';
         }
-        return $listed;
     }
 
+    public static function toUnixTimeStamp(string $dateTime, string $timezone)
+    {
+        try {
+            $date = new \DateTime($dateTime, new \DateTimeZone($timezone));
+            return $date->getTimestamp();
+        } catch (\Exception $e) {
+            Log::error('ZoomJWT->toUnixTimeStamp : ' . $e->getMessage());
+            return '';
+        }
+    }
+
+    public static function minsToHours($minutes): string
+    {
+        $hours = floor($minutes / 60);
+        $min = $minutes - ($hours * 60);
+        return $hours."h, ".$min." m";
+    }
+
+    /**
+     * @param $date_from
+     * @param $date_to
+     * @return int
+     */
+    public function getCourseTimeDuration($date_from, $date_to): int
+    {
+        $to = Carbon::createFromFormat('Y-m-d H:s:i', $date_to);
+        $from = Carbon::createFromFormat('Y-m-d H:s:i', $date_from);
+
+        return $to->diffInMinutes($from);
+    }
+
+    /**
+     * @param $request
+     * @return CustomerRating
+     */
+    public static function StoreReviews($request) : CustomerRating {
+
+        $data = new CustomerRating();
+        $data->fullname = $request->fullname;
+        $data->email    = $request->email;
+        $data->review   = $request->review;
+        $data->user_id  = $request->identity ?? null;
+        $data->rating   = $request->rating ?? 5;
+        $data->save();
+
+
+        // updating user table
+        $numbers_of_rating =  CustomerRating::where('user_id',$request->identity)->sum('rating');
+        $number_of_people_rating = CustomerRating::where('user_id',$request->identity)->count();
+
+        $user_ids = User::where('identity',$request->identity)->value('id');
+        $data_ = User::find($user_ids);
+
+        if($number_of_people_rating == 0){
+            $data_->rating = 0;
+        }else {
+            $final_rating = $numbers_of_rating / $number_of_people_rating;
+            $data_->rating =  $data_->rating + $final_rating;
+        }
+        $data_->update();
+        return $data;
+    }
+
+
+    /**
+     * @param $user_id
+     * @return float
+     */
+    public static function rating($user_id) : float {
+        $numbers_of_rating =  CustomerRating::where('user_id',$user_id)->sum('rating');
+        $number_of_people_rating = CustomerRating::where('user_id',$user_id)->count();
+
+        if($number_of_people_rating == 0){
+            $final_rating =  0;
+        }else {
+            $final_rating = $numbers_of_rating / $number_of_people_rating;
+        }
+        return $final_rating;
+    }
 
 }

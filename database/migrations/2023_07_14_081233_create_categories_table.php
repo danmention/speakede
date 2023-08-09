@@ -22,6 +22,7 @@ return new class extends Migration
             $table->longText('featured_img')->nullable();
             $table->string('class_name',50)->nullable();
             $table->string('status',5)->default(1);
+            $table->string('popular_status',5)->default(0);
             $table->string('user_id',50)->nullable();
             $table->timestamps();
         });

@@ -9089,6 +9089,48 @@ textarea:-ms-input-placeholder {
   color: #838383;
 }
 
+
+
+
+form .rating {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+form .rating .rating-star {
+    display: block;
+    position: relative;
+}
+
+form .rating .rating-star::before {
+    content: '\f13b \f13b \f13b \f13b \f13b';
+    font-family: "flaticon";
+    font-size: 13px;
+    color: #b4b4b4;
+    letter-spacing: 2px;
+}
+
+form .rating .rating-star .rating-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+form .rating .rating-star .rating-active::before {
+    content: '\f13b \f13b \f13b \f13b \f13b';
+    font-family: "flaticon";
+    font-size: 13px;
+    color: #fda000;
+    letter-spacing: 2px;
+}
+
+form .rating span {
+    font-size: 13px;
+    color: #838383;
+}
+
 /*--
 /*  21 - Courses Details CSS
 /*----------------------------------------*/
@@ -11112,4 +11154,17 @@ textarea:-ms-input-placeholder {
     font-size: 14px;
     letter-spacing: 0.2px;
     font-family: "Roboto";
+}
+
+
+.language {
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 0 15px;
+    height: 25px;
+    line-height: 23px;
+    display: inline-block;
+    background-color: rgba(28, 176, 152, 0.071);
+    color: #1cb098;
+    white-space: nowrap;
 }

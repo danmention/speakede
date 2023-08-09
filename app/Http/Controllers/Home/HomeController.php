@@ -6,10 +6,11 @@ use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CustomerRating;
+use App\Models\Lesson;
+use App\Models\PreferredLanguage;
+use App\Models\ScheduleEvent;
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,19 +19,24 @@ use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    public function getIndex(): Factory|View|Application
+    public function getIndex()
     {
+
+
         $lang = Category::query()->where('class_name','language')->get();
-        $course = Course::all();
-        return view('home.index', compact('lang','course'));
+        $lang_popular = Category::query()->where('class_name','language')->where('popular_status', 1)->get();
+        $course = Course::query()->orderBy('id','desc')->get();
+        $this->moreCourseInformation($course);
+        return view('home.index', compact('lang','course','lang_popular'));
     }
 
-    public function getLogin(): Factory|View|Application
+
+    public function getLogin()
     {
         return view('home.login');
     }
 
-    public function getRegister(): Factory|View|Application
+    public function getRegister()
     {
         return view('home.register');
     }
@@ -103,24 +109,35 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function getCategory(): Factory|View|Application
+    public function getCategory()
     {
         return view('home.category');
     }
 
-    public function getGroupClass(): Factory|View|Application
+    public function getGroupClass()
     {
         return view('home.category');
     }
 
-    public function getCommunity(): Factory|View|Application
+    public function getCommunity()
     {
         return view('home.category');
     }
 
-    public function getTeacherLang(): Factory|View|Application
+    public function getTeacherLang()
     {
         return view('home.teacher-view');
+    }
+
+
+    public function getTeacherProfile($id)
+    {
+        $profile = User::query()->where('identity', $id)->get();
+
+        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.user_id', $profile[0]->id)->get(['categories.*']);
+
+        return view('home.teacher_profile', compact('profile','preferred_lang'));
     }
 
     /**
@@ -134,4 +151,91 @@ class HomeController extends Controller
            return redirect()->route('index.login');
         }
     }
+
+    public function getAllCourse(){
+        $course = Course::query()->orderBy('id','DESC')->get();
+        $this->moreCourseInformation($course);
+        return view('home.all-course', compact('course'));
+    }
+
+    public function getViewCourse($url){
+        $course = Course::query()->where('url', $url)->get();
+        foreach ($course as $row){
+            $row["instructor"] = User::query()->where('id', $row->user_id)->get();
+            $row["lesson_total"] = Lesson::query()->where('course_id', $row->id)->count();
+        }
+        $this->moreCourseInformation($course);
+        $lessons = Lesson::query()->where('course_id', $course[0]['id'])->groupBy('group_id')->get();
+        $profile = User::query()->where('id', $course[0]["user_id"])->get();
+        $reviews = CustomerRating::where('course_id', $course[0]["id"])->get();
+        return view('home.course_details', compact('course','lessons','profile','reviews'));
+    }
+
+    public function getTeacherAvailability(Request $request){
+
+        if ($request->ajax()) {
+                $user_id = User::query()->where('identity',$request->instructor_user_id)->value('id');
+                $data = ScheduleEvent::whereDate('start', '>=', $request->start)
+                    ->whereDate('end',   '<=', $request->end)
+//                    ->where('instructor_user_id', $user_id)
+                    ->get(['id', 'title', 'start', 'end']);
+
+            return response()->json($data);
+        }
+        return view('home.teacher_profile');
+    }
+
+    /**
+     * @param $course
+     * @return void
+     */
+    private function moreCourseInformation($course): void
+    {
+        foreach ($course as $row) {
+            $user = User::query()->where('id', $row->user_id)->get();
+            $row["firstname"] = $user[0]->firstname;
+            $row["lastname"] = $user[0]->lastname;
+            $row["identity"] = $user[0]->identity;
+
+            $lesson = Lesson::query()->where('course_id', $row->id)->get();
+            $course_duration = 0;
+            foreach ($lesson as $rw) {
+                $course_duration = +(new CommonHelpers)->getCourseTimeDuration($rw->start_time, $rw->end_time);
+            }
+
+            $row['course_duration'] = CommonHelpers::minsToHours($course_duration);
+            $row['rating'] = CustomerRating::where('course_id', $row->id)->count();
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function SubmitReviews(Request $request): RedirectResponse
+    {
+        if($request->rating_pro):
+            $data = CommonHelpers::StoreReviews($request);
+            if($data->id){
+                return redirect()->back()->with('response','Rating was successful');
+            }
+        endif;
+        return redirect()->back()->with('error','something went wrong');
+    }
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function bookLesson(Request $request): RedirectResponse
+    {
+        if (empty(Auth::user())){
+            return redirect()->route('index.login');
+        }
+        return redirect()->to('user/apply/booking/lesson?teacher_id='.$request->teacher_id.'&id='.$request->id);
+    }
+
+
+
 }

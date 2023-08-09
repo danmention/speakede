@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class GoogleController extends Controller
 {
-    public function signInWithGoogle(): RedirectResponse|\Illuminate\Http\RedirectResponse
+    public function signInWithGoogle()
     {
         return Socialite::driver('google')->redirect();
     }

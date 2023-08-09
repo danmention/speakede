@@ -142,6 +142,77 @@
 <!-- JS
 ============================================ -->
 <script src="{{asset("home/assets/js/vendor/jquery-1.12.4.min.js")}}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var SITE_URL = "{{ url('/') }}";
+
+        var calendar = $('#calendar').fullCalendar({
+            editable: true,
+            timeZone: 'UTC',
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            events: function(start, end, timezone, callback) {
+                $.ajax({
+                    url: SITE_URL +'/teacher/schedule/get-availability',
+                    dataType: 'json',
+                    data: {
+                        // our hypothetical feed requires UNIX timestamps
+                        start: "2023-07-30",
+                        end: "2023-09-10",
+                        instructor_user_id: '{{ request()->segment(2) }}'
+                    },
+                    success: function (doc) {
+                        var events = [];
+                        $(doc).each(function () {
+                            events.push({
+                                title: '',
+                                start: $(this).attr('start'), // will be parsed
+                                end: $(this).attr('end'), // will be parsed
+                                event_id: $(this).attr('id') // will be parsed
+                            });
+                        });
+                        callback(events);
+                    }
+                });
+            },
+            validRange: {
+                start: "2023-08-01",
+                end: "2023-08-10",
+            },
+            selectable: true,
+            selectHelper: true,
+            eventClick: function (event) {
+                var loggedIn = {{ auth()->check() ? 'false' : 'true' }};
+                if (loggedIn) {
+                    alert("please login")
+                    event.preventDefault();
+                }
+                if (confirm("Are you sure you want to book ?")) {
+                    var id = event.event_id;
+                    var identity = '{{ request()->segment(2) }}';
+                    window.location.href = SITE_URL+'/booking/lesson?teacher_id='+identity+'&id='+id;
+                }
+            }
+        });
+    });
+</script>
 <script src="{{asset("home/assets/js/vendor/modernizr-3.11.2.min.js")}}"></script>
 
 <!-- Bootstrap JS -->

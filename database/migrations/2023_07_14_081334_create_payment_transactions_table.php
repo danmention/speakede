@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('method', 100)->default('cash');
             $table->string('user_id',50)->nullable();
             $table->string('description')->nullable();
+            $table->string('type',50)->nullable();
             $table->timestamps();
         });
     }

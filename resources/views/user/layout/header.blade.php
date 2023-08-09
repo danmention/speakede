@@ -10,6 +10,7 @@
     <meta name="description" content="Speakede">
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Open Graph Meta -->
     <meta property="og:type" content="website">
@@ -26,6 +27,7 @@
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet"  href="{{asset("admin/assets/js/plugins/sweetalert2/sweetalert2.min.css")}}">
     <link rel="stylesheet" id="css-main" href="{{asset("admin/assets/css/codebase.min.css")}}">
+
 
 
 </head>

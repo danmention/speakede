@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('price',100)->default(0);
             $table->longText('description')->nullable();
             $table->longText('youtube_link')->nullable();
+            $table->string('language',10)->nullable();
             $table->string('user_id',50);
             $table->string('status',10)->default(1);
             $table->timestamps();

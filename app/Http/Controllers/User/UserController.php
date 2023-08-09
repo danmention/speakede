@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\CommonHelpers;
+use App\Models\Category;
 use App\Models\Course;
+use App\Models\CoursePayment;
+use App\Models\CustomerRating;
 use App\Models\Lesson;
 use App\Models\PaymentTransaction;
+use App\Models\PreferredLanguage;
+use App\Models\ScheduleEvent;
+use App\Models\User;
 use App\Models\WalletFunding;
+use App\Services\zoom\ZoomServiceImpl;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -18,30 +26,35 @@ use Illuminate\Support\Facades\Session;
 class UserController
 {
 
-    public function getIndex(): Factory|View|Application
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function getIndex()
     {
-
         $user_id = Auth::user()->id;
-        $account_balance = PaymentTransaction::query()->where('user_id', $user_id)
-            ->where('status',1)->sum('amount');
-
-
-        $used_balance =  PaymentTransaction::query()->where('user_id', $user_id)
-            ->where('status',0)->sum('amount');
-
-        if($used_balance == 0){
-            $wallet = $account_balance;
-        } else {
-            $wallet = $account_balance - $used_balance;
-        }
-
+        $wallet = $this->accountBalance();
         $course = Course::query()->where('user_id', $user_id)->count();
-        return view('user.dashboard', compact('wallet', 'course'));
+        $paidCourse = CoursePayment::query()->where('user_id', $user_id)->count();
+
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+        return view('user.dashboard', compact('wallet', 'course','paidCourse'));
     }
 
-    public function getCourse(): Factory|View|Application
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function getCourse()
     {
-        return view('user.course.add-course');
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.user_id',Auth::user()->id)->get(['categories.*','preferred_languages.price']);
+        return view('user.course.add-course', compact('preferred_lang'));
     }
 
 
@@ -57,6 +70,7 @@ class UserController
         $data->price = $request->price;
         $data->description = $request->desc;
         $data->youtube_link = $request->youtube_link;
+        $data->language = $request->language;
         $data->user_id = Auth::user()->id;
         $data->save();
 
@@ -66,11 +80,30 @@ class UserController
 
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function allCourse(): View|Factory|Application
+    public function allCourse()
     {
-        $course = Course::query()->where('user_id', Auth::user()->id)->get();
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+        $course = Course::query()->where('user_id', Auth::user()->id)->orderBy('id','DESC')->get();
+        return view('user.course.all_course', compact('course'));
+    }
+
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function allPaidCourse()
+    {
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+
+        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')
+            ->get(['courses.*']);
+
         return view('user.course.all_course', compact('course'));
     }
 
@@ -79,19 +112,70 @@ class UserController
      * @param $url
      * @return Factory|View|Application
      */
-    public function viewCourse($url): Factory|View|Application
+    public function viewCourse($url)
     {
+        $canWatch = false;
+        $iAddedThisCourse = false;
         $course = Course::query()->where('url', $url)->get();
         $lessons = Lesson::query()->where('course_id', $course[0]->id)->groupBy('group_id')->get();
-        return view('user.course.view_course', compact('course','lessons'));
 
+        foreach ($lessons as $rw){
+            $course_duration = (new CommonHelpers)->getCourseTimeDuration($rw->start_time, $rw->end_time);
+            $rw['course_duration'] = CommonHelpers::minsToHours($course_duration);
+        }
+
+
+        if((int)$course[0]->user_id == Auth::user()->id){
+            $iAddedThisCourse =  true;
+        }
+
+        $coursePayment = CoursePayment::query()->where('user_id', Auth::user()->id)->where('course_id', $course[0]->id)->get()->count();
+        if($iAddedThisCourse){
+            $canWatch = true;
+        } elseif ($coursePayment > 0) {
+            $canWatch = true;
+        }
+
+        foreach ($course as $row){
+            $user =  User::query()->where('id', $row->user_id)->get();
+            $row["about_me"] = $user[0]->about_me;
+            $row["fullname"] = $user[0]->firstname . ' '.$user[0]->lastname;
+        }
+        return view('user.course.view_course', compact('course','lessons','canWatch','iAddedThisCourse'));
+
+    }
+
+    /**
+     * @param Request $request
+     * @return Factory|View|Application
+     */
+    public function viewPaidCourse(Request $request)
+    {
+        $course_link = $request->segment(4);
+        $lesson_link =  $request->segment(5);
+
+        //validating payment for course
+        $courseDetails = Course::query()->where('url', $course_link)->get();
+
+        if( $courseDetails[0]->user_id ==  Auth::user()->id){
+            $lessons = Lesson::query()->where('url', $lesson_link)->get();
+            return view('user.course.view_lesson', compact('lessons'));
+        } else {
+            $coursePayment = CoursePayment::query()->where('user_id', Auth::user()->id)->where('course_id', $courseDetails[0]->id)->count();
+            if($coursePayment > 0){
+                $lessons = Lesson::query()->where('url', $lesson_link)->get();
+                return view('user.course.view_lesson', compact('lessons'));
+            } else {
+                return view('user.course.504');
+            }
+        }
     }
 
     /**
      * @param $id
      * @return Factory|View|Application
      */
-    public function addLesson($id): Factory|View|Application
+    public function addLesson($id)
     {
         $course = Course::query()->where('id', $id)->get();
         $lessons = Lesson::query()->where('course_id', $id)->count();
@@ -132,18 +216,19 @@ class UserController
     /**
      * @return Factory|View|Application
      */
-    public function getBecomeATeacher(): Factory|View|Application
+    public function getBecomeATeacher()
     {
         return view('home.become_a_teacher');
     }
 
-    public function buySpeakToken(): Factory|View|Application
+    public function buySpeakToken()
     {
-        $payment = PaymentTransaction::query()->where('user_id', Auth::user()->id)->get();
+        $payment = PaymentTransaction::query()->where('user_id', Auth::user()->id)
+            ->orderBy('id','desc')->get();
         return view('user.wallet_funding', compact('payment'));
     }
 
-    public function getProfilePhoto(): Factory|View|Application
+    public function getProfilePhoto()
     {
         return view('user.add_dp');
     }
@@ -151,4 +236,170 @@ class UserController
     public function changePassword(){
         return view('user.change-password');
     }
+
+    public function addMyFreeSchedule(){
+        return view('user.change-password');
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function buyCourse($id)
+    {
+        $wallet = $this->accountBalance();
+        $course = Course::query()->where('id', $id)->get();
+        return view('user.course.buy-course', compact('course','wallet'));
+    }
+
+    public function coursePaymentInit(Request $request): RedirectResponse
+    {
+        $ref = CommonHelpers::code_ref(10);
+        //performing wallet debit
+        try {
+            PaymentController::handleCoursePayment($request,$ref);
+
+            $data = new CoursePayment();
+            $data->user_id = Auth::user()->id;
+            $data->course_id =  $request->course_id;
+            $data->reference_no = $ref;
+            $data->is_active = "yes";
+            $data->save();
+
+            Session::flash('message', "payment successful, your course is available for viewing");
+            return redirect()->route('user.dashboard');
+        } catch (\Exception $e){
+            Session::flash('message', "payment not successful");
+            return redirect()->route('user.dashboard');
+        }
+    }
+
+    /**
+     * @return int
+     */
+    private function accountBalance(): int
+
+    {
+        $user_id = Auth::user()->id;
+        $account_balance = PaymentTransaction::query()->where('user_id', $user_id)->where('type', 1)->sum('amount');
+
+        $used_balance = PaymentTransaction::query()->where('user_id', $user_id)->where('type', 0)->sum('amount');
+
+        if ($used_balance == 0) {
+            $wallet = $account_balance;
+        } else {
+            $wallet = $account_balance - $used_balance;
+        }
+        return $wallet;
+    }
+
+    public function addTeachersInfo(){
+        $lang = Category::query()->where('class_name', 'language')->get();
+        return view('user.add-teacher-info', compact('lang'));
+    }
+
+
+    public function updateUserInfo(Request $request): RedirectResponse
+    {
+
+        foreach ($request->language_id as $row){
+            $lang = new PreferredLanguage();
+            $lang->user_id = Auth::user()->id;
+            $lang->language_id = $row;
+            $lang->save();
+        }
+
+        $profile = User::find(Auth::user()->id);
+        $profile->about_me = $request->about_me;
+        $profile->update();
+
+        Session::flash('message', "profile updated");
+        return redirect()->route('user.dashboard');
+    }
+
+
+
+    public function processingVirtualBooking(Request $request){
+
+        $profile = User::query()->where('identity',$request->teacher_id)->get();
+        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.user_id', $profile[0]->id)->get(['categories.*']);
+        return view('user.select-virtual-meeting', compact('preferred_lang'));
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function payVirtualBooking(Request $request)
+    {
+        $wallet = $this->accountBalance();
+        $teacher_id = $request->teacher_id;
+        $id = $request->id;
+        $lang = $request->language;
+        $instructor = User::query()->where('identity', $teacher_id)->get();
+        $schedule_info = ScheduleEvent::query()->where('id', $id)->get();
+
+        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.id',$lang)->get(['categories.*','preferred_languages.price']);
+        return view('user.pay-online-meeting', compact('instructor','wallet','schedule_info','teacher_id','id','preferred_lang'));
+    }
+
+    public function preferredLanguage(){
+
+        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.user_id',Auth::user()->id)->get(['categories.*','preferred_languages.price']);
+        return view('user.preferred-language', compact('preferred_lang'));
+    }
+
+
+    public function RatingByArtisan(Request $request): JsonResponse
+    {
+        $id = $request['id'];
+        $rating = CustomerRating::where('artisanID', $id)->get();
+        return $this->sendSuccess($rating);
+
+    }
+
+    public function CreateRating(Request $request): JsonResponse
+    {
+        $data = CommonHelpers::StoreReviews($request);
+        return $this->sendSuccess($data);
+
+    }
+
+    public function CreateReview(Request $request): JsonResponse
+    {
+        try{
+            $data = CommonHelpers::StoreReviews($request);
+            return $this->sendSuccess($data);
+        } catch (\Exception $exception) {
+
+            return $this->errorResponse($exception->getMessage(), "error occurred");
+        }
+
+
+    }
+
+    public function AllReviews(): JsonResponse
+    {
+        $reviews = CustomerRating::all();
+        return $this->sendSuccess($reviews);
+
+    }
+
+    public function AllReviewsByUser(Request  $request): JsonResponse
+    {
+        $reviews = CustomerRating::where('user_id',$request->identity)->get();
+        return $this->sendSuccess($reviews);
+
+    }
+
+    public function DeleteReview(Request $request){
+
+        $data = CustomerRating::find($request->id);
+        $data->delete();
+
+        return $this->sendSuccess($data);
+    }
+
+
 }

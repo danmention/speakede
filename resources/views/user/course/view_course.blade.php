@@ -22,11 +22,14 @@
             <div class="row">
                 <div class="col-xl-4">
                     <!-- Subscribe -->
+
+                    @if($iAddedThisCourse)
                     <div class="block block-rounded">
                         <div class="block-content">
                             <a class="btn btn-lg btn-primary w-100 mb-2" href="{{url('user/course/lesson/add/'.$row->id)}}">Add Lessons</a>
                         </div>
                     </div>
+                    @endif
                     <!-- END Subscribe -->
 
                     <!-- Instructor -->
@@ -51,8 +54,7 @@
                                 @endif
 
                             </div>
-                            <div class="fw-semibold mb-1">{{\Auth::user()->firstname}}</div>
-                            <div class="fs-sm text-muted">Web Designer</div>
+                            <div class="fw-semibold mb-1">{{$row->fullname}}</div>
                         </div>
                     </a>
                     <!-- END Instructor -->
@@ -65,41 +67,8 @@
                                 About
                             </h3>
                         </div>
-                        <div class="block-content">
-                            <div class="text-warning text-center mb-1">
-                                <i class="fa fa-fw fa-star"></i>
-                                <i class="fa fa-fw fa-star"></i>
-                                <i class="fa fa-fw fa-star"></i>
-                                <i class="fa fa-fw fa-star"></i>
-                                <i class="fa fa-fw fa-star"></i>
-                            </div>
-                            <div class="fs-sm text-muted text-center mb-3">
-                                258 reviews
-                            </div>
-                            <table class="table table-borderless table-striped">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <i class="fa fa-fw fa-heart opacity-50 me-2"></i>
-                                        <span class="fs-sm">456 Favorites</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fa fa-fw fa-calendar-alt opacity-50 me-2"></i>
-                                        <span class="fs-sm">1 week ago</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fa fa-fw fa-tags opacity-50 me-2"></i>
-                                        <a class="link-fx fs-sm fw-medium" href="javascript:void(0)">HTML</a>,
-                                        <a class="link-fx fs-sm fw-medium" href="javascript:void(0)">CSS</a>,
-                                        <a class="link-fx fs-sm fw-medium" href="javascript:void(0)">JavaScript</a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div style="padding: 10px;">
+                            <p> {!! $row->about_me !!}</p>
                         </div>
                     </div>
                     <!-- END Course Info -->
@@ -111,28 +80,33 @@
                             <!-- Introduction -->
 
 
+                            @if($lessons->count() == 0)
+                                <h3> No Lesson yet!</h3>
+                            @endif
                             <?php $x = 1 ?>
-                            @foreach($lessons as $row)
+                            @foreach($lessons as $lesson)
                             <table class="table table-borderless table-vcenter mb-4">
                                 <tbody>
                                 <tr class="table-active">
                                     <th style="width: 50px;"></th>
-                                    <th>{{$x++}}. {{$row->lesson_name}}</th>
+                                    <th>{{$x++}}. {{$lesson->lesson_name}}</th>
                                     <th class="fs-sm text-end">
-                                        <span class="text-muted">0.5 hours</span>
                                     </th>
                                 </tr>
 
-                                @foreach(Lesson::query()->where('group_id', $row->group_id)->get() as $rw)
+                                @foreach(Lesson::query()->where('group_id', $lesson->group_id)->get() as $rw)
                                 <tr>
                                     <td class="table-success text-center">
-                                        <i class="fa fa-fw fa-unlock text-success"></i>
+                                        <i class="fa fa-fw {{($canWatch ? "fa-unlock" : "fa-lock")}} text-success"></i>
                                     </td>
                                     <td>
-                                        <a href="#">{{$rw->lesson_title}}</a>
+                                        <a href="{{($canWatch ? url('user/course/view/'.$row->url.'/'.$rw->url) : "#")}}">{{$rw->lesson_title}}</a>
                                     </td>
                                     <td class="text-end">
-                                        30 min
+                                        {{$lesson->course_duration}}
+                                        <button type="button" class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete">
+                                            <i class="fa fa-times"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 @endforeach

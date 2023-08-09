@@ -21,7 +21,7 @@ class CategoryController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function getIndex(): View|Factory|Application
+    public function getIndex()
     {
         $category = $this->getCategoryParentCategoryCheck();
         return view('admin.categories.add-category', compact('category'));
@@ -30,7 +30,16 @@ class CategoryController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function getCategory(): View|Factory|Application
+    public function getEditCategory($id)
+    {
+        $category = Category::query()->where('id', $id)->get();
+        return view('admin.categories.edit-category', compact('category'));
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function getCategory()
     {
         $all_categories = $this->getallCategory();
         $category = array();
@@ -155,29 +164,6 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * @param $name
-     * @param $parent_id
-     * @return int|void
-     */
-    public function checkCategory($name, $parent_id)
-    {
-        $result = DB::table('categories')->where('name', $name)->get();
-        if ($result->num_rows() > 0 && $parent_id != '') {
-            foreach ($result->result_array() as $row) {
-                if ($row['parent_id'] == $parent_id) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        } elseif ($result->num_rows() > 0 && $parent_id == '') {
-            return 1;
-        } elseif ($result->num_rows() < 1) {
-            return 0;
-        }
-    }
-
 
     /**
      * @param $id
@@ -198,12 +184,17 @@ class CategoryController extends Controller
      */
     public function deleteCategory(Request $request): RedirectResponse
     {
-
         $data = Category::find($request->id);
         $data->delete();
         return back()->withInput()->with('response', 'Language Deleted');
+    }
 
-
+    public function makePopular(Request $request): RedirectResponse
+    {
+        $data = Category::find($request->id);
+        $data->popular_status = $request->popular_status;
+        $data->update();
+        return back()->withInput()->with('response', 'Popular Status Updated');
     }
 
 }

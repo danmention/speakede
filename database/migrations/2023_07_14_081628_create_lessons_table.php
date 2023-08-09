@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('course_id',50);
             $table->longText('lesson_name')->nullable();
             $table->string('lesson_title')->nullable();
-            $table->string('start_time')->nullable();
+            $table->timestamp('start_time')->nullable();
             $table->string('description')->nullable();
-            $table->string('end_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->longText('youtube_link')->nullable();
             $table->timestamps();
         });

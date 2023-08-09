@@ -37,6 +37,7 @@
                                     <th>Category Name</th>
                                     <th>Icon</th>
                                     <th>Date Created</th>
+                                    <th>Make Popular</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -52,16 +53,41 @@
                                         <td class="center">{{$row->created_at}}</td>
 
 
+
+                                        <td class="text-center">
+                                            @if($row->popular_status == 0)
+                                            <form action="{{route('make.popular.category')}}" method="post" onclick="return confirm('Are you sure?')" >
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="id" value="{{$row->id}}"  />
+                                                <input type="hidden" name="popular_status" value="1"  />
+                                                <button class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete">
+                                                   Make Popular
+                                                </button>
+                                            </form>
+                                                @else
+
+                                                <form action="{{route('make.popular.category')}}" method="post" onclick="return confirm('Are you sure?')" >
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="id" value="{{$row->id}}"  />
+                                                    <input type="hidden" name="popular_status" value="0"  />
+                                                    <button class="btn btn-sm btn-danger js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete">
+                                                       Make Unpopular
+                                                    </button>
+                                                </form>
+                                                @endif
+
+                                        </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
+                                                <a href="{{url('admin/secure/category/edit/'.$row->id)}}" class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit">
                                                     <i class="fa fa-pencil-alt"></i>
-                                                </button>
+                                                </a>
                                                 <form action="{{route('delete.category')}}" method="post" onclick="return confirm('Are you sure?')" >
                                                     {{ csrf_field() }}
                                                     <input type="hidden" name="id" value="{{$row->id}}"  />
                                                     <input type="hidden" name="type" value="business_category"  />
-                                                    <button type="button" class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete">
+                                                    <button class="btn btn-sm btn-secondary js-bs-tooltip-enabled"
+                                                            data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete" style="margin-left: 10px;">
                                                         <i class="fa fa-times"></i>
                                                     </button>
                                                 </form>

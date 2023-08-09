@@ -11,6 +11,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}">
 
@@ -28,6 +29,7 @@
     <link rel="stylesheet" href="{{asset("home/assets/css/plugins/nice-select.css")}}">
     <link rel="stylesheet" href="{{asset("home/assets/css/plugins/jquery.powertip.min.css")}}">
     <link rel="stylesheet" href="{{asset("home/assets/css/plugins/magnific-popup.css")}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{asset("home/assets/css/style.css")}}">
@@ -58,6 +60,7 @@
                         <div class="header-menu d-none d-lg-block">
                             <ul class="main-menu">
                                 <li><a href="#">Find a teacher</a></li>
+                                <li><a href="{{route('index.all.course')}}">All Course</a></li>
                                 <li><a href="#">Group Class</a></li>
                                 <li><a href="#">Community</a></li>
                                 <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
@@ -78,10 +81,15 @@
                         </div>
 
                         <div class="header-login d-none d-lg-block">
+                        @if(isset(\Illuminate\Support\Facades\Auth::user()->is_admin) && \Illuminate\Support\Facades\Auth::user()->is_admin == 0)
+                            <a class="link" href="{{route('user.dashboard')}}"><i class="far fa-user"></i> {{Auth::user()->firstname.' '.Auth::user()->lastname}}</a>
+                            <a class="link" href="{{route('account.logout')}}">Logout</a>
+
+                        @else
                             <a class="link" href="{{route('index.login')}}"><i class="far fa-user"></i> Login</a>
                             <a class="link" href="{{route('index.register')}}">Register</a>
+                        @endif
                         </div>
-
 
                         <div class="header-toggle d-lg-none">
                             <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">

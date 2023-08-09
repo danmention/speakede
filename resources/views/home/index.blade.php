@@ -40,6 +40,8 @@
     </div>
     <!-- Hero End -->
 
+
+
     <!-- Category Start -->
     <div class="section upstudy-category-section">
         <div class="container">
@@ -52,18 +54,18 @@
                 <div class="category-content-wrap">
                     <div class="row">
                         @foreach($lang as $row)
-                        <div class="col-xl-3 col-lg-4 col-sm-6">
-                            <!-- Category Item Start -->
-                            <a href="{{url('teachers/'.$row->url)}}" class="category-item">
-                                <div class="category-icon">
-                                    <img src="{{asset('lang/icons/'.$row->featured_img)}}" alt="">
-                                </div>
-                                <div class="category-content">
-                                    <h3 class="title">{{$row->title}}</h3>
-                                </div>
-                            </a>
-                            <!-- Category Item End -->
-                        </div>
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <!-- Category Item Start -->
+                                <a href="{{url('teachers/'.$row->url)}}" class="category-item">
+                                    <div class="category-icon">
+                                        <img src="{{asset('lang/icons/'.$row->featured_img)}}" alt="">
+                                    </div>
+                                    <div class="category-content">
+                                        <h3 class="title">{{$row->title}}</h3>
+                                    </div>
+                                </a>
+                                <!-- Category Item End -->
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -80,7 +82,7 @@
             <div class="course-header">
                 <!-- Section Title Start -->
                 <div class="section-title">
-                    <h2 class="title"><span>Popular</span> languages</h2>
+                    <h2 class="title"><span>Popular</span> Course</h2>
                 </div>
                 <!-- Section Title End -->
 
@@ -110,37 +112,7 @@
 
                                 @foreach($course as $row)
                                 <div class="col-lg-3 col-sm-6">
-                                    <!-- Single Courses Start -->
-                                    <div class="single-course">
-                                        <div class="courses-image">
-
-                                        <iframe width="310" height="218" src="https://www.youtube.com/embed/{{substr($row->youtube_link, strpos($row->youtube_link, "watch?v=") + strlen("watch?v="))}}?rel=0&amp;controls=1&amp&amp;showinfo=0&amp;modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
-                                         encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-                                        </div>
-                                        <div class="courses-content">
-                                            <div class="top-meta">
-                                                <div class="tag-time">
-                                                    <a class="tag" href="#">Beginner</a>
-                                                    <p class="time"><i class="far fa-clock"></i> 2h 30m</p>
-                                                </div>
-                                                <span class="price">
-                                                    <span class="sale-price">Free</span>
-                                                    </span>
-                                            </div>
-                                            <h3 class="title"><a href="{{url('teacher/9109019/english')}}">{{ucwords($row->title)}}</a></h3>
-                                            <div class="courses-meta">
-                                                <p class="author-name"><span>By</span> Andrew paker</p>
-                                                <div class="rating">
-                                                    <div class="rating-star">
-                                                        <div class="rating-active" style="width: 60%;"></div>
-                                                    </div>
-                                                    <span>(4.5)</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Single Courses End -->
+                                   @include('home.course_list')
                                 </div>
                                 @endforeach
 
@@ -1143,8 +1115,42 @@
     </div>
     <!-- Courses End -->
 
+
+    <!-- Category Start -->
+    <div class="section upstudy-category-section">
+        <div class="container">
+            <div class="category-wrap">
+                <div class="row">
+                    <div class="section-title text-center">
+                        <h2 class="title">Popular <span>languages</span></h2>
+                    </div>
+                </div>
+                <div class="category-content-wrap">
+                    <div class="row">
+                        @foreach($lang_popular as $row)
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <!-- Category Item Start -->
+                                <a href="{{url('teachers/'.$row->url)}}" class="category-item">
+                                    <div class="category-icon">
+                                        <img src="{{asset('lang/icons/'.$row->featured_img)}}" alt="">
+                                    </div>
+                                    <div class="category-content">
+                                        <h3 class="title">{{$row->title}}</h3>
+                                    </div>
+                                </a>
+                                <!-- Category Item End -->
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+    <!-- Category End -->
+
     <!-- Counter Start -->
-    <div class="section upstudy-counter-section section-padding-02" style="background-image: url({{asset("home/assets/images/bg/counter-bg.png")}}")}});">
+    <div class="section upstudy-counter-section section-padding-02" style="background-image: url({{asset("home/assets/images/bg/counter-bg.png")}}">
         <div class="shape-1">
             <img src="{{asset("home/assets/images/shape/counter-shape1.png")}}" alt="">
         </div>
@@ -1292,7 +1298,7 @@
     <div class="section upstudy-testimonial-section">
         <div class="container">
             <!-- Testimonial Wrap Start -->
-            <div class="testimonial-wrap" style="background-image: url({{asset("home/assets/images/bg/testi-bg.jpg")}}")}});">
+            <div class="testimonial-wrap" style="background-image: url({{asset("home/assets/images/bg/testi-bg.jpg")}}">
                 <div class="shape-1">
                     <img src="{{asset("home/assets/images/shape/testi-shape1.png")}}" alt="">
                 </div>

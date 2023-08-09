@@ -11,42 +11,71 @@
 
                 <div class="row">
                     <div class="col-6 col-xl-3">
-                        <a class="block block-rounded block-link-shadow text-end" href="#">
+                        <div class="block block-rounded block-link-shadow text-end">
                             <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
-                                <div class="d-none d-sm-block">
-                                    <i class="fa fa-book fa-2x opacity-25"></i>
-                                </div>
-
 
                                 <div>
-                                    <div class="fs-sm fw-semibold text-uppercase text-muted">Fund with PayStack</div>
+                                    <div class="fs-sm fw-semibold text-uppercase text-muted">
+                                        <img src="{{asset('home/paystack.png')}}"  style="width: 150px; margin-bottom: 20px"/>
+                                    </div>
 
                                     <form method="POST" action="{{route('user.pay')}}" accept-charset="UTF-8" class="form-horizontal" role="form">
-
+                                        {{ csrf_field() }}
                                         <input type="hidden" name="email" value="{{Auth::user()->email}}"> {{-- required --}}
                                         <input type="hidden" name="orderID" value="{{ \App\Helpers\CommonHelpers::generateCramp('payment') }}">
-                                        <input type="hidden" name="amount" value="40000"> {{-- required in kobo --}}
                                         <input type="hidden" name="quantity" value="1">
                                         <input type="hidden" name="first_name" value="{{Auth::user()->name}}">
                                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
 
                                         <input type="hidden" name="currency" value="NGN">
-                                        <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
                                         <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
-                                        {{ csrf_field() }} {{-- works only when using laravel 5.1, 5.2 --}}
 
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}"> {{-- employ this in place of csrf_field only in laravel 5.0 --}}
-
-                                        <div class="button">
-                                            <button class="js-swal-success btn btn-alt-success">
-                                                <span>Pay</span>
-                                            </button>
+                                        <div class="input-group">
+                                            <div class="form-floating">
+                                                <input type="number" class="form-control" id="example-group3-floating2" name="amount"
+                                                       placeholder="Enter amount in Kobo">
+                                                <label for="example-group3-floating2">Amount</label>
+                                            </div>
+                                            <button class="btn btn-secondary">Pay</button>
                                         </div>
+
                                     </form>
 
                                 </div>
+
                             </div>
-                        </a>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-xl-3">
+                        <div class="block block-rounded block-link-shadow text-end" >
+                            <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
+
+
+                                <div>
+                                    <div class="fs-sm fw-semibold text-uppercase text-muted">
+                                        <img src="{{asset('home/flutterwave.png')}}"  style="width: 200px; margin-bottom: 20px"/>
+                                    </div>
+
+                                    <form method="POST" action="{{ route('user.pay.rave') }}" id="paymentForm">
+                                        {{ csrf_field() }}
+
+                                        <input type="hidden" name="email" value="{{Auth::user()->email}}"> {{-- required --}}
+                                        <input type="hidden" name="name" value="{{Auth::user()->name}}">
+                                        <input type="hidden" name="phone" value="{{Auth::user()->phone}}">
+
+                                        <div class="input-group">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="example-group3-floating2" name="amount" placeholder="Enter amount">
+                                                <label for="example-group3-floating2">Amount</label>
+                                            </div>
+                                            <button class="btn btn-secondary">Pay</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -98,6 +127,11 @@
                                             aria-label="Profile: activate to sort column ascending">Description
                                         </th>
 
+                                        <th class="d-none d-sm-table-cell sorting" style="width: 15%;" tabindex="0"
+                                            aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            aria-label="Access: activate to sort column ascending">Payment Type
+                                        </th>
+
                                         <th class="text-center sorting" style="width: 15%;" tabindex="0"
                                             aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                             aria-label="Profile: activate to sort column ascending">Status
@@ -114,6 +148,13 @@
                                             <td class="d-none d-sm-table-cell"> {{$row->ref_no}}</td>
                                             <td class="d-none d-sm-table-cell">{{$row->amount}}</td>
                                             <td class="d-none d-sm-table-cell">{{$row->description}}</td>
+                                            <td class="d-none d-sm-table-cell">
+                                                @if($row->type ==1 )
+                                                    <span class="badge bg-success">CREDIT</span>
+                                                @else
+                                                    <span class="badge bg-danger">DEBIT</span>
+                                                @endif
+                                            </td>
                                             <td class="d-none d-sm-table-cell">
 
                                                 @if($row->status ==1 )

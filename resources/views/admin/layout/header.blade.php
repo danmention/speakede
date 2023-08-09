@@ -27,6 +27,8 @@
     <!-- Codebase framework -->
     <link rel="stylesheet" id="css-main" href="{{asset("admin/assets/css/codebase.min.css")}}">
 
+    <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/select2/css/select2.css")}}">
+
 </head>
 
 <body>

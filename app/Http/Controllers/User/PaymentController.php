@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\PaymentType;
+use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentTransaction;
-use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -18,36 +17,17 @@ use Unicodeveloper\Paystack\Paystack;
 class PaymentController extends Controller
 {
 
-    /**
-     * @return Redirector|RedirectResponse|Application
-     */
-    public function redirectToGateway(): Redirector|RedirectResponse|Application
+    public function redirectToGateway()
     {
+        \request()->amount =  \request()->amount * 100;
         try{
             return (new Paystack)->getAuthorizationUrl()->redirectNow();
         }catch(\Exception $e) {
-            return Redirect::back()->withMessage(['msg'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
+            Session::flash('message', "The paystack token has expired. Please refresh the page and try again");
+            return Redirect::back();
         }
     }
 
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function redirectToPayment(Request $request): RedirectResponse
-    {
-        $data = new PaymentTransaction();
-        $data->user_id = $request->user_id;
-        $data->amount= $request->amount;
-        $data->ref_no = $request->orderID;
-        $data->description = "Speak Token Wallet Funding";
-        $data->status = 1 ;
-        $data->save();
-        Session::flash('message', ' Payment added successful');
-        return redirect()->back();
-
-    }
 
 
     /**
@@ -56,36 +36,42 @@ class PaymentController extends Controller
      */
     public function handleGatewayCallback(): RedirectResponse
     {
-
-
         $paymentDetails = (new Paystack)->getPaymentData();
-        $user_id = Auth::user()->id;
-        $tournaments_id = User::where('id',$user_id)->value('tournaments_id');
-
         $status = $paymentDetails['data']['status']; // Getting the status of the transaction
         $amount = $paymentDetails['data']['amount']; //Getting the Amount
         $reference = $paymentDetails['data']['reference'];
         $gateway_response = $paymentDetails['data']['gateway_response'];
-        $paid_at = $paymentDetails['data']['paid_at'];
-
 
         if($status === "success"){ //Checking to Ensure the transaction was succesful
 
             $data = new PaymentTransaction();
-            $data->user_id = $user_id;
-            $data->amount= $amount;
+            $data->user_id = Auth::user()->id;
+            $data->amount =  $amount;
             $data->ref_no = $reference;
-            $data->paid_at = $paid_at;
-            $data->gateway_response = $gateway_response;
+            $data->description = "Speak Token Wallet Funding with Paystack";
+            $data->extra = json_encode($paymentDetails);
             $data->status = 1 ;
-
+            $data->type = PaymentType::CREDIT;
             $data->save();
+            Session::flash('message', "Payment Successful");
 
-        }else {
-            return back()->with('response', 'error occurred');
+        } else {
+            Session::flash('message', $gateway_response);
         }
 
         return redirect()->route('user.dashboard');
+    }
 
+
+    public static function handleCoursePayment(Request $request, $ref_no): void {
+        $data = new PaymentTransaction();
+        $data->user_id = Auth::user()->id;
+        $data->amount =  $request->amount;
+        $data->ref_no = $ref_no;
+        $data->description = "Payment for ".$request->course_title;
+        $data->extra = null;
+        $data->type = PaymentType::DEBIT;
+        $data->status = 1;
+        $data->save();
     }
 }

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 class AdminController
 {
 
-    public function getDashboard(): Factory|View|Application
+    public function getDashboard()
     {
         $users = User::query()->where('is_admin', 0)->count();
         $wallet = PaymentTransaction::query()->sum('amount');
@@ -26,7 +26,7 @@ class AdminController
     }
 
 
-    public function getWalletFunding(): Factory|View|Application
+    public function getWalletFunding()
     {
         $payment = PaymentTransaction::all();
         foreach ($payment as $row){
@@ -35,24 +35,24 @@ class AdminController
         return view('admin.wallet_funding', compact('payment'));
     }
 
-    public function getPaymentTransactions(): Factory|View|Application
+    public function getPaymentTransactions()
     {
         return view('admin.payment_transactions');
     }
 
-    public function getGroupHistory(): Factory|View|Application
+    public function getGroupHistory()
     {
         return view('admin.group_history');
     }
 
 
-    public function getCallHistory(): Factory|View|Application
+    public function getCallHistory()
     {
         return view('admin.call_history');
     }
 
 
-    public function getLogin(): Factory|View|Application
+    public function getLogin()
     {
         return view('admin.login');
     }
@@ -61,7 +61,7 @@ class AdminController
     /**
      * @return Factory|View|Application
      */
-    public function getUsers(): Factory|View|Application
+    public function getUsers()
     {
         $users = User::all();
         return view('admin.user.view-user',compact('users'));
@@ -71,7 +71,7 @@ class AdminController
     /**
      * @return Factory|View|Application
      */
-    public function AddUsers(): Factory|View|Application
+    public function AddUsers()
     {
         return view('admin.user.add-user');
     }
@@ -157,7 +157,7 @@ class AdminController
 
     }
 
-    public function getProfilePhoto(): Factory|View|Application
+    public function getProfilePhoto()
     {
         return view('admin.user.add_dp');
     }

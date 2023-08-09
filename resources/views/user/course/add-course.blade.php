@@ -49,17 +49,33 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-4">
-                                    <div class="form-floating">
-                                        <textarea id="js-ckeditor" name="desc">Description</textarea>
+
+                                <div class="row mb-4">
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <select name="language" class="form-control">
+                                                @foreach($preferred_lang as $rw)
+                                                    <option value="{{$rw->id}}"> {{$rw->title}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            <label class="form-label" for="register4-firstname">Select Language</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <textarea type="text" class="form-control"  name="youtube_link" rows="3" placeholder="Enter your company"></textarea>
+                                            <label class="form-label" for="register4-email">Introductory Youtube link (eg https://www.youtube.com/watch?v=xxxxxxxxx )</label>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="mb-4">
                                     <div class="form-floating">
-                                        <textarea type="text" class="form-control"  name="youtube_link" rows="3" placeholder="Enter your company"></textarea>
-                                        <label class="form-label" for="register4-email">Introductory Youtube link (eg https://www.youtube.com/watch?v=xxxxxxxxx )</label>
+                                        <textarea id="js-ckeditor" name="desc"></textarea>
                                     </div>
                                 </div>
+
 
                                 <div class="mb-4">
                                     <button type="submit" class="btn btn-primary">

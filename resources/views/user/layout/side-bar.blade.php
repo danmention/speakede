@@ -10,7 +10,7 @@
               <span class="smini-visible fw-bold tracking-wide fs-lg">
                 c<span class="text-primary">b</span>
               </span>
-                <a class="link-fx fw-bold tracking-wide mx-auto" href="{{route('admin.dashboard')}}">
+                <a class="link-fx fw-bold tracking-wide mx-auto" href="{{route('user.dashboard')}}">
                 <span class="smini-hidden">
                     <img src="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}" alt="logo">
                   <span class="fs-4 text-dual">Speak</span><span class="fs-4 text-primary">ede</span>
@@ -107,6 +107,12 @@
                                     <span class="nav-main-link-name">All Courses</span>
                                 </a>
                             </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{Request::segment(3)  === "all" ? "active" : ""}}" href="{{route('user.dashboard.course.all.paid')}}">
+                                    <span class="nav-main-link-name">Paid Courses</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -117,16 +123,30 @@
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="#">
-                                    <span class="nav-main-link-name">ALL</span>
+                                <a class="nav-main-link" href="{{route('user.schedule.availability')}}">
+                                    <span class="nav-main-link-name">Set Availability</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="#">
-                                    <span class="nav-main-link-name">Calendar</span>
+                                <a class="nav-main-link" href="{{route('user.schedule.booking.request')}}">
+                                    <span class="nav-main-link-name">All Schedule Booking</span>
                                 </a>
                             </li>
 
+                        </ul>
+                    </li>
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-cogs"></i>
+                            <span class="nav-main-link-name">Preferred Language</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.preferred.language')}}">
+                                    <span class="nav-main-link-name">All Language</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

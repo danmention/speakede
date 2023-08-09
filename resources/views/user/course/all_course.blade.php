@@ -19,6 +19,19 @@
                 </h2>
 
                 <div class="row items-push">
+
+                    @if($course->count() == 0)
+                        <div class="col-md-6 col-xl-5">
+                            <!-- Detailed Project 1 -->
+                            <div class="block block-rounded h-100 mb-0">
+
+                                <div class="block-content text-center">
+                                   <h3>No Course yet!</h3>
+                                </div>
+                            </div>
+                            <!-- END Detailed Project 1 -->
+                        </div>
+                    @endif
                     @foreach($course as $row)
                     <div class="col-md-6 col-xl-3">
                         <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success
