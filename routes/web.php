@@ -46,6 +46,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('booking/lesson', [ 'uses' =>'Home\HomeController@bookLesson', 'as' => 'lesson.book']);
 
     Route::post('user/review/save', ['uses' => 'Home\HomeController@SubmitReviews', 'as' => 'index.user.review.save']);
+    Route::get('search-result', ['uses' => 'Home\HomeController@getSearchResult', 'as' =>'search.now']);
 
     /**
      * GENERAL ACTION ROUTES
@@ -57,7 +58,6 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::post('profile/photo/save', ['uses' => 'Admin\AdminController@UpdateProfilePhoto', 'as' => 'profile.dp.save']);
         Route::any('/change/password/save', ['uses' => 'Admin\AdminController@ChangeUserPassword', 'as' => 'user.password.save']);
     });
-
 
     /**
      * ADMIN DASHBOARD ROUTES
@@ -101,7 +101,6 @@ Route::namespace('App\Http\Controllers')->group(function () {
         });
     });
 
-
     /**
      * USER DASHBOARD ROUTES
      */
@@ -115,6 +114,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
             Route::get('booking/lesson', ['uses' => 'User\UserController@processingVirtualBooking', 'as' => 'user.apply.booking.lesson']);
             Route::get('booking/lesson/pay', ['uses' => 'User\UserController@payVirtualBooking', 'as' => 'user.apply.booking.lesson.pay']);
+            Route::get('booking/group/lesson/pay', ['uses' => 'User\UserController@payVirtualGroupBooking', 'as' => 'user.apply.group.booking.lesson.pay']);
         });
         Route::get('dashboard', ['uses' => 'User\UserController@getIndex', 'as' => 'user.dashboard']);
         Route::get('course', ['uses' => 'User\UserController@getCourse', 'as' => 'user.dashboard.course']);
@@ -136,7 +136,13 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::post('schedule/create-event',[ 'uses' =>'User\ScheduleCalendarController@store', 'as' => 'user.schedule.create']);
         Route::post('schedule/delete-event',[ 'uses' =>'User\ScheduleCalendarController@store', 'as' => 'user.schedule.delete']);
         Route::post('schedule/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingSchedule', 'as' => 'user.schedule.booking']);
+        Route::post('schedule/group/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingGroupSchedule', 'as' => 'user.group.schedule.booking']);
         Route::get('schedule/availability/request',[ 'uses' =>'User\ScheduleCalendarController@getScheduleRequest', 'as' => 'user.schedule.booking.request']);
+
+        Route::get('group/class/create',[ 'uses' =>'User\UserController@createGroupClass', 'as' => 'user.group.class.create']);
+        Route::get('group/class/all',[ 'uses' =>'User\UserController@getGroupClass', 'as' => 'user.group.class.all']);
+        Route::get('group/class/paid',[ 'uses' =>'User\UserController@getGroupClassPaid', 'as' => 'user.group.class.all.paid']);
+        Route::post('group/create/save',[ 'uses' =>'User\UserController@saveGroupClassMeeting', 'as' => 'user.group.class.save']);
 
         Route::get('preferred/language', [ 'uses' =>'User\UserController@preferredLanguage', 'as' => 'user.preferred.language']);
     });

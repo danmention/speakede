@@ -8,13 +8,6 @@
 
     <!-- Page Banner Start -->
     <div class="section page-banner-section" style="background-image: url({{asset("home/assets/images/bg/page-banner.jpg")}});">
-        <div class="shape-1">
-            <img src="{{asset("home/assets/images/shape/shape-7.png")}}" alt="">
-        </div>
-        <div class="shape-2">
-            <img src="{{asset("home/assets/images/shape/shape-1.png")}}" alt="">
-        </div>
-        <div class="shape-3"></div>
         <div class="container">
 
             @foreach($course as $row)
@@ -23,12 +16,19 @@
 
                 <h2 class="title">{{ucwords($row->title)}} </h2>
 
-
                 <div class="course-details-meta">
+                    @foreach($profile as $rw)
                     <div class="meta-action">
-                        <div class="meta-author">
-                            <img src="{{asset("home/assets/images/author-3.jpg")}}" alt="Author">
-                        </div>
+
+                        @if(!empty($rw->profile_image))
+                            <div class="meta-author">
+                                <img src="{{asset('profile/photo/'.$rw->id.'/'.$rw->profile_image)}}" class="img-avatar" alt="author">
+                            </div>
+                        @else
+                            <div class="meta-author">
+                                <img src="{{asset('avater2.png')}}" class="img-avatar" alt="author">
+                            </div>
+                        @endif
                         <div class="meta-name">
                             <p class="name">{{$row->instructor[0]["firstname"].' '.$row->instructor[0]["lastname"]}}</p>
                         </div>
@@ -36,11 +36,12 @@
                     <div class="meta-action">
                         <div class="rating">
                             <div class="rating-star">
-                                <div class="rating-active" style="width: 100%;"></div>
+                                <div class="rating-active" style="width: {{$row->rating}}%;"></div>
                             </div>
-                            <span>(4.5)</span>
+                            <span>({{$row->rating}})</span>
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
             <!-- Course Details Banner Content End -->
@@ -53,10 +54,9 @@
     <div class="section section-padding">
         <div class="container">
 
+            @foreach($course as $row)
             <div class="row justify-content-between">
                 <div class="col-xl-7 col-lg-8">
-
-                    @foreach($course as $row)
                     <!-- Course Details Wrapper Start -->
                     <div class="course-details-wrapper">
 
@@ -102,86 +102,160 @@
                             <!-- Course Accordion End -->
 
 
+                            <!-- Course Instructor Start -->
+                            <div class="course-instructor">
+                                <h3 class="title">Course Instructor</h3>
+
+                                <div class="instructor-profile">
+                                    @foreach($profile as $instructor)
+                                        <div class="profile-images">
+
+                                            @if(!empty($instructor->profile_image))
+                                                <div class="figure mb-3">
+                                                    <img src="{{asset('profile/photo/'.$instructor->id.'/'.$instructor->profile_image)}}" class="img-avatar" alt="author">
+                                                </div>
+                                            @else
+                                                <div class="figure mb-3">
+                                                    <img src="{{asset('avater2.png')}}" class="img-avatar" alt="author">
+                                                </div>
+                                            @endif
+
+                                        </div>
+                                        <div class="profile-content">
+                                            <h5 class="name"><a href="{{url('teacher/'.$instructor->identity)}}">{{$instructor->firstname. ' '.$instructor->lastname}}</a> </h5>
+
+                                            <div class="profile-meta">
+                                                <div class="rating">
+                                                    <div class="rating-star">
+                                                        <div class="rating-active" style="width: {{$row->rating}}%;"></div>
+                                                    </div>
+                                                    <span>({{$row->rating}})</span>
+                                                </div>
+                                                <span class="meta-action"><i class="fa fa-play-circle"></i> 10 Tutorials</span>
+                                                <span class="meta-action"><i class="far fa-user"></i> 134 Students</span>
+                                            </div>
+
+                                            <p>{!! $instructor->about_me !!}</p>
+
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <!-- Course Instructor End -->
+
+                            <h3 class="title">Review</h3>
+                            <!-- Review Item Start -->
+                            <div class="review-items">
+                                <ul>
+                                    @foreach($reviews as $review)
+                                    <li>
+                                        <!-- Single Review Start -->
+                                        <div class="single-review">
+                                            <div class="review-author">
+
+                                                @if(!empty($review->profile_image))
+                                                    <div class="figure mb-3">
+                                                        <img src="{{asset('profile/photo/'.$review->user_id.'/'.$review->profile_image)}}" alt="author">
+                                                    </div>
+                                                @else
+                                                    <div class="figure mb-3">
+                                                        <img src="{{asset('avater2.png')}}" alt="author">
+                                                    </div>
+                                                @endif
+
+                                            </div>
+                                            <div class="review-content">
+                                                <div class="review-top">
+                                                    <h4 class="name">{{$review->fullname}}</h4>
+                                                    <div class="rating-star">
+                                                        <div class="rating-active" style="width: {{$review->rating * 20}}%;"></div>
+                                                    </div>
+                                                    <span class="date">{{$review->created_at}}</span>
+                                                </div>
+                                                <p>{{$review->review}}.</p>
+                                            </div>
+                                        </div>
+                                        <!-- Single Review End -->
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <!-- Review Item End -->
+
                             <br />
                             @if(isset(Auth::user()->id) && (Auth::user()->is_admin == 0))
                                 <div class="contact-form-wrap">
-                                    <h3>Leave A Review</h3>
+                                    <h3>Leave A Review </h3>
+
+                                        @if(Session::has('message'))
+                                            <div class="notification-alert-danger alert alert-danger alert-dismissible fade show" role="alert">
+                                                {{ Session::get('message') }}
+                                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                        @endif
 
                                     <form action="{{route('index.user.review.save')}}" method="POST" class="candidates-leave-comment">
                                         {{ csrf_field() }}
 
-
-
                                         <div class="rating">
-                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;">
+                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;" required="required">
                                             <div class="rating-star">
                                                 <div class="rating-active" style="width: 100%;"></div>
                                             </div>
                                         </div>
 
                                         <div class="rating">
-                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;">
+                                            <input name="rating" class="stars" type="radio" value="4" style="margin-right: 5px;" required="required">
                                             <div class="rating-star">
                                                 <div class="rating-active" style="width: 80%;"></div>
                                             </div>
                                         </div>
 
                                         <div class="rating">
-                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;">
+                                            <input name="rating" class="stars" type="radio" value="3" style="margin-right: 5px;" required="required">
                                             <div class="rating-star">
                                                 <div class="rating-active" style="width: 60%;"></div>
                                             </div>
                                         </div>
 
                                         <div class="rating">
-                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;">
+                                            <input name="rating" class="stars" type="radio" value="2" style="margin-right: 5px;" required="required">
                                             <div class="rating-star">
                                                 <div class="rating-active" style="width: 40%;"></div>
                                             </div>
                                         </div>
 
                                         <div class="rating">
-                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;">
+                                            <input name="rating" class="stars" type="radio" value="1" style="margin-right: 5px;" required="required">
                                             <div class="rating-star">
                                                 <div class="rating-active" style="width: 20%;"></div>
                                             </div>
                                         </div>
 
                                         <div class="rating">
-                                            <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;">
+                                            <input name="rating" class="stars" type="radio" value="0" style="margin-right: 5px;" required="required">
                                             <div class="rating-star">
                                                 <div class="rating-active" style="width: 10%;"></div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="single-form">
-                                                    <input type="text" class="form-control" name="fullname" placeholder="Your Name">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="single-form">
-                                                    <input type="text" class="form-control" name="email" placeholder="Your Email">
-                                                </div>
-                                            </div>
 
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="single-form">
-                                                    <textarea name="review" class="form-control" placeholder="Your Review"></textarea>
+                                                    <textarea name="review" class="form-control" placeholder="Your Review" required="required"></textarea>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12 col-md-12">
-                                                <p class="form-cookies-consent">
-                                                    <input type="checkbox" id="test1">
-                                                    <label for="test1">I Accept All <a href="#" target="_blank">Terms & Conditions</a></label>
-                                                </p>
-                                            </div>
 
                                             <input type="hidden" name="rating_pro" value="rating">
-                                            <input type="hidden" value="{{\Illuminate\Support\Facades\Request::segment(2)}}" name="user_id"/>
+                                            <input type="hidden" value="{{Auth::user()->id}}" name="user_id"/>
+                                            <input type="hidden" value="{{Auth::user()->email}}" name="email"/>
+                                            <input type="hidden" value="{{Auth::user()->firstname.' '.Auth::user()->lastname}}" name="fullname"/>
+                                            <input type="hidden" value="{{$row->instructor[0]->id}}" name="instructor_id"/>
+                                            <input type="hidden" value="{{$row->id}}" name="course_id"/>
 
 
                                             <div class="form-btn">
@@ -190,63 +264,21 @@
 
                                         </div>
                                     </form>
+
                                 </div>
                             @endif
 
                         </div>
                         <!-- Course Lessons End -->
 
-                        <!-- Course Instructor Start -->
-                        <div class="course-instructor">
-                            <h3 class="title">Course Instructor</h3>
-
-                            <div class="instructor-profile">
-
-                                @foreach($profile as $row)
-                                <div class="profile-images">
-
-                                    @if(!empty($row->profile_image))
-                                        <div class="figure mb-3">
-                                            <img src="{{asset('profile/photo/'.$row->id.'/'.$row->profile_image)}}" class="img-avatar" alt="author">
-                                        </div>
-                                    @else
-                                        <div class="figure mb-3">
-                                            <img src="{{asset('avater2.png')}}" class="img-avatar" alt="author">
-                                        </div>
-                                    @endif
-
-                                </div>
-                                <div class="profile-content">
-                                    <h5 class="name"><a href="{{url('teacher/'.$row->identity)}}">{{$row->firstname. ' '.$row->lastname}}</a> </h5>
-
-                                    <div class="profile-meta">
-                                        <div class="rating">
-                                            <div class="rating-star">
-                                                <div class="rating-active" style="width: 100%;"></div>
-                                            </div>
-                                            <span>(4.6)</span>
-                                        </div>
-                                        <span class="meta-action"><i class="fa fa-play-circle"></i> 10 Tutorials</span>
-                                        <span class="meta-action"><i class="far fa-user"></i> 134 Students</span>
-                                    </div>
-
-                                    <p>{!! $row->about_me !!}</p>
-
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <!-- Course Instructor End -->
 
                     </div>
                     <!-- Course Details Wrapper End -->
-                    @endforeach
 
                 </div>
 
                 <div class="col-lg-4">
 
-                    @foreach($course as $row)
                     <!-- Sidebar Wrapper Start -->
                     <div class="sidebar-details-wrap">
 
@@ -297,10 +329,10 @@
 
                     </div>
                     <!-- Sidebar Wrapper End -->
-                    @endforeach
                 </div>
             </div>
 
+            @endforeach
 
         </div>
     </div>

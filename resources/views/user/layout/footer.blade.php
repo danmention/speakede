@@ -17,8 +17,6 @@
 
 
 <script src="{{asset("admin/assets/js/codebase.app.min.js")}}"></script>
-
-
 <!-- Page JS Plugins -->
 <script src="{{asset("admin/assets/js/plugins/sweetalert2/sweetalert2.min.js")}}"></script>
 

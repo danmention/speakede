@@ -10,10 +10,10 @@
                     <div class="col-lg-12">
                         <!-- Page Banner Content Start -->
                         <div class="page-banner text-center">
-                            <h2 class="title">Course Sidebar</h2>
+                            <h2 class="title">Search</h2>
                             <ul class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Course Sidebar</li>
+                                <li class="breadcrumb-item active" aria-current="page">Search</li>
                             </ul>
                         </div>
                         <!-- Page Banner Content End -->
@@ -162,7 +162,7 @@
                         <!-- Course Top Bar Start -->
                         <div class="course-top-bar">
                             <div class="course-top-text">
-                                <p>We found <span>78</span> Courses For You</p>
+                                <p>We found <span>{{$course->count()}}</span> Courses For You</p>
                             </div>
                             <div class="course-top-inner">
                                 <div class="course-top-menu">
@@ -196,9 +196,17 @@
                             </div>
                         </div>
 
-
                         <!-- Page Pagination Start -->
-                        {{ $course->links('home.util.pagination') }}
+                        <div class="upstudy-pagination">
+                            <ul class="pagination justify-content-center">
+                                <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                                <li><a class="active" href="course-grid.html">1</a></li>
+                                <li><a href="course-grid.html">2</a></li>
+                                <li><a href="course-grid.html">3</a></li>
+                                <li><span>...</span></li>
+                                <li><a href="course-grid.html"><i class="fa fa-angle-right"></i></a></li>
+                            </ul>
+                        </div>
                         <!-- Page Pagination End -->
 
                     </div>

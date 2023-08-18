@@ -160,6 +160,17 @@
 
         var SITE_URL = "{{ url('/') }}";
 
+        // Return today's date and time
+        var currentTime = new Date()
+
+        // returns the month (from 0 to 11)
+        var month = currentTime.getMonth() + 1
+
+        // returns the day of the month (from 1 to 31)
+        var day = currentTime.getDate()
+
+        var full_year = currentTime.getFullYear();
+
         var calendar = $('#calendar').fullCalendar({
             editable: true,
             timeZone: 'UTC',
@@ -193,8 +204,8 @@
                 });
             },
             validRange: {
-                start: "2023-08-01",
-                end: "2023-08-10",
+                start: full_year+"-"+month+"-"+day,
+                end: full_year+"-12-30",
             },
             selectable: true,
             selectHelper: true,
@@ -212,6 +223,19 @@
             }
         });
     });
+
+
+    $(document).ready(function(){
+        $("#group_class").click(function(event){
+            $("#private_class_view").hide();
+            $("#group_class_view").show();
+        });
+        $("#private_class").click(function(event){
+            $("#private_class_view").show();
+            $("#group_class_view").hide();
+        });
+    });
+
 </script>
 <script src="{{asset("home/assets/js/vendor/modernizr-3.11.2.min.js")}}"></script>
 

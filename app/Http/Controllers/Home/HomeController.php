@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CustomerRating;
+use App\Models\GroupClass;
+use App\Models\GroupClassEnrollment;
 use App\Models\Lesson;
 use App\Models\PreferredLanguage;
 use App\Models\ScheduleEvent;
@@ -21,13 +23,17 @@ class HomeController extends Controller
 {
     public function getIndex()
     {
-
-
         $lang = Category::query()->where('class_name','language')->get();
         $lang_popular = Category::query()->where('class_name','language')->where('popular_status', 1)->get();
         $course = Course::query()->orderBy('id','desc')->get();
         $this->moreCourseInformation($course);
-        return view('home.index', compact('lang','course','lang_popular'));
+        $expert_teachers = User::query()->where('status', 1)->where('is_admin',0)->limit(4)->get();
+
+        foreach ($expert_teachers as $row){
+           $lang_ = PreferredLanguage::query()->where('user_id', $row->id)->limit(1)->orderBy('id','DESC')->value('id');
+           $row["lang"] = Category::query()->where('id', $lang_)->value('title') ?? "English";
+        }
+        return view('home.index', compact('lang','course','lang_popular','expert_teachers'));
     }
 
 
@@ -40,7 +46,6 @@ class HomeController extends Controller
     {
         return view('home.register');
     }
-
 
 
     /**
@@ -132,12 +137,20 @@ class HomeController extends Controller
 
     public function getTeacherProfile($id)
     {
-        $profile = User::query()->where('identity', $id)->get();
+        $identity = $id;
+        $profile = User::query()->where('identity', $identity)->get();
 
         $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
             ->where('preferred_languages.user_id', $profile[0]->id)->get(['categories.*']);
+        $private_class = GroupClass::query()->where('status',1)->where('user_id', $profile[0]->id)->get();
+        foreach ($private_class as $row){
+            $paid_slot =  GroupClassEnrollment::query()->where('group_class_id', $row->id)->count();
+            $slot = $row->slot;
+            $available = $slot - $paid_slot;
+            $row["available_slots"] = $available;
+        }
 
-        return view('home.teacher_profile', compact('profile','preferred_lang'));
+        return view('home.teacher_profile', compact('profile','preferred_lang','private_class','identity'));
     }
 
     /**
@@ -153,7 +166,7 @@ class HomeController extends Controller
     }
 
     public function getAllCourse(){
-        $course = Course::query()->orderBy('id','DESC')->get();
+        $course = Course::query()->orderBy('id','DESC')->paginate(15);
         $this->moreCourseInformation($course);
         return view('home.all-course', compact('course'));
     }
@@ -163,11 +176,15 @@ class HomeController extends Controller
         foreach ($course as $row){
             $row["instructor"] = User::query()->where('id', $row->user_id)->get();
             $row["lesson_total"] = Lesson::query()->where('course_id', $row->id)->count();
+            $row['rating'] = CustomerRating::where('course_id', $row->id)->count();
         }
         $this->moreCourseInformation($course);
         $lessons = Lesson::query()->where('course_id', $course[0]['id'])->groupBy('group_id')->get();
         $profile = User::query()->where('id', $course[0]["user_id"])->get();
         $reviews = CustomerRating::where('course_id', $course[0]["id"])->get();
+        foreach ($reviews as $row){
+            $row["profile_image"] = User::query()->where('id', $row->user_id)->value("profile_image");
+        }
         return view('home.course_details', compact('course','lessons','profile','reviews'));
     }
 
@@ -217,10 +234,12 @@ class HomeController extends Controller
         if($request->rating_pro):
             $data = CommonHelpers::StoreReviews($request);
             if($data->id){
-                return redirect()->back()->with('response','Rating was successful');
+                Session::flash('message', ' Review added successful');
+                return redirect()->back();
             }
         endif;
-        return redirect()->back()->with('error','something went wrong');
+        Session::flash('message', ' something went wrong');
+        return redirect()->back();
     }
 
 
@@ -237,5 +256,27 @@ class HomeController extends Controller
     }
 
 
+    /**
+     * @param $user_id
+     * @return int
+     */
+    public function getRating($user_id):int {
+
+        $numbers_of_rating =  CustomerRating::where('user_id',$user_id)->sum('rating');
+        $number_of_people_rating = CustomerRating::where('user_id',$user_id)->count();
+
+        if($number_of_people_rating == 0){
+            $final_rating = 0;
+        }else {
+            $final_rating = $numbers_of_rating / $number_of_people_rating;
+        }
+       return $final_rating;
+    }
+
+
+    public function getSearchResult(Request $request){
+        $course = Course::select('*')->where('title','LIKE','%'.$request->keyword.'%')->where('status', 1)->paginate(40);
+        return view('home.search', compact('course'));
+    }
 
 }

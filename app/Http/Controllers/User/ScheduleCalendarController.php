@@ -8,11 +8,13 @@ use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\CommunicationPayment;
 use App\Models\CoursePayment;
+use App\Models\GroupClassEnrollment;
 use App\Models\PaymentTransaction;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Services\zoom\ZoomServiceImpl;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -62,7 +64,7 @@ class ScheduleCalendarController extends Controller
                 $event->end = $request->end;
 
                 if($request->user_id){
-                    $user_id = User::query()->where('identity',request->user_id )->value('id');
+                    $user_id = User::query()->where('identity',$request->user_id )->value('id');
                     $event->instructor_user_id = $user_id;
                     $event->student_user_id = Auth::user()->id;
                     $event->type = ScheduleTypes::BOOKED;
@@ -94,9 +96,9 @@ class ScheduleCalendarController extends Controller
     }
 
 
-    public function bookingSchedule(Request $request)
+    public function bookingSchedule(Request $request): ?RedirectResponse
     {
-       $zoom_response =  $this->zoomServiceImpl->bookMeeting();
+       $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
         $ref = CommonHelpers::code_ref(10);
         switch ($request->type) {
             case 'add':
@@ -154,5 +156,37 @@ class ScheduleCalendarController extends Controller
             $row["zoom_response"] = json_decode($row->zoom_response, true);
         }
         return view('user.booked-schedule', compact('data'));
+    }
+
+
+    public function bookingGroupSchedule(Request $request): ?RedirectResponse
+    {
+        $ref = CommonHelpers::code_ref(10);
+        switch ($request->type) {
+            case 'add':
+                $event = new GroupClassEnrollment();
+                $event->instructor_id = $request->teacher_id;
+                $event->user_id = Auth::user()->id;
+                $event->reference_no = $ref;
+                $event->group_class_id = $request->group_class_id;
+                $event->status = 1;
+                $event->save();
+
+                $data = new PaymentTransaction();
+                $data->user_id = Auth::user()->id;
+                $data->amount =  $request->amount;
+                $data->ref_no = $ref;
+                $data->description = "Payment for Group zoom online meeting";
+                $data->extra = null;
+                $data->type = PaymentType::DEBIT;
+                $data->status = 1;
+                $data->save();
+
+                Session::flash('message', "Payment successful");
+                return redirect()->route('user.dashboard');
+            default:
+                break;
+        }
+        return null;
     }
 }

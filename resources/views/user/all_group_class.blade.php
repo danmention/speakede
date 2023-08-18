@@ -4,16 +4,10 @@
 
     <main>
         <div class="content">
-
-            @if(Session::has('message'))
-                <p class="alert alert-success">{{ Session::get('message') }}</p>
-            @endif
-
-
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        My Language
+                        All Group Class
                     </h3>
                 </div>
                 <div class="block-content">
@@ -22,32 +16,33 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Action</th>
+                                <th>Title</th>
+                                <th>No of Slots</th>
+                                <th>Available Slots</th>
+                                <th>Description</th>
+                                <th>Meeting Time</th>
+                                <th>Meeting Duration</th>
+
+                                <th>Meeting Link</th>
                             </tr>
                             </thead>
                             <tbody>
 
                             <?php $x = 1?>
-                            @foreach($preferred_lang as $row)
+                            @foreach($schedule as $row)
                                 <tr>
                                     <td>{{$x++}}</td>
-                                    <td> {{$row->title}}</td>
-                                    <td>
-                                        <div class="input-group">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" placeholder="Price"
-                                                       value=" {{$row->price}}">
-                                                <label for="example-group3-floating2">price</label>
-                                            </div>
-                                            <button type="button" class="btn btn-secondary">Update</button>
-                                        </div>
-
+                                    <td>{{$row->title}}</td>
+                                    <td>{{$row->slot}}</td>
+                                    <td>{{$row->slot}}</td>
+                                    <td>{{$row->zoom_response["agenda"]}}</td>
+                                    <td>{{$row->zoom_response["start_time"]}}</td>
+                                    <td>{{$row->zoom_response["duration"]}} mins</td>
+                                    <td><a href="{{$row->zoom_response["start_url"]}}" target="_blank">Meeting Link</a>
                                     </td>
-                                    <td></td>
                                 </tr>
                             @endforeach
+
                             </tbody>
                         </table>
                     </div>

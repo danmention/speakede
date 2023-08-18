@@ -10,7 +10,7 @@
               <span class="smini-visible fw-bold tracking-wide fs-lg">
                 c<span class="text-primary">b</span>
               </span>
-                <a class="link-fx fw-bold tracking-wide mx-auto" href="{{route('user.dashboard')}}">
+                <a class="link-fx fw-bold tracking-wide mx-auto" href="{{url('/')}}">
                 <span class="smini-hidden">
                     <img src="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}" alt="logo">
                   <span class="fs-4 text-dual">Speak</span><span class="fs-4 text-primary">ede</span>
@@ -139,12 +139,39 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-cogs"></i>
-                            <span class="nav-main-link-name">Preferred Language</span>
+                            <span class="nav-main-link-name">My Language</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.preferred.language')}}">
                                     <span class="nav-main-link-name">All Language</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">Group Class</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.group.class.create')}}">
+                                    <span class="nav-main-link-name">Create</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.group.class.all')}}">
+                                    <span class="nav-main-link-name">All</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.group.class.all.paid')}}">
+                                    <span class="nav-main-link-name">All Paid</span>
                                 </a>
                             </li>
                         </ul>

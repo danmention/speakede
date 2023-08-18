@@ -6,18 +6,16 @@ use App\Helpers\CommonHelpers;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursePayment;
-use App\Models\CustomerRating;
+use App\Models\GroupClass;
 use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
 use App\Models\ScheduleEvent;
 use App\Models\User;
-use App\Models\WalletFunding;
 use App\Services\zoom\ZoomServiceImpl;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -25,6 +23,16 @@ use Illuminate\Support\Facades\Session;
 
 class UserController
 {
+
+    private $zoomServiceImpl;
+
+    /**
+     * @param ZoomServiceImpl $zoomServiceImpl
+     */
+    public function __construct(ZoomServiceImpl $zoomServiceImpl)
+    {
+        $this->zoomServiceImpl = $zoomServiceImpl;
+    }
 
 
     /**
@@ -345,60 +353,85 @@ class UserController
 
     public function preferredLanguage(){
 
-        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
-            ->where('preferred_languages.user_id',Auth::user()->id)->get(['categories.*','preferred_languages.price']);
+        $preferred_lang = $this->getPreferred_lang();
         return view('user.preferred-language', compact('preferred_lang'));
     }
 
 
-    public function RatingByArtisan(Request $request): JsonResponse
-    {
-        $id = $request['id'];
-        $rating = CustomerRating::where('artisanID', $id)->get();
-        return $this->sendSuccess($rating);
-
+    public function createGroupClass(){
+        $preferred_lang = $this->getPreferred_lang();
+        return view('user.create_group_class', compact('preferred_lang'));
     }
 
-    public function CreateRating(Request $request): JsonResponse
+    public function saveGroupClassMeeting(Request $request): RedirectResponse
     {
-        $data = CommonHelpers::StoreReviews($request);
-        return $this->sendSuccess($data);
 
+        $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
+
+        $data = new GroupClass();
+        $data->user_id = Auth::user()->id;
+        $data->title = $request->title;
+        $data->price = $request->price;
+        $data->description = $request->description;
+        $data->language_id = $request->language;
+        $data->slot = $request->slot;
+        $data->start_date = $request->start_date;
+        $data->duration_in_mins = $request->duration;
+        $data->url = CommonHelpers::create_unique_slug($request->title,"group_classes","url");
+        $data->zoom_response = json_encode($zoom_response);
+        $data->save();
+
+        Session::flash('message', "Group Class created");
+        return redirect()->route('user.dashboard');
     }
 
-    public function CreateReview(Request $request): JsonResponse
-    {
-        try{
-            $data = CommonHelpers::StoreReviews($request);
-            return $this->sendSuccess($data);
-        } catch (\Exception $exception) {
+    public function getGroupClass(){
 
-            return $this->errorResponse($exception->getMessage(), "error occurred");
+        $user_id = Auth::user()->id;
+        $schedule = GroupClass::join('categories', 'categories.id', '=', 'group_classes.language_id')
+            ->where('group_classes.user_id',$user_id)->get(['group_classes.*']);
+        foreach ($schedule as $row){
+            $row["zoom_response"] = json_decode($row->zoom_response, true);
         }
-
-
+        return view('user.all_group_class', compact('schedule'));
     }
 
-    public function AllReviews(): JsonResponse
+
+    public function getGroupClassPaid(){
+
+        $user_id = Auth::user()->id;
+        $schedule = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
+            ->where('group_class_enrollments.user_id',$user_id)->get(['group_classes.*']);
+        foreach ($schedule as $row){
+            $row["zoom_response"] = json_decode($row->zoom_response, true);
+        }
+        return view('user.all_group_class', compact('schedule'));
+    }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function payVirtualGroupBooking(Request $request)
     {
-        $reviews = CustomerRating::all();
-        return $this->sendSuccess($reviews);
+        $wallet = $this->accountBalance();
+        $teacher_id = $request->teacher_id;
+        $slot = $request->slot;
+        $slot_id = $request->id;
+        $instructor = User::query()->where('identity', $teacher_id)->get();
+        $schedule_info =  GroupClass::join('categories', 'categories.id', '=', 'group_classes.language_id')
+            ->where('group_classes.id',$slot_id)->get(['group_classes.*']);
 
+        return view('user.pay-group-online-meeting', compact('instructor','wallet','schedule_info','teacher_id','slot','slot_id'));
     }
 
-    public function AllReviewsByUser(Request  $request): JsonResponse
+    /**
+     * @return mixed
+     */
+    private function getPreferred_lang()
     {
-        $reviews = CustomerRating::where('user_id',$request->identity)->get();
-        return $this->sendSuccess($reviews);
-
-    }
-
-    public function DeleteReview(Request $request){
-
-        $data = CustomerRating::find($request->id);
-        $data->delete();
-
-        return $this->sendSuccess($data);
+        return PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.user_id', Auth::user()->id)->get(['categories.*', 'preferred_languages.price']);
     }
 
 

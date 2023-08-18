@@ -55,7 +55,7 @@ class ZoomMeetingController extends Controller
             'topic' => $data['topic'],
             'type' => self::MEETING_TYPE_SCHEDULE,
             'start_time' => CommonHelpers::toZoomTimeFormat($data['start_time']),
-            'duration' => 30,
+            'duration' => (new CommonHelpers)->getCourseTimeDuration($data['start_time'], $data['start_time']) ?? 30,
             'agenda' => $data['agenda'],
             'settings' => [
                 'host_video' => false,

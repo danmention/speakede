@@ -34,7 +34,7 @@ class CommonHelpers
      * @param $value
      * @return array|string|string[]|null
      */
-    public static function create_unique_slug($string, $table,$field,$key=NULL,$value=NULL): array|string|null
+    public static function create_unique_slug($string, $table,$field,$key=NULL,$value=NULL)
     {
 
         $slug = strtolower(self::str_slug($string));
@@ -170,25 +170,11 @@ class CommonHelpers
         $data->fullname = $request->fullname;
         $data->email    = $request->email;
         $data->review   = $request->review;
-        $data->user_id  = $request->identity ?? null;
+        $data->user_id  = $request->user_id ?? null;
+        $data->instructor_id = $request->instructor_id ?? null;
+        $data->course_id = $request->course_id;
         $data->rating   = $request->rating ?? 5;
         $data->save();
-
-
-        // updating user table
-        $numbers_of_rating =  CustomerRating::where('user_id',$request->identity)->sum('rating');
-        $number_of_people_rating = CustomerRating::where('user_id',$request->identity)->count();
-
-        $user_ids = User::where('identity',$request->identity)->value('id');
-        $data_ = User::find($user_ids);
-
-        if($number_of_people_rating == 0){
-            $data_->rating = 0;
-        }else {
-            $final_rating = $numbers_of_rating / $number_of_people_rating;
-            $data_->rating =  $data_->rating + $final_rating;
-        }
-        $data_->update();
         return $data;
     }
 

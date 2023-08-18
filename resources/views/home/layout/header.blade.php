@@ -61,8 +61,6 @@
                             <ul class="main-menu">
                                 <li><a href="#">Find a teacher</a></li>
                                 <li><a href="{{route('index.all.course')}}">All Course</a></li>
-                                <li><a href="#">Group Class</a></li>
-                                <li><a href="#">Community</a></li>
                                 <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                             </ul>
                         </div>
@@ -74,8 +72,9 @@
                     <!-- Header Meta Start -->
                     <div class="header-meta">
                         <div class="header-search d-none d-xl-block">
-                            <form action="#">
-                                <input type="text" placeholder="Search Courses">
+                            <form  method="get" action="{{ route('search.now') }}">
+                                {{ csrf_field() }}
+                                <input type="text" placeholder="Search Courses" name="keyword">
                                 <button><i class="flaticon-loupe"></i></button>
                             </form>
                         </div>
@@ -128,8 +127,6 @@
             <div class="offcanvas-menu">
                 <ul class="main-menu">
                     <li><a href="#">Find a teacher</a></li>
-                    <li><a href="#">Group Class</a></li>
-                    <li><a href="#">Community</a></li>
                     <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                     <li><a href="{{route('index.login')}}">Login</a></li>
                     <li><a href="{{route('index.register')}}">Register</a></li>

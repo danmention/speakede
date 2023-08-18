@@ -19,6 +19,7 @@ class CreateCustomerRatingsTable extends Migration
             $table->longText('email')->nullable();
             $table->longText('review')->nullable();
             $table->string('user_id')->nullable();
+            $table->string('instructor_id')->nullable();
             $table->string('course_id')->nullable();
             $table->string('rating')->nullable();
             $table->timestamps();

@@ -7714,7 +7714,7 @@ textarea:-ms-input-placeholder {
 /*----------------------------------------*/
 .page-banner-section {
   padding-top: 90px;
-  min-height: 500px;
+  min-height: 300px;
   display: flex;
   align-items: center;
   background-repeat: no-repeat;
@@ -11168,3 +11168,103 @@ form .rating span {
     color: #1cb098;
     white-space: nowrap;
 }
+
+
+/** FOR INPUT SELECT **/
+.form-block {
+    position: relative;
+    padding: 0;
+    z-index: 1;
+}
+
+.form-check {
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5em;
+    margin-bottom: 0.125rem;
+}
+
+.form-check-input:checked[type=radio] {
+    background-image: url("");
+}
+.form-block .form-check-input {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+}
+.form-check-input:checked {
+    background-color: #0284c7;
+    border-color: #0284c7;
+}
+.form-check-input[type=radio] {
+    border-radius: 50%;
+}
+.form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+}
+.form-check-input {
+    width: 1em;
+    height: 1em;
+    margin-top: 0.25em;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid #d1d7e1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+}
+.form-block .form-check-input:checked~.form-check-label {
+    border-color: #0284c7;
+}
+
+.form-block .form-check-label {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e4e7ed;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.form-block .form-check-input:checked~.form-check-label::before {
+    display: block;
+}
+.form-block .form-check-label::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: none;
+    line-height: 1.5rem;
+    color: #fff;
+    font-size: .625rem;
+    text-align: center;
+    background-color: #0284c7;
+    border-bottom-left-radius: 0.25rem;
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", serif;
+    font-weight: 900;
+    content: "\f00c";
+    z-index: 1;
+}
+
+
+.group_class {
+    background: #ffffff;
+    box-shadow: 0 33px 73px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    left: -13%;
+    bottom: 30%;
+    padding: 45px 30px;
+    padding-top: 35px;
+}
+
+
+/** END OF INPUT SELECT **/

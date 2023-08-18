@@ -5,6 +5,7 @@ namespace App\Services\zoom;
 use App\Enums\HttpMethod;
 use App\Helpers\CommonHelpers;
 use App\Services\AbstractCallClient;
+use Illuminate\Http\Request;
 
 class ZoomServiceImpl extends AbstractCallClient
 {
@@ -31,7 +32,7 @@ class ZoomServiceImpl extends AbstractCallClient
 
     }
 
-    public function bookMeeting(): array
+    public function bookMeeting(Request $request): array
     {
         $url = "https://zoom.us/v2/users/me/meetings";
         $accessToken = $this->getAccessToken();
@@ -40,10 +41,10 @@ class ZoomServiceImpl extends AbstractCallClient
             "Authorization" => "Bearer ".$accessToken["access_token"]
         ]);
           $request = array(
-                'topic' => "test Meeting",
+                'topic' =>  $request->title ?? "test Meeting",
                 'type' => self::MEETING_TYPE_SCHEDULE,
-                'start_time' => CommonHelpers::toZoomTimeFormat("2023-08-05 14:05:45"),
-                'duration' => 30,
+                'start_time' => CommonHelpers::toZoomTimeFormat($request->start ?? "2023-08-20 14:05:45"),
+                'duration' =>  (new CommonHelpers)->getCourseTimeDuration($request->start, $request->end) ?? 30,
                 'agenda' => "My meeting",
                 'settings' => [
                     'host_video' => false,

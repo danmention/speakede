@@ -24,9 +24,16 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset("home/img/cropped-speakede-icon-black-1-180x180.png")}}">
     <!-- END Icons -->
 
+    <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css")}}">
+    <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css")}}">
+    <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css")}}">
+
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet"  href="{{asset("admin/assets/js/plugins/sweetalert2/sweetalert2.min.css")}}">
     <link rel="stylesheet" id="css-main" href="{{asset("admin/assets/css/codebase.min.css")}}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+
 
 
 
