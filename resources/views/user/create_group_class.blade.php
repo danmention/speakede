@@ -24,7 +24,7 @@
 
                 <div class="block block-rounded h-100 mb-0">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Create Group Class</h3>
+                        <h3 class="block-title">Create Group Meeting</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>

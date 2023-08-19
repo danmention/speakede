@@ -10,10 +10,10 @@
                     <div class="col-lg-12">
                         <!-- Page Banner Content Start -->
                         <div class="page-banner text-center">
-                            <h2 class="title">Course Sidebar</h2>
+                            <h2 class="title">Courses</h2>
                             <ul class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Course Sidebar</li>
+                                <li class="breadcrumb-item active" aria-current="page">Courses</li>
                             </ul>
                         </div>
                         <!-- Page Banner Content End -->
@@ -54,28 +54,6 @@
                             </div>
                             <!-- Sidebar Wrapper End -->
 
-                            <!-- Sidebar Wrapper Start -->
-                            <div class="sidebar-widget-02">
-                                <h3 class="widget-title">Categories</h3>
-
-                                <div class="widget-checkbox">
-                                    <ul class="checkbox-list">
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox3">
-                                            <label class="form-check-label" for="checkbox3">Technology (11)</label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox4">
-                                            <label class="form-check-label" for="checkbox4">Business (07)</label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox5">
-                                            <label class="form-check-label" for="checkbox5">Development (11)</label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Sidebar Wrapper End -->
 
                             <!-- Sidebar Wrapper Start -->
                             <div class="sidebar-widget-02">
@@ -129,25 +107,6 @@
                                                     <div class="rating-on" style="width: 40%;"></div>
                                                 </div> (2)
                                             </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Sidebar Wrapper End -->
-
-                            <!-- Sidebar Wrapper Start -->
-                            <div class="sidebar-widget-02">
-                                <h3 class="widget-title">Lavel</h3>
-
-                                <div class="widget-checkbox">
-                                    <ul class="checkbox-list">
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox12">
-                                            <label class="form-check-label" for="checkbox12">Beginner (11)</label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox13">
-                                            <label class="form-check-label" for="checkbox13">Advanced (07)</label>
                                         </li>
                                     </ul>
                                 </div>

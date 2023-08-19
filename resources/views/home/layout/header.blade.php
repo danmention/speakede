@@ -59,7 +59,7 @@
                         <!--  Header Menu Start  -->
                         <div class="header-menu d-none d-lg-block">
                             <ul class="main-menu">
-                                <li><a href="#">Find a teacher</a></li>
+                                <li><a href="{{route('index.find.teacher')}}">Find a teacher</a></li>
                                 <li><a href="{{route('index.all.course')}}">All Course</a></li>
                                 <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                             </ul>
@@ -126,7 +126,7 @@
         <div class="offcanvas-body">
             <div class="offcanvas-menu">
                 <ul class="main-menu">
-                    <li><a href="#">Find a teacher</a></li>
+                    <li><a href="{{route('index.find.teacher')}}">Find a teacher</a></li>
                     <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                     <li><a href="{{route('index.login')}}">Login</a></li>
                     <li><a href="{{route('index.register')}}">Register</a></li>

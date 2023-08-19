@@ -20,13 +20,13 @@
                 <!-- Row #1 -->
                 <div class="col-6 col-xl-3">
                     <a class="block block-rounded block-link-shadow text-end" href="{{route('user.dashboard.course')}}">
-                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
+                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-secondary">
                             <div class="d-none d-sm-block">
-                                <i class="fa fa-book fa-2x opacity-25"></i>
+                                <i class="fa fa-book fa-2x text-white"></i>
                             </div>
                             <div>
-                                <div class="fs-3 fw-semibold">{{$course}}</div>
-                                <div class="fs-sm fw-semibold text-uppercase text-muted">Created Course</div>
+                                <div class="fs-3 fw-semibold text-white">{{$course}}</div>
+                                <div class="fs-sm fw-semibold text-uppercase text-muted text-white">Created Course</div>
                             </div>
                         </div>
                     </a>
@@ -34,18 +34,18 @@
 
                     <div class="col-6 col-xl-3">
                         <a class="block block-rounded block-link-shadow text-end" href="{{route('user.dashboard.course')}}">
-                            <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
+                            <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-info">
                                 <div class="d-none d-sm-block">
-                                    <i class="fa fa-book fa-2x opacity-25"></i>
+                                    <i class="fa fa-book fa-2x text-white"></i>
                                 </div>
                                 <div>
-                                    <div class="fs-3 fw-semibold">{{$paidCourse}}</div>
-                                    <div class="fs-sm fw-semibold text-uppercase text-muted">Paid Course</div>
+                                    <div class="fs-3 fw-semibold text-white">{{$paidCourse}}</div>
+                                    <div class="fs-sm fw-semibold text-uppercase text-muted text-white">Paid Course</div>
                                 </div>
                             </div>
                         </a>
                     </div>
-                <div class="col-6 col-xl-3">
+                <div class="col-6 col-xl-6">
                     <a class="block block-rounded block-link-shadow text-end" href="{{route('user.dashboard.wallet')}}">
                         <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
                             <div class="d-none d-sm-block">

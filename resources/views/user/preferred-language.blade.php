@@ -13,7 +13,7 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        My Language
+                        Update Language Price
                     </h3>
                 </div>
                 <div class="block-content">
@@ -24,7 +24,6 @@
                                 <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,17 +34,19 @@
                                     <td>{{$x++}}</td>
                                     <td> {{$row->title}}</td>
                                     <td>
-                                        <div class="input-group">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" placeholder="Price"
-                                                       value=" {{$row->price}}">
-                                                <label for="example-group3-floating2">price</label>
+                                        <form role="form" method="post" class="validate" action="{{ route('update.user.preferred.language') }}">
+                                            <div class="input-group">
+                                                    {{ csrf_field() }}
+                                                    <div class="form-floating">
+                                                        <input type="hidden"  value="{{$row->id}}" name="id">
+                                                        <input type="text" class="form-control" placeholder="Price" value="{{$row->price}}" name="price">
+                                                        <label for="example-group3-floating2">price</label>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-secondary">Update</button>
                                             </div>
-                                            <button type="button" class="btn btn-secondary">Update</button>
-                                        </div>
+                                        </form>
 
                                     </td>
-                                    <td></td>
                                 </tr>
                             @endforeach
                             </tbody>

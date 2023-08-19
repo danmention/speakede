@@ -8,7 +8,7 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        Schedule Meetings
+                        All Booked Private Meeting
                     </h3>
                 </div>
                 <div class="block-content">

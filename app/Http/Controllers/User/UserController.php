@@ -352,9 +352,17 @@ class UserController
     }
 
     public function preferredLanguage(){
-
         $preferred_lang = $this->getPreferred_lang();
         return view('user.preferred-language', compact('preferred_lang'));
+    }
+
+    public function updatePreferredLanguage(Request $request): RedirectResponse
+    {
+        $data = PreferredLanguage::find($request->id);
+        $data->price = $request->price;
+        $data->update();
+        Session::flash('message', "language updated");
+        return redirect()->route('user.dashboard');
     }
 
 

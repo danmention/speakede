@@ -31,6 +31,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
     Route::get('community', ['uses' => 'Home\HomeController@getCommunity', 'as' => 'index.community']);
     Route::get('become-a-teacher', ['uses' => 'Home\HomeController@getBecomeATeacher', 'as' => 'index.teacher']);
+    Route::get('teacher/find', ['uses' => 'Home\HomeController@findTeacher', 'as' => 'index.find.teacher']);
 
     Route::post('account/login/now', ['uses' => 'Auth\AuthController@postSignIn', 'as' =>'login.in.user']);
     Route::get('account/logout', ['uses' => 'Auth\AuthController@getLogOut', 'as' =>'account.logout']);
@@ -137,14 +138,17 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::post('schedule/delete-event',[ 'uses' =>'User\ScheduleCalendarController@store', 'as' => 'user.schedule.delete']);
         Route::post('schedule/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingSchedule', 'as' => 'user.schedule.booking']);
         Route::post('schedule/group/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingGroupSchedule', 'as' => 'user.group.schedule.booking']);
-        Route::get('schedule/availability/request',[ 'uses' =>'User\ScheduleCalendarController@getScheduleRequest', 'as' => 'user.schedule.booking.request']);
+
+        Route::get('meeting/private/all',[ 'uses' =>'User\ScheduleCalendarController@getScheduleRequest', 'as' => 'user.schedule.booking.request']);
+        Route::get('meeting/private/language', [ 'uses' =>'User\UserController@preferredLanguage', 'as' => 'user.preferred.language']);
+        Route::post('meeting/private/price/update', [ 'uses' =>'User\UserController@updatePreferredLanguage', 'as' => 'update.user.preferred.language']);
 
         Route::get('group/class/create',[ 'uses' =>'User\UserController@createGroupClass', 'as' => 'user.group.class.create']);
         Route::get('group/class/all',[ 'uses' =>'User\UserController@getGroupClass', 'as' => 'user.group.class.all']);
         Route::get('group/class/paid',[ 'uses' =>'User\UserController@getGroupClassPaid', 'as' => 'user.group.class.all.paid']);
         Route::post('group/create/save',[ 'uses' =>'User\UserController@saveGroupClassMeeting', 'as' => 'user.group.class.save']);
 
-        Route::get('preferred/language', [ 'uses' =>'User\UserController@preferredLanguage', 'as' => 'user.preferred.language']);
+
     });
 
 

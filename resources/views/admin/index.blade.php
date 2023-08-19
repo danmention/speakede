@@ -9,13 +9,13 @@
                 <!-- Row #1 -->
                 <div class="col-6 col-xl-3">
                     <a class="block block-rounded block-link-shadow text-end" href="javascript:void(0)">
-                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
+                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-secondary">
                             <div class="d-none d-sm-block">
-                                <i class="fa fa-user fa-2x opacity-25"></i>
+                                <i class="fa fa-user fa-2x text-white"></i>
                             </div>
                             <div>
-                                <div class="fs-3 fw-semibold">{{$users}}</div>
-                                <div class="fs-sm fw-semibold text-uppercase text-muted">Users</div>
+                                <div class="fs-3 fw-semibold text-white">{{$users}}</div>
+                                <div class="fs-sm fw-semibold text-uppercase text-muted text-white">Users</div>
                             </div>
                         </div>
                     </a>

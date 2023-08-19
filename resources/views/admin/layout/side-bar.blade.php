@@ -93,25 +93,20 @@
                     <li class="nav-main-heading">User Interface</li>
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-grip-vertical"></i>
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
                             <span class="nav-main-link-name">Users</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('admin.student')}}">
-                                    <span class="nav-main-link-name">Student</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('admin.teachers')}}">
-                                    <span class="nav-main-link-name">Teachers</span>
+                                    <span class="nav-main-link-name">All user</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-pencil-ruler"></i>
+                            <i class="nav-main-link-icon fa fa-wallet"></i>
                             <span class="nav-main-link-name">Transactions</span>
                         </a>
                         <ul class="nav-main-submenu">

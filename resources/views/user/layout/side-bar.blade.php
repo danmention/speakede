@@ -93,7 +93,7 @@
                     <li class="nav-main-heading">User Interface</li>
                     <li class="nav-main-item {{Request::segment(2)  === "course" ? "open" : ""}}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-grip-vertical"></i>
+                            <i class="nav-main-link-icon fa fa-book"></i>
                             <span class="nav-main-link-name">Courses</span>
                         </a>
                         <ul class="nav-main-submenu">
@@ -118,7 +118,7 @@
 
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-cogs"></i>
+                            <i class="nav-main-link-icon fa fa-calendar-times"></i>
                             <span class="nav-main-link-name">Schedule</span>
                         </a>
                         <ul class="nav-main-submenu">
@@ -127,24 +127,26 @@
                                     <span class="nav-main-link-name">Set Availability</span>
                                 </a>
                             </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.schedule.booking.request')}}">
-                                    <span class="nav-main-link-name">All Schedule Booking</span>
-                                </a>
-                            </li>
 
                         </ul>
                     </li>
 
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-cogs"></i>
-                            <span class="nav-main-link-name">My Language</span>
+                            <i class="nav-main-link-icon fa fa-meetup"></i>
+                            <span class="nav-main-link-name">Private Meeting</span>
                         </a>
                         <ul class="nav-main-submenu">
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.schedule.booking.request')}}">
+                                    <span class="nav-main-link-name">All Booked Private Meeting</span>
+                                </a>
+                            </li>
+
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.preferred.language')}}">
-                                    <span class="nav-main-link-name">All Language</span>
+                                    <span class="nav-main-link-name">Update Language Price</span>
                                 </a>
                             </li>
                         </ul>
@@ -154,18 +156,18 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-user-group"></i>
-                            <span class="nav-main-link-name">Group Class</span>
+                            <span class="nav-main-link-name">Group Meeting</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.group.class.create')}}">
-                                    <span class="nav-main-link-name">Create</span>
+                                    <span class="nav-main-link-name">Create Meeting</span>
                                 </a>
                             </li>
 
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.group.class.all')}}">
-                                    <span class="nav-main-link-name">All</span>
+                                    <span class="nav-main-link-name">All Meeting</span>
                                 </a>
                             </li>
 
@@ -224,8 +226,7 @@
                         </ul>
                     </li>
                     <li class="nav-main-item">
-
-                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                        <a class="nav-main-link" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="{{route('account.logout')}}">
                             <i class="nav-main-link-icon fa fa-sign-out-alt"></i>
                             <span class="nav-main-link-name">Logout</span>
                         </a>
@@ -280,15 +281,6 @@
                         </h5>
                     </div>
                     <div class="p-2">
-                        <!-- Toggle Side Overlay -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">
-                            <span>Profile</span>
-                            <i class="fa fa-fw fa-person opacity-25"></i>
-                        </a>
-                        <!-- END Side Overlay -->
-
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item d-flex align-items-center justify-content-between space-x-1" href="{{route('account.logout')}}">
                             <span>Sign Out</span>
                             <i class="fa fa-fw fa-sign-out-alt opacity-25"></i>

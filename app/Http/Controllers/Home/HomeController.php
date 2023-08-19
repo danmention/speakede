@@ -165,6 +165,16 @@ class HomeController extends Controller
         }
     }
 
+    public function findTeacher(){
+        $teachers = User::query()->where('is_admin',0)->orderBy('id','DESC')->paginate(15);
+
+        foreach ($teachers as $row){
+            $row["preferred_lang"] = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+                ->where('preferred_languages.user_id', $row->id)->get(['categories.*']);
+        }
+        return view('home.teachers', compact('teachers'));
+    }
+
     public function getAllCourse(){
         $course = Course::query()->orderBy('id','DESC')->paginate(15);
         $this->moreCourseInformation($course);
