@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursePayment;
 use App\Models\GroupClass;
+use App\Models\GroupClassEnrollment;
 use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
@@ -373,6 +374,17 @@ class UserController
 
     public function saveGroupClassMeeting(Request $request): RedirectResponse
     {
+
+        $check = GroupClass::query()->where('user_id', Auth::user()->id)->get();
+
+        if ($check->count() > 0){
+            foreach ($check as $row){
+                if ($row->status == 1){
+                    Session::flash('message', "You still have a group meeting that still have available slot");
+                    return redirect()->route('user.dashboard');
+                }
+            }
+        }
 
         $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
 
