@@ -4,10 +4,16 @@
 
     <main>
         <div class="content">
+
+            @if(Session::has('message'))
+                <p class="alert alert-success">{{ Session::get('message') }}</p>
+            @endif
+
+
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        All Group Meeting
+                        All Private Schedule Meeting
                     </h3>
                 </div>
                 <div class="block-content">
@@ -17,13 +23,10 @@
                             <tr>
                                 <th></th>
                                 <th>Title</th>
-                                <th>No of Student</th>
-                                <th>Available Slots</th>
-                                <th>Description</th>
-                                <th>Meeting Time</th>
-                                <th>Meeting Duration</th>
-
-                                <th>Meeting Link</th>
+                                <th>Price</th>
+                                <th>Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,17 +35,13 @@
                             @foreach($schedule as $row)
                                 <tr>
                                     <td>{{$x++}}</td>
-                                    <td>{{$row->title}}</td>
-                                    <td>{{$row->slot}}</td>
-                                    <td>{{$row->slot}}</td>
-                                    <td>{{$row->zoom_response["agenda"]}}</td>
-                                    <td>{{$row->zoom_response["start_time"]}}</td>
-                                    <td>{{$row->zoom_response["duration"]}} mins</td>
-                                    <td><a href="{{$row->zoom_response["start_url"]}}" target="_blank">Meeting Link</a>
-                                    </td>
+                                    <td> {{$row->title}}</td>
+                                    <td>₦{{number_format($row->price)}}</td>
+                                    <td>{{$row->type}}</td>
+                                    <td>{{$row->start}}</td>
+                                    <td>{{$row->end}}</td>
                                 </tr>
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>

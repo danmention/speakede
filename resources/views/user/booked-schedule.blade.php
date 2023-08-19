@@ -17,8 +17,8 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>User 1</th>
-                                <th>User 2</th>
+                                <th>Student</th>
+                                <th>Instructor</th>
                                 <th>Description</th>
                                 <th>Meeting Time</th>
                                 <th>Meeting Duration</th>
@@ -31,8 +31,8 @@
                             @foreach($data as $row)
                                 <tr>
                                     <td>{{$x++}}</td>
-                                    <td>{{$row->fullname1}}</td>
-                                    <td> {{$row->fullname2}}</td>
+                                    <td>{{$row->student}}</td>
+                                    <td> {{$row->instructor}}</td>
                                     <td>{{$row->zoom_response["agenda"]}}</td>
                                     <td>{{$row->zoom_response["start_time"]}}</td>
                                     <td>{{$row->zoom_response["duration"]}} mins</td>

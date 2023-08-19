@@ -10,6 +10,8 @@ use App\Models\CommunicationPayment;
 use App\Models\CoursePayment;
 use App\Models\GroupClassEnrollment;
 use App\Models\PaymentTransaction;
+use App\Models\PreferredLanguage;
+use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Services\zoom\ZoomServiceImpl;
@@ -36,17 +38,10 @@ class ScheduleCalendarController extends Controller
     public function getEvent(Request $request)
     {
         if ($request->ajax()) {
-            if($request->instructor_user_id){
-                $user_id = User::query()->where('identity',$request->instructor_user_id)->value('id');
-                $data = ScheduleEvent::whereDate('start', '>=', $request->start)
-                    ->whereDate('end',   '<=', $request->end)
-                    ->get(['id', 'title', 'start', 'end']);
-            } else {
-                $data = ScheduleEvent::whereDate('start', '>=', $request->start)
-                    ->whereDate('end',   '<=', $request->end)
-                    ->where('instructor_user_id', Auth::user()->id)
-                    ->get(['id', 'title', 'start', 'end']);
-            }
+            $data = ScheduleEvent::whereDate('start', '>=', $request->start)
+                ->whereDate('end',   '<=', $request->end)
+                ->where('user_id', Auth::user()->id)
+                ->get(['id', 'title', 'start', 'end']);
 
             return response()->json($data);
         }
@@ -54,7 +49,24 @@ class ScheduleCalendarController extends Controller
         return view('user.schedule');
     }
 
-    public function store(Request $request): ?JsonResponse
+    public function getAllSchedule(){
+        $schedule = ScheduleEvent::query()->where('user_id',Auth::user()->id)->orderBy('id','DESC')->get();
+        return view('user.schedule-all', compact('schedule'));
+    }
+
+    public function getCreateScheduleEvent(Request $request)
+    {
+        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+            ->where('preferred_languages.user_id', Auth::user()->id)->get(['categories.*']);
+        return view('user.set-availability', compact('preferred_lang'));
+    }
+
+
+    /**
+     * @param Request $request
+     * @return JsonResponse|RedirectResponse|null
+     */
+    public function store(Request $request)
     {
         switch ($request->type) {
             case 'add':
@@ -62,20 +74,15 @@ class ScheduleCalendarController extends Controller
                 $event->title =  $request->title;
                 $event->start = $request->start;
                 $event->end = $request->end;
-
-                if($request->user_id){
-                    $user_id = User::query()->where('identity',$request->user_id )->value('id');
-                    $event->instructor_user_id = $user_id;
-                    $event->student_user_id = Auth::user()->id;
-                    $event->type = ScheduleTypes::BOOKED;
-                } else {
-                    $event->instructor_user_id =  Auth::user()->id;
-                    $event->type = ScheduleTypes::FREE;
-                }
-
+                $event->price = $request->price;
+                $event->description = $request->description;
+                $event->user_id = Auth::user()->id;
+                $event->type = $request->schedule_type;
+                $event->language_id = $request->language_id;
+                $event->status = 1;
                 $event->save();
-
-                return response()->json($event);
+                Session::flash('message', "Schedule Created successful");
+                return redirect()->route('user.dashboard');
 
             case 'update':
                 $event = ScheduleEvent::find($request->id)->update([
@@ -102,16 +109,16 @@ class ScheduleCalendarController extends Controller
         $ref = CommonHelpers::code_ref(10);
         switch ($request->type) {
             case 'add':
-                $event = new ScheduleEvent();
+                $event = new Schedule();
                 $event->title =  "BOOKED";
                 $event->start = $request->start;
                 $event->end = $request->end;
 
                 $user_id = User::query()->where('identity',$request->identity)->value('id');
                 $event->instructor_user_id = $user_id;
-                $event->student_user_id = Auth::user()->id;
+                $event->initiate_user_id = Auth::user()->id;
                 $event->type = ScheduleTypes::BOOKED;
-                $event->booked_schedule_events_id = $request->id;
+                $event->schedule_events_id = $request->id;
                 $event->status = 1;
                 $event->zoom_response = json_encode($zoom_response);
                 $event->save();
@@ -146,13 +153,11 @@ class ScheduleCalendarController extends Controller
     public function getScheduleRequest(Request $request)
     {
         $user_id = Auth::user()->id;
-        $data = ScheduleEvent::query()->where('student_user_id',$user_id)->orWhere('instructor_user_id', $user_id)
-            ->where('status',1)->get();
+        $data = Schedule::query()->where('initiate_user_id',$user_id)->where('status',1)->get();
         foreach ($data as $row){
-           $student_user_id = User::query()->where('id',$row->student_user_id)->get();
-            $instructor_user_id = User::query()->where('id',$row->student_user_id)->get();
-            $row['fullname1'] = $student_user_id[0]->firstname.' '.$student_user_id[0]->lastname;
-            $row['fullname2'] = $instructor_user_id[0]->firstname.' '.$instructor_user_id[0]->lastname;
+           $instructor = User::query()->where('id',$row->instructor_user_id)->get();
+            $row['student'] = $instructor[0]->firstname.' '.$instructor[0]->lastname;
+            $row["instructor"] =  Auth::user()->firstname.' '.Auth::user()->lastname;
             $row["zoom_response"] = json_decode($row->zoom_response, true);
         }
         return view('user.booked-schedule', compact('data'));

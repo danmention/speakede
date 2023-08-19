@@ -25,6 +25,8 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
     Route::any('/', ['uses' => 'Home\HomeController@getIndex', 'as' => 'index.home']);
     Route::any('all-course', ['uses' => 'Home\HomeController@getAllCourse', 'as' => 'index.all.course']);
+    Route::any('group/online/class', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.group.online.class']);
+    Route::get('group/online/class/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
     Route::any('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
     Route::any('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
     Route::any('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
@@ -134,14 +136,14 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('/change/password', ['uses' => 'User\UserController@changePassword', 'as' => 'user.password']);
 
         Route::get('schedule/get-availability', [ 'uses' =>'User\ScheduleCalendarController@getEvent', 'as' => 'user.schedule.availability']);
+        Route::get('schedule/availability/view', [ 'uses' =>'User\ScheduleCalendarController@getAllSchedule', 'as' => 'user.schedule.availability.all']);
+        Route::get('schedule/availability/create', [ 'uses' =>'User\ScheduleCalendarController@getCreateScheduleEvent', 'as' => 'user.schedule.availability.create']);
         Route::post('schedule/create-event',[ 'uses' =>'User\ScheduleCalendarController@store', 'as' => 'user.schedule.create']);
         Route::post('schedule/delete-event',[ 'uses' =>'User\ScheduleCalendarController@store', 'as' => 'user.schedule.delete']);
         Route::post('schedule/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingSchedule', 'as' => 'user.schedule.booking']);
         Route::post('schedule/group/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingGroupSchedule', 'as' => 'user.group.schedule.booking']);
 
         Route::get('meeting/private/all',[ 'uses' =>'User\ScheduleCalendarController@getScheduleRequest', 'as' => 'user.schedule.booking.request']);
-        Route::get('meeting/private/language', [ 'uses' =>'User\UserController@preferredLanguage', 'as' => 'user.preferred.language']);
-        Route::post('meeting/private/price/update', [ 'uses' =>'User\UserController@updatePreferredLanguage', 'as' => 'update.user.preferred.language']);
 
         Route::get('group/class/create',[ 'uses' =>'User\UserController@createGroupClass', 'as' => 'user.group.class.create']);
         Route::get('group/class/all',[ 'uses' =>'User\UserController@getGroupClass', 'as' => 'user.group.class.all']);

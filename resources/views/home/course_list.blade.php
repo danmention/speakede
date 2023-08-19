@@ -10,7 +10,7 @@
                 <p class="time"><i class="far fa-clock"></i>{{$row->course_duration}}</p>
             </div>
             <span class="price">
-                <span class="sale-price">Paid</span>
+                <span class="sale-price">{{$row->type}}</span>
             </span>
         </div>
         <h3 class="title"><a href="{{url('course/'.$row->url)}}">{{ucwords($row->title)}}</a></h3>

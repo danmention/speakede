@@ -20,6 +20,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
 class UserController
@@ -80,6 +81,7 @@ class UserController
         $data->description = $request->desc;
         $data->youtube_link = $request->youtube_link;
         $data->language = $request->language;
+        $data->type = $request->course_type;
         $data->user_id = Auth::user()->id;
         $data->save();
 
@@ -330,8 +332,8 @@ class UserController
     public function processingVirtualBooking(Request $request){
 
         $profile = User::query()->where('identity',$request->teacher_id)->get();
-        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
-            ->where('preferred_languages.user_id', $profile[0]->id)->get(['categories.*']);
+        $lang = ScheduleEvent::query()->where('id', $request->id)->value('language_id');
+        $preferred_lang = Category::query()->where('id', $lang)->get();
         return view('user.select-virtual-meeting', compact('preferred_lang'));
     }
 
@@ -352,20 +354,6 @@ class UserController
         return view('user.pay-online-meeting', compact('instructor','wallet','schedule_info','teacher_id','id','preferred_lang'));
     }
 
-    public function preferredLanguage(){
-        $preferred_lang = $this->getPreferred_lang();
-        return view('user.preferred-language', compact('preferred_lang'));
-    }
-
-    public function updatePreferredLanguage(Request $request): RedirectResponse
-    {
-        $data = PreferredLanguage::find($request->id);
-        $data->price = $request->price;
-        $data->update();
-        Session::flash('message', "language updated");
-        return redirect()->route('user.dashboard');
-    }
-
 
     public function createGroupClass(){
         $preferred_lang = $this->getPreferred_lang();
@@ -374,19 +362,22 @@ class UserController
 
     public function saveGroupClassMeeting(Request $request): RedirectResponse
     {
-
-        $check = GroupClass::query()->where('user_id', Auth::user()->id)->get();
-
-        if ($check->count() > 0){
-            foreach ($check as $row){
-                if ($row->status == 1){
-                    Session::flash('message', "You still have a group meeting that still have available slot");
-                    return redirect()->route('user.dashboard');
-                }
-            }
-        }
-
         $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
+
+        if ($request->picture) {
+            $image = $request->file('picture');
+            $filename = time().".".$image->getClientOriginalExtension();
+            // Create directory if it does not exist
+            if(!is_dir("group/class/photo/". Auth::user()->id ."/")) {
+                $path = "group/class/photo/". Auth::user()->id ."/";
+                File::makeDirectory(public_path().'/'.$path,0777,true);
+            }
+
+            $location = public_path('group/class/photo/'. Auth::user()->id .'/');
+            $image->move($location, $filename);
+        }else {
+            return back()->withInput()->with('response','Please Attach a profile photo');
+        }
 
         $data = new GroupClass();
         $data->user_id = Auth::user()->id;
@@ -399,6 +390,7 @@ class UserController
         $data->duration_in_mins = $request->duration;
         $data->url = CommonHelpers::create_unique_slug($request->title,"group_classes","url");
         $data->zoom_response = json_encode($zoom_response);
+        $data->cover_image = $filename;
         $data->save();
 
         Session::flash('message', "Group Class created");
@@ -430,10 +422,16 @@ class UserController
 
 
     /**
-     * @return Application|Factory|View
+     * @param Request $request
+     * @return Application|Factory|View|RedirectResponse
      */
     public function payVirtualGroupBooking(Request $request)
     {
+
+        if(empty(Auth::user())){
+            Session::flash('message', "Please login to access this area");
+            return redirect()->route('index.login');
+        }
         $wallet = $this->accountBalance();
         $teacher_id = $request->teacher_id;
         $slot = $request->slot;

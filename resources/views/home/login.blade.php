@@ -24,25 +24,26 @@
                                 <form action="{{ route('login.in.user') }}" method="post" class="js-validation-signin">
                                     {{ csrf_field() }}
 
-                                    @if(session('error'))
-                                        <div class="notification-alert-danger alert alert-danger alert-dismissible fade show" role="alert">
-                                            {{session('error')}}
-                                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
+
+                                    @if(Session::has('message'))
+                                        <p class="alert alert-success">{{ Session::get('message') }}</p>
                                     @endif
 
 
-                                    @if(session('response'))
-
-                                        <div class="notification-alert alert alert-success alert-dismissible fade show" role="alert">
-                                            {{session('response')}}
-                                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
+                                    @if (session('error'))
+                                        <div class="alert alert-danger" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert">x</button>
+                                            {{ session('error') }}
                                         </div>
                                     @endif
+
+                                    @if (session('response'))
+                                        <div class="alert alert-success" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert">x</button>
+                                            {{ session('response') }}
+                                        </div>
+                                    @endif
+
                                     <div class="single-form">
                                         <input type="text" class="form-control" placeholder="Email or Phone" name="options">
                                     </div>

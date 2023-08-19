@@ -9,10 +9,10 @@
                     <div class="col-lg-12">
                         <!-- Page Banner Content Start -->
                         <div class="page-banner text-center">
-                            <h2 class="title">Courses</h2>
+                            <h2 class="title">Group Classes</h2>
                             <ul class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Courses</li>
+                                <li class="breadcrumb-item active" aria-current="page">Group Classes</li>
                             </ul>
                         </div>
                         <!-- Page Banner Content End -->
@@ -36,7 +36,7 @@
 
                             <!-- Sidebar Wrapper Start -->
                             <div class="sidebar-widget-02">
-                                <h3 class="widget-title">Type of Courses</h3>
+                                <h3 class="widget-title">Type of Group Courses</h3>
 
                                 <div class="widget-checkbox">
                                     <ul class="checkbox-list">
@@ -56,22 +56,17 @@
 
                             <!-- Sidebar Wrapper Start -->
                             <div class="sidebar-widget-02">
-                                <h3 class="widget-title">Instructor</h3>
+                                <h3 class="widget-title">Language</h3>
 
                                 <div class="widget-checkbox">
                                     <ul class="checkbox-list">
+
+                                        @foreach($lang as $lan)
                                         <li class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="checkbox6">
-                                            <label class="form-check-label" for="checkbox6">Jimmy Jason (11)</label>
+                                            <label class="form-check-label" for="checkbox6">{{$lan->title}}</label>
                                         </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox7">
-                                            <label class="form-check-label" for="checkbox7">Harnold (07)</label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox8">
-                                            <label class="form-check-label" for="checkbox8">Eric Madny (11)</label>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -120,7 +115,7 @@
                         <!-- Course Top Bar Start -->
                         <div class="course-top-bar">
                             <div class="course-top-text">
-                                <p>We found <span>78</span> Courses For You</p>
+                                <p>We found <span>{{$course->count()}}</span> Group Classes For You</p>
                             </div>
 
                         </div>
@@ -133,7 +128,7 @@
                                 <div class="row">
                                     @foreach($course as $row)
                                         <div class="col-lg-4 col-sm-6">
-                                            @include('home.course_list')
+                                            @include('home.group_course_list')
                                         </div>
                                     @endforeach
                                 </div>

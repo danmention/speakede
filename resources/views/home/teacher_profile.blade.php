@@ -104,35 +104,35 @@
                             </div>
 
 
-                            <div class="col-lg-10" id="group_class_view" style="display: none;">
-                                <!-- Team Profile Start -->
+{{--                            <div class="col-lg-10" id="group_class_view" style="display: none;">--}}
+{{--                                <!-- Team Profile Start -->--}}
 
-                                @if(!empty($private_class[0]))
-                                    @if($private_class[0]->available_slots == 0)
-                                        <div class="group_class">
-                                            <div class="image-text">
-                                                <h2>Group Class is no longer Available</h2>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="group_class">
-                                            <div class="image-text">
-                                                <h3 class="number">{{$private_class[0]->title}}</h3>
-                                                <p>{!! $private_class[0]->description !!}</p>
+{{--                                @if(!empty($private_class[0]))--}}
+{{--                                    @if($private_class[0]->available_slots == 0)--}}
+{{--                                        <div class="group_class">--}}
+{{--                                            <div class="image-text">--}}
+{{--                                                <h2>Group Class is no longer Available</h2>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    @else--}}
+{{--                                        <div class="group_class">--}}
+{{--                                            <div class="image-text">--}}
+{{--                                                <h3 class="number">{{$private_class[0]->title}}</h3>--}}
+{{--                                                <p>{!! $private_class[0]->description !!}</p>--}}
 
-                                                <h4>Price : ₦{{ number_format($private_class[0]->price)}}</h4>
+{{--                                                <h4>Price : ₦{{ number_format($private_class[0]->price)}}</h4>--}}
 
-                                                <a href="{{ url('user/apply/booking/group/lesson/pay?teacher_id='.$identity.'&slot='.$private_class[0]->slot.'&id='.$private_class[0]->id) }}"
-                                                   style="margin-top: 0px !important;background: #e1ac4b;color: #ffffff;padding: 8px;border-radius:6px;"
-                                                   class="ml-2">
-                                                    <strong>Book Now</strong>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endif
-                                    <!-- Team Profile End -->
-                            </div>
+{{--                                                <a href="{{ url('user/apply/booking/group/lesson/pay?teacher_id='.$identity.'&slot='.$private_class[0]->slot.'&id='.$private_class[0]->id) }}"--}}
+{{--                                                   style="margin-top: 0px !important;background: #e1ac4b;color: #ffffff;padding: 8px;border-radius:6px;"--}}
+{{--                                                   class="ml-2">--}}
+{{--                                                    <strong>Book Now</strong>--}}
+{{--                                                </a>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                @endif--}}
+{{--                                    <!-- Team Profile End -->--}}
+{{--                            </div>--}}
 
                         </div>
                         <!-- Team Profile Description Wrap End -->

@@ -36,16 +36,26 @@
                             <form role="form" method="post" class="validate" action="{{ route('user.dashboard.course.add') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div class="row mb-4">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="register4-firstname" name="title" placeholder="Enter your firstname">
+                                            <input type="text" class="form-control" id="register4-firstname" name="title">
                                             <label class="form-label" for="register4-firstname">Course Title</label>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="price" name="price" placeholder="Enter your lastname">
+                                            <input type="text" class="form-control" id="price" name="price">
                                             <label class="form-label" for="register4-lastname">Price</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="form-floating">
+                                            <select name="course_type" class="form-control">
+                                                <option value="FREE"> FREE</option>
+                                                <option value="PAID"> PAID</option>
+                                            </select>
+                                            <label class="form-label" for="register4-lastname">Type</label>
                                         </div>
                                     </div>
                                 </div>

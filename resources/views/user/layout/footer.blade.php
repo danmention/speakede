@@ -58,31 +58,12 @@
             selectable: true,
             selectHelper: true,
             select: function (start, end, allDay) {
-                var title = "FREE DAY";
+               if (confirm("Are you sure you want to schedule ?")) {
 
-                // if (title) {
                     var start = $.fullCalendar.formatDate(start, 'Y-MM-DD HH:mm:ss');
-
                     var end = $.fullCalendar.formatDate(end, 'Y-MM-DD HH:mm:ss');
-
-                    $.ajax({
-                        url: "{{ route('user.schedule.create') }}",
-                        type: "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            title: title,
-                            start: start,
-                            end: end,
-                            type: 'add'
-                        },
-                        success: function (data) {
-                            calendar.fullCalendar('refetchEvents');
-                            alert("Availability created");
-                        }
-                    })
-                // }
+                    window.location.href = SITE_URL+'/user/schedule/availability/create?start='+start+'&end='+end;
+                }
             },
             editable: true,
             eventResize: function (event, delta) {
@@ -133,6 +114,7 @@
                     }
                 })
             },
+
             eventClick: function (event) {
                 if (confirm("Are you sure you want to remove it?")) {
                     var id = event.id;

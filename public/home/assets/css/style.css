@@ -988,7 +988,7 @@ textarea:-ms-input-placeholder {
 @media only screen and (min-width: 1400px) and (max-width: 1650px), only screen and (max-width: 1399px) {
   .header-search {
     min-width: 310px;
-    margin-right: 40px;
+    margin-right: 115px;
   }
 }
 

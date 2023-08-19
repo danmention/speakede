@@ -40,11 +40,18 @@ class ZoomServiceImpl extends AbstractCallClient
         $this->addHeaders([
             "Authorization" => "Bearer ".$accessToken["access_token"]
         ]);
+
+        if($request->start){
+            $duration =  (new CommonHelpers)->getCourseTimeDuration($request->start, $request->end);
+        } else {
+            $duration =  $request->duration;
+        }
+
           $request = array(
                 'topic' =>  $request->title ?? "test Meeting",
                 'type' => self::MEETING_TYPE_SCHEDULE,
-                'start_time' => CommonHelpers::toZoomTimeFormat($request->start ?? "2023-08-20 14:05:45"),
-                'duration' =>  (new CommonHelpers)->getCourseTimeDuration($request->start, $request->end) ?? 30,
+                'start_time' => CommonHelpers::toZoomTimeFormat($request->start ?? $request->start_date),
+                'duration' => $duration ?? 30,
                 'agenda' => "My meeting",
                 'settings' => [
                     'host_video' => false,

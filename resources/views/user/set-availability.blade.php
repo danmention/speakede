@@ -24,7 +24,7 @@
 
                 <div class="block block-rounded h-100 mb-0">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Create Group Meeting</h3>
+                        <h3 class="block-title">Set Availability</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>
@@ -33,27 +33,27 @@
                         </div>
                     </div>
                     <div class="block-content">
-                        <form role="form" method="post" class="validate" action="{{ route('user.group.class.save') }}"  enctype="multipart/form-data" style="color:#000000;">
+                        <form role="form" method="post" class="validate" action="{{ route('user.schedule.create') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="row mb-4">
-                                <div class="col-6">
+
+                                <div class="col-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="title">
-                                        <label class="form-label" for="register4-firstname">Title</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="price" name="price">
+                                        <input type="number" class="form-control"  name="price">
                                         <label class="form-label" for="register4-lastname">Price</label>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row mb-4">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="form-floating">
-                                        <select name="language" class="form-control">
+                                        <input type="text" class="form-control"  name="title">
+                                        <label class="form-label" for="register4-firstname">Title</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <select name="language_id" class="form-control">
                                             @foreach($preferred_lang as $rw)
                                                 <option value="{{$rw->id}}"> {{$rw->title}}</option>
                                             @endforeach
@@ -62,35 +62,31 @@
                                         <label class="form-label" for="register4-firstname">Select Language</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <input type="number" class="form-control"  name="slot" />
-                                        <label class="form-label" for="register4-email">Number of Student</label>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="form-floating">
-                                        <input type="datetime-local" class="form-control" name="start_date">
-                                        <label class="form-label" for="register4-firstname">Start Date</label>
+                                        <input type="text" class="form-control" name="start" value="{{request()->query('start')}}" readonly>
+                                        <label class="form-label" for="register4-lastname">Start Time</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <input type="number" class="form-control" id="price" name="duration">
-                                        <label class="form-label" for="register4-lastname">Duration in Minutes</label>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row mb-4">
-                                <div class="col-12">
+                                <div class="col-4">
                                     <div class="form-floating">
-                                        <input type="file" class="form-control" placeholder="Service Title Here" name="picture" required="required">
-                                        <label class="form-label" for="register4-firstname">Cover Photo</label>
-                                        <input type="hidden" name="home" value="home">
+                                        <input type="text" class="form-control" name="end" value="{{request()->query('end')}}" readonly>
+                                        <label class="form-label" for="register4-lastname">End Time</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <select name="schedule_type" class="form-control">
+                                                <option value="FREE"> FREE</option>
+                                            <option value="PAID"> PAID</option>
+                                        </select>
+
+                                        <label class="form-label" for="register4-firstname">Type </label>
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +97,7 @@
                                 </div>
                             </div>
 
-
+                            <input type="hidden" class="form-control" name="type" value="add">
                             <div class="mb-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-plus opacity-50 me-1"></i> ADD

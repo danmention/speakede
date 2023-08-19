@@ -181,6 +181,13 @@ class HomeController extends Controller
         return view('home.all-course', compact('course'));
     }
 
+    public function getGroupClasses(){
+        $course = GroupClass::query()->orderBy('id','DESC')->paginate(15);
+        $this->moreGroupCourseInformation($course);
+        $lang = Category::query()->where('class_name','language')->get();
+        return view('home.all-group-course', compact('course','lang'));
+    }
+
     public function getViewCourse($url){
         $course = Course::query()->where('url', $url)->get();
         foreach ($course as $row){
@@ -196,6 +203,17 @@ class HomeController extends Controller
             $row["profile_image"] = User::query()->where('id', $row->user_id)->value("profile_image");
         }
         return view('home.course_details', compact('course','lessons','profile','reviews'));
+    }
+
+
+    public function getViewGroupCourse($url){
+        $course = GroupClass::query()->where('url', $url)->get();
+        foreach ($course as $row){
+            $row["instructor"] = User::query()->where('id', $row->user_id)->get();
+        }
+        $this->moreGroupCourseInformation($course);
+        $profile = User::query()->where('id', $course[0]["user_id"])->get();
+        return view('home.course_group_details', compact('course','profile'));
     }
 
     public function getTeacherAvailability(Request $request){
@@ -232,6 +250,23 @@ class HomeController extends Controller
 
             $row['course_duration'] = CommonHelpers::minsToHours($course_duration);
             $row['rating'] = CustomerRating::where('course_id', $row->id)->count();
+        }
+    }
+
+
+
+    /**
+     * @param $course
+     * @return void
+     */
+    private function moreGroupCourseInformation($course): void
+    {
+        foreach ($course as $row) {
+            $user = User::query()->where('id', $row->user_id)->get();
+            $row["firstname"] = $user[0]->firstname;
+            $row["lastname"] = $user[0]->lastname;
+            $row["identity"] = $user[0]->identity;
+            $row["profile_image"] = $user[0]->profile_image;
         }
     }
 

@@ -61,6 +61,7 @@
                             <ul class="main-menu">
                                 <li><a href="{{route('index.find.teacher')}}">Find a teacher</a></li>
                                 <li><a href="{{route('index.all.course')}}">All Course</a></li>
+                                <li><a href="{{route('index.all.group.online.class')}}">Group Online Classes</a></li>
                                 <li><a href="{{url('become-a-teacher')}}">Become a teacher</a></li>
                             </ul>
                         </div>
@@ -74,8 +75,16 @@
                         <div class="header-search d-none d-xl-block">
                             <form  method="get" action="{{ route('search.now') }}">
                                 {{ csrf_field() }}
-                                <input type="text" placeholder="Search Courses" name="keyword">
+
+                                <select name="type" style="background-color: #f3f3f3;padding: 0 20px;height: 55px;width: 30%;border: 1px solid transparent;color: #93a1a2;font-size: 15px;font-weight: 400;border-radius: 5px;">
+                                    <option value="teachers"> teachers</option>
+                                    <option value="courses"> Courses</option>
+                                </select>
+
+                                <input type="text" placeholder="Search" name="keyword">
                                 <button><i class="flaticon-loupe"></i></button>
+
+
                             </form>
                         </div>
 

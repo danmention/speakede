@@ -26,7 +26,7 @@
 
                             <div class="block block-rounded h-100 mb-0">
                                 <div class="block-header block-header-default">
-                                    <h3 class="block-title">Select Preferred Language</h3>
+                                    <h3 class="block-title">Continue</h3>
 
                                 </div>
 

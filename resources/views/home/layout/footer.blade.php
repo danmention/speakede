@@ -193,7 +193,7 @@
                         var events = [];
                         $(doc).each(function () {
                             events.push({
-                                title: '',
+                                title: $(this).attr('title'),
                                 start: $(this).attr('start'), // will be parsed
                                 end: $(this).attr('end'), // will be parsed
                                 event_id: $(this).attr('id') // will be parsed

@@ -116,22 +116,8 @@
                         </ul>
                     </li>
 
-                    <li class="nav-main-item">
-                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-calendar-times"></i>
-                            <span class="nav-main-link-name">Schedule</span>
-                        </a>
-                        <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.schedule.availability')}}">
-                                    <span class="nav-main-link-name">Set Availability</span>
-                                </a>
-                            </li>
 
-                        </ul>
-                    </li>
-
-                    <li class="nav-main-item">
+                    <li class="nav-main-item  {{Request::segment(2)  === "schedule" ? "open" : ""}}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-meetup"></i>
                             <span class="nav-main-link-name">Private Meeting</span>
@@ -139,16 +125,23 @@
                         <ul class="nav-main-submenu">
 
                             <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.schedule.availability')}}">
+                                    <span class="nav-main-link-name">Set Availability</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.schedule.availability.all')}}">
+                                    <span class="nav-main-link-name">All Schedule Meeting</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.schedule.booking.request')}}">
                                     <span class="nav-main-link-name">All Booked Private Meeting</span>
                                 </a>
                             </li>
 
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.preferred.language')}}">
-                                    <span class="nav-main-link-name">Update Language Price</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
 
