@@ -150,15 +150,38 @@
 
 <script>
 
-    $(document).ready(function () {
+    var SITE_URL = "{{ url('/') }}";
 
+    $("#checkbox1").on("change", function() {
+        var href = SITE_URL, params = $(this).serialize();
+        if (params.length > 0) { href += "/all-course?" + params; }
+        window.location.href= href;
+    });
+
+    $("#checkbox2").on("change", function() {
+        var href = SITE_URL, params = $(this).serialize();
+        if (params.length > 0) { href += "/all-course?" + params; }
+        window.location.href= href;
+    });
+
+    $("#checkbox_group1").on("change", function() {
+        var href = SITE_URL, params = $(this).serialize();
+        if (params.length > 0) { href += "/group/online/class?" + params; }
+        window.location.href= href;
+    });
+
+    $("#checkbox_group2").on("change", function() {
+        var href = SITE_URL, params = $(this).serialize();
+        if (params.length > 0) { href += "/group/online/class?" + params; }
+        window.location.href= href;
+    });
+
+    $(document).ready(function () {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
-        var SITE_URL = "{{ url('/') }}";
 
         // Return today's date and time
         var currentTime = new Date()
@@ -185,8 +208,8 @@
                     dataType: 'json',
                     data: {
                         // our hypothetical feed requires UNIX timestamps
-                        start: "2023-07-30",
-                        end: "2023-09-10",
+                        start: full_year+"-"+month+"-"+day,
+                        end: full_year+"-12-30",
                         instructor_user_id: '{{ request()->segment(2) }}'
                     },
                     success: function (doc) {

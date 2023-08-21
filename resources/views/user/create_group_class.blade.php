@@ -86,11 +86,21 @@
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="form-floating">
                                         <input type="file" class="form-control" placeholder="Service Title Here" name="picture" required="required">
                                         <label class="form-label" for="register4-firstname">Cover Photo</label>
                                         <input type="hidden" name="home" value="home">
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <select name="class_type" class="form-control">
+                                            <option value="FREE"> FREE</option>
+                                            <option value="PAID"> PAID</option>
+                                        </select>
+                                        <label class="form-label" for="register4-lastname">Type</label>
                                     </div>
                                 </div>
                             </div>

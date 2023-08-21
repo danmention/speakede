@@ -77,8 +77,9 @@
                                 {{ csrf_field() }}
 
                                 <select name="type" style="background-color: #f3f3f3;padding: 0 20px;height: 55px;width: 30%;border: 1px solid transparent;color: #93a1a2;font-size: 15px;font-weight: 400;border-radius: 5px;">
+                                    <option value=""> Select type</option>
                                     <option value="teachers"> teachers</option>
-                                    <option value="courses"> Courses</option>
+                                    <option value="group"> Group Classes</option>
                                 </select>
 
                                 <input type="text" placeholder="Search" name="keyword">

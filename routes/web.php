@@ -127,7 +127,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('course/view/{url}', ['uses' => 'User\UserController@viewCourse', 'as' => 'user.dashboard.course.view']);
         Route::get('course/view/{course_url}/{lesson_url}', ['uses' => 'User\UserController@viewPaidCourse', 'as' => 'user.dashboard.course.view.paid']);
         Route::get('course/lesson/add/{id}', ['uses' => 'User\UserController@addLesson', 'as' => 'user.dashboard.course.add.lesson']);
-        Route::get('course/buy/{course_id}', ['uses' => 'User\UserController@payVirtualBooking', 'as' => 'user.dashboard.course.buy']);
+        Route::get('course/buy/{course_id}', ['uses' => 'User\UserController@buyCourse', 'as' => 'user.dashboard.course.buy']);
         Route::post('course/buy/save', ['uses' => 'User\UserController@coursePaymentInit', 'as' => 'user.dashboard.course.buy.save']);
         Route::post('course/lesson/save', ['uses' => 'User\UserController@saveLesson', 'as' => 'user.dashboard.course.lesson.save']);
         Route::get('wallet/funding', ['uses' => 'User\UserController@buySpeakToken', 'as' => 'user.dashboard.wallet']);
@@ -154,7 +154,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
     });
 
 
-    Route::get('{teachers}/{language}', ['uses' => 'Home\HomeController@getCategory', 'as' => 'index.cat']);
+    Route::get('{teachers}/{language}', ['uses' => 'Home\HomeController@getTeacherByLang', 'as' => 'index.cat']);
     Route::get('{teacher}/{id}/{language}', ['uses' => 'Home\HomeController@getTeacherLang', 'as' => 'index.teacher.view']);
     Route::get('{category}/{user}/view', ['uses' => 'Home\HomeController@userStatusUpdate', 'as' => 'index.status']);
     Route::get('{group-class}/{language}', ['uses' => 'Home\HomeController@getGroupClass', 'as' => 'index.group.class']);

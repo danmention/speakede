@@ -41,12 +41,12 @@
                                 <div class="widget-checkbox">
                                     <ul class="checkbox-list">
                                         <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox1">
-                                            <label class="form-check-label" for="checkbox1">Free (11)</label>
+                                             <input class="form-check-input" type="checkbox" value="free" name="type" id="checkbox1">
+                                            <label class="form-check-label" for="checkbox1">Free ({{$free_course}})</label>
                                         </li>
                                         <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox2">
-                                            <label class="form-check-label" for="checkbox2">Paid (11)</label>
+                                            <input class="form-check-input" type="checkbox" value="paid" name="type" id="checkbox2">
+                                            <label class="form-check-label" for="checkbox2">Paid ({{$paid_course}})</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -60,57 +60,18 @@
 
                                 <div class="widget-checkbox">
                                     <ul class="checkbox-list">
+
+                                        @foreach($instructors as $row)
                                         <li class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="checkbox6">
-                                            <label class="form-check-label" for="checkbox6">Jimmy Jason (11)</label>
+                                            <label class="form-check-label" for="checkbox6">{{$row->firstname.' '.$row->lastname}} ({{$row->number_of_course}})</label>
                                         </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox7">
-                                            <label class="form-check-label" for="checkbox7">Harnold (07)</label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox8">
-                                            <label class="form-check-label" for="checkbox8">Eric Madny (11)</label>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
                             <!-- Sidebar Wrapper End -->
 
-                            <!-- Sidebar Wrapper Start -->
-                            <div class="sidebar-widget-02">
-                                <h3 class="widget-title">Ratings</h3>
-
-                                <div class="widget-checkbox">
-                                    <ul class="checkbox-list">
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox9">
-                                            <label class="form-check-label" for="checkbox9">
-                                                <div class="rating">
-                                                    <div class="rating-on" style="width: 100%;"></div>
-                                                </div> (4.5)
-                                            </label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox10">
-                                            <label class="form-check-label" for="checkbox10">
-                                                <div class="rating">
-                                                    <div class="rating-on" style="width: 60%;"></div>
-                                                </div> (3.5)
-                                            </label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox11">
-                                            <label class="form-check-label" for="checkbox11">
-                                                <div class="rating">
-                                                    <div class="rating-on" style="width: 40%;"></div>
-                                                </div> (2)
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Sidebar Wrapper End -->
 
                         </div>
                         <!-- Sidebar Wrapper End -->
@@ -120,7 +81,7 @@
                         <!-- Course Top Bar Start -->
                         <div class="course-top-bar">
                             <div class="course-top-text">
-                                <p>We found <span>78</span> Courses For You</p>
+                                <p>We found <span>{{$course->count()}}</span> Courses For You</p>
                             </div>
 
                         </div>

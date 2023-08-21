@@ -304,7 +304,11 @@
                                 </ul>
 
                                 @if(\Illuminate\Support\Facades\Auth::user())
-                                    <a class="btn w-100" href="{{url('user/course/buy/'.$row->id)}}">Buy</a>
+                                    @if(Auth::user()->id == $row->user_id)
+                                        <a class="btn w-100" href="{{url('user.dashboard.course.all')}}">View</a>
+                                    @else
+                                    <a class="btn w-100" href="{{url('user/course/buy/'.$row->id.'?teacher_id='.$row->identity)}}">Buy</a>
+                                    @endif
                                 @else
                                     <a class="btn w-100" href="{{url('register')}}">Buy</a>
                                 @endif

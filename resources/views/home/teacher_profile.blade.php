@@ -74,22 +74,6 @@
                                             </span>
                                             </label>
                                         </div>
-
-                                        @if($private_class->count() > 0)
-                                            <div class="form-check form-block col-lg-6" id="group_class">
-                                                <input type="radio" class="form-check-input" id="checkout-delivery-2"
-                                                       name="checkout-delivery">
-                                                <label class="form-check-label" for="checkout-delivery-2">
-                                                <span class="d-block fw-normal p-1">
-                                                  <span class="d-block fw-semibold mb-1">
-                                                    Group Class
-                                                    <i class="fa fa-fire text-danger ms-1"></i>
-                                                  </span>
-                                                  <span class="d-block fs-sm fw-medium text-muted">{{$private_class[0]->available_slots}} Slot available</span>
-                                                </span>
-                                                </label>
-                                            </div>
-                                        @endif
                                     </div>
                                     <br/>
                                 </div>

@@ -140,7 +140,12 @@
                                     </ul>
 
                                     @if(\Illuminate\Support\Facades\Auth::user())
+
+                                        @if(Auth::user()->id == $row->user_id)
+                                            <a class="btn w-100" href="{{route('user.group.class.all')}}">View</a>
+                                        @else
                                         <a class="btn w-100" href="{{ url('user/apply/booking/group/lesson/pay?teacher_id='.$row->identity.'&slot='.$row->slot.'&id='.$row->id) }}">Buy</a>
+                                        @endif
                                     @else
                                         <a class="btn w-100" href="{{url('login')}}">Buy</a>
                                     @endif

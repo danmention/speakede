@@ -41,12 +41,12 @@
                                 <div class="widget-checkbox">
                                     <ul class="checkbox-list">
                                         <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox1">
-                                            <label class="form-check-label" for="checkbox1">Free (11)</label>
+                                            <input class="form-check-input" type="checkbox" value="free" name="type" id="checkbox_group1">
+                                            <label class="form-check-label" for="checkbox1">Free ({{$free_course}})</label>
                                         </li>
                                         <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox2">
-                                            <label class="form-check-label" for="checkbox2">Paid (11)</label>
+                                            <input class="form-check-input" type="checkbox" value="paid" name="type" id="checkbox_group2">
+                                            <label class="form-check-label" for="checkbox2">Paid ({{$paid_course}})</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,40 +72,6 @@
                             </div>
                             <!-- Sidebar Wrapper End -->
 
-                            <!-- Sidebar Wrapper Start -->
-                            <div class="sidebar-widget-02">
-                                <h3 class="widget-title">Ratings</h3>
-
-                                <div class="widget-checkbox">
-                                    <ul class="checkbox-list">
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox9">
-                                            <label class="form-check-label" for="checkbox9">
-                                                <div class="rating">
-                                                    <div class="rating-on" style="width: 100%;"></div>
-                                                </div> (4.5)
-                                            </label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox10">
-                                            <label class="form-check-label" for="checkbox10">
-                                                <div class="rating">
-                                                    <div class="rating-on" style="width: 60%;"></div>
-                                                </div> (3.5)
-                                            </label>
-                                        </li>
-                                        <li class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkbox11">
-                                            <label class="form-check-label" for="checkbox11">
-                                                <div class="rating">
-                                                    <div class="rating-on" style="width: 40%;"></div>
-                                                </div> (2)
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Sidebar Wrapper End -->
 
                         </div>
                         <!-- Sidebar Wrapper End -->

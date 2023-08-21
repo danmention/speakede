@@ -5,6 +5,7 @@ namespace App\Helpers;
 
 
 use App\Models\CustomerRating;
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -181,18 +182,58 @@ class CommonHelpers
 
     /**
      * @param $user_id
-     * @return float
+     * @return float|int
      */
-    public static function rating($user_id) : float {
+    public function rating($user_id){
         $numbers_of_rating =  CustomerRating::where('user_id',$user_id)->sum('rating');
         $number_of_people_rating = CustomerRating::where('user_id',$user_id)->count();
 
         if($number_of_people_rating == 0){
-            $final_rating =  0;
+            $final_rating = 0;
         }else {
             $final_rating = $numbers_of_rating / $number_of_people_rating;
         }
         return $final_rating;
+    }
+
+
+
+    /**
+     * @param $course
+     * @return void
+     */
+    public function moreGroupCourseInformation($course): void
+    {
+        foreach ($course as $row) {
+            $user = User::query()->where('id', $row->user_id)->get();
+            $row["firstname"] = $user[0]->firstname;
+            $row["lastname"] = $user[0]->lastname;
+            $row["identity"] = $user[0]->identity;
+            $row["profile_image"] = $user[0]->profile_image;
+        }
+    }
+
+    /**
+     * @param $course
+     * @return void
+     */
+    public function moreCourseInformation($course): void
+    {
+        foreach ($course as $row) {
+            $user = User::query()->where('id', $row->user_id)->get();
+            $row["firstname"] = $user[0]->firstname;
+            $row["lastname"] = $user[0]->lastname;
+            $row["identity"] = $user[0]->identity;
+
+            $lesson = Lesson::query()->where('course_id', $row->id)->get();
+            $course_duration = 0;
+            foreach ($lesson as $rw) {
+                $course_duration = +(new CommonHelpers)->getCourseTimeDuration($rw->start_time, $rw->end_time);
+            }
+
+            $row['course_duration'] = CommonHelpers::minsToHours($course_duration);
+            $row['rating'] = CustomerRating::where('course_id', $row->id)->count();
+        }
     }
 
 }

@@ -391,6 +391,7 @@ class UserController
         $data->url = CommonHelpers::create_unique_slug($request->title,"group_classes","url");
         $data->zoom_response = json_encode($zoom_response);
         $data->cover_image = $filename;
+        $data->type = $request->class_type;
         $data->save();
 
         Session::flash('message', "Group Class created");

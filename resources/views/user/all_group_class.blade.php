@@ -19,6 +19,7 @@
                                 <th>Title</th>
                                 <th>No of Student</th>
                                 <th>Available Slots</th>
+                                <th>Type</th>
                                 <th>Description</th>
                                 <th>Meeting Time</th>
                                 <th>Meeting Duration</th>
@@ -35,6 +36,7 @@
                                     <td>{{$row->title}}</td>
                                     <td>{{$row->slot}}</td>
                                     <td>{{$row->slot}}</td>
+                                    <td>{{$row->type}}</td>
                                     <td>{{$row->zoom_response["agenda"]}}</td>
                                     <td>{{$row->zoom_response["start_time"]}}</td>
                                     <td>{{$row->zoom_response["duration"]}} mins</td>
