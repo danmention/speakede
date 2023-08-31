@@ -197,4 +197,33 @@ class CategoryController extends Controller
         return back()->withInput()->with('response', 'Popular Status Updated');
     }
 
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function getUseCasesIndex()
+    {
+        $category = Category::query()->where('class_name', 'use_cases')->orderBy('id','DESC')->get();
+        return view('admin.categories.use-cases', compact('category'));
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function storeUseCases(Request $request): RedirectResponse
+    {
+        $post = new Category;
+        $user_id = Auth::user()->id;
+        $post->title = $request->title;
+        $post->parent_id = 0;
+        $post->class_name = "use_cases";
+        $post->user_id = $user_id;
+        $post->url = strtolower(CommonHelpers::str_slug($request->title));
+
+        $post->save();
+        return back()->withInput()->with('response', 'Use Cases Added');
+
+    }
+
 }

@@ -4,9 +4,10 @@
 namespace App\Helpers;
 
 
-use App\Models\CustomerRating;
+use App\Models\CourseRating;
 use App\Models\Lesson;
 use App\Models\User;
+use App\Models\UserRating;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -163,11 +164,11 @@ class CommonHelpers
 
     /**
      * @param $request
-     * @return CustomerRating
+     * @return CourseRating
      */
-    public static function StoreReviews($request) : CustomerRating {
+    public static function StoreReviews($request) : CourseRating {
 
-        $data = new CustomerRating();
+        $data = new CourseRating();
         $data->fullname = $request->fullname;
         $data->email    = $request->email;
         $data->review   = $request->review;
@@ -185,8 +186,8 @@ class CommonHelpers
      * @return float|int
      */
     public function rating($user_id){
-        $numbers_of_rating =  CustomerRating::where('user_id',$user_id)->sum('rating');
-        $number_of_people_rating = CustomerRating::where('user_id',$user_id)->count();
+        $numbers_of_rating =  CourseRating::where('user_id',$user_id)->sum('rating');
+        $number_of_people_rating = CourseRating::where('user_id',$user_id)->count();
 
         if($number_of_people_rating == 0){
             $final_rating = 0;
@@ -195,6 +196,40 @@ class CommonHelpers
         }
         return $final_rating;
     }
+
+
+    /**
+     * @param $request
+     * @return UserRating
+     */
+    public static function StoreUserReviews($request) : UserRating {
+
+        $data = new UserRating();
+        $data->review   = $request->review;
+        $data->user_id  = $request->user_id ?? null;
+        $data->tutor_user_id = $request->tutor_user_id ?? null;
+        $data->rating   = $request->rating ?? 5;
+        $data->save();
+        return $data;
+    }
+
+
+    /**
+     * @param $user_id
+     * @return float|int
+     */
+    public static function ratingUser($user_id){
+        $numbers_of_rating =  UserRating::where('tutor_user_id',$user_id)->sum('rating');
+        $number_of_people_rating = UserRating::where('tutor_user_id',$user_id)->count();
+
+        if($number_of_people_rating == 0){
+            $final_rating = 0;
+        }else {
+            $final_rating = $numbers_of_rating / $number_of_people_rating;
+        }
+        return $final_rating;
+    }
+
 
 
 
@@ -232,7 +267,7 @@ class CommonHelpers
             }
 
             $row['course_duration'] = CommonHelpers::minsToHours($course_duration);
-            $row['rating'] = CustomerRating::where('course_id', $row->id)->count();
+            $row['rating'] = CourseRating::where('course_id', $row->id)->count();
         }
     }
 

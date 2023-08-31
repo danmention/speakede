@@ -1,5 +1,5 @@
 
-@extends('admin.template')
+@extends('user.template')
 @section('content')
 
     <div id="page-container" class="main-content-boxed">
@@ -39,7 +39,7 @@
                                 {{ csrf_field() }}
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="val-select2-multiple">Select Language <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="val-select2-multiple">Select Language You Teach<span class="text-danger">*</span></label>
                                     <select class="js-select2 form-select" id="val-select2-multiple" name="language_id[]" style="width: 100%;" data-placeholder="Choose at least one.." multiple>
                                         <option></option>
                                        @foreach($lang as $row)
@@ -48,10 +48,21 @@
                                     </select>
                                 </div>
 
+
+                                <div class="mb-4">
+                                    <label class="form-label" for="val-select2-multiple">Select Language You Speak<span class="text-danger">*</span></label>
+                                    <ul style="list-style: none">
+                                        @foreach($lang as $row)
+                                        <li> <input type="checkbox" name="i_speak_language_id[]" value="{{$row->id}}"> {{$row->title}}</li>
+                                        @endforeach
+                                    </ul>
+
+                                </div>
+
                                 <div class="row mb-4">
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea id="js-ckeditor" name="about_me">Description</textarea>
+                                            <textarea id="js-ckeditor" name="about_me"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -72,4 +83,5 @@
         </main>
     </div>
     <!-- END Page Container -->
+
 @endsection

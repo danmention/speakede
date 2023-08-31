@@ -28,9 +28,11 @@
     <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css")}}">
     <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css")}}">
 
+    <link rel="stylesheet" href="{{asset("admin/assets/js/plugins/select2/css/select2.css")}}">
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet"  href="{{asset("admin/assets/js/plugins/sweetalert2/sweetalert2.min.css")}}">
     <link rel="stylesheet" id="css-main" href="{{asset("admin/assets/css/codebase.min.css")}}">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 

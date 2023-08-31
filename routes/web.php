@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers')->group(function () {
 
-
-
     Route::get('/payment/callback', ['uses' =>'User\PaymentController@handleGatewayCallback' ,'as' => 'user.payment.callback']);
     Route::post('/pay',  ['uses' =>'User\FlutterWaveController@initialize','as' => 'user.pay.rave']);
     Route::get('/rave/callback', ['uses' =>'User\FlutterWaveController@callback', 'as' => 'callback']);
@@ -25,15 +23,15 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
     Route::any('/', ['uses' => 'Home\HomeController@getIndex', 'as' => 'index.home']);
     Route::any('all-course', ['uses' => 'Home\HomeController@getAllCourse', 'as' => 'index.all.course']);
-    Route::any('group/online/class', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.group.online.class']);
-    Route::get('group/online/class/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
+    Route::any('online-sessions', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.online.sessions']);
+    Route::get('online-sessions/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
     Route::any('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
     Route::any('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
     Route::any('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
 
     Route::get('community', ['uses' => 'Home\HomeController@getCommunity', 'as' => 'index.community']);
     Route::get('become-a-teacher', ['uses' => 'Home\HomeController@getBecomeATeacher', 'as' => 'index.teacher']);
-    Route::get('teacher/find', ['uses' => 'Home\HomeController@findTeacher', 'as' => 'index.find.teacher']);
+    Route::get('tutor/find', ['uses' => 'Home\HomeController@findTutor', 'as' => 'index.find.tutor']);
 
     Route::post('account/login/now', ['uses' => 'Auth\AuthController@postSignIn', 'as' =>'login.in.user']);
     Route::get('account/logout', ['uses' => 'Auth\AuthController@getLogOut', 'as' =>'account.logout']);
@@ -48,8 +46,9 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('teacher/schedule/get-availability', [ 'uses' =>'Home\HomeController@getTeacherAvailability', 'as' => 'teacher.schedule.availability']);
     Route::get('booking/lesson', [ 'uses' =>'Home\HomeController@bookLesson', 'as' => 'lesson.book']);
 
-    Route::post('user/review/save', ['uses' => 'Home\HomeController@SubmitReviews', 'as' => 'index.user.review.save']);
-    Route::get('search-result', ['uses' => 'Home\HomeController@getSearchResult', 'as' =>'search.now']);
+    Route::post('course/review/save', ['uses' => 'Home\HomeController@SubmitReviews', 'as' => 'index.course.review.save']);
+    Route::post('user/review/save', ['uses' => 'Home\HomeController@SubmitUserReviews', 'as' => 'index.user.review.save']);
+    Route::get('search-result', ['uses' => 'Home\SearchController@getSearchResult', 'as' =>'search.now']);
 
     /**
      * GENERAL ACTION ROUTES
@@ -77,6 +76,12 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('/category/view', ['uses' => 'Admin\Categories\CategoryController@getCategory', 'as' => 'admin.view.cat']);
         Route::post('/category/add/save', ['uses' => 'Admin\Categories\CategoryController@storeCategory', 'as' => 'admin.add.cat.save']);
         Route::post('category/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.category']);
+
+        Route::get('use-cases/add', ['uses' => 'Admin\Categories\CategoryController@getUseCasesIndex', 'as' => 'admin.add.use.cases']);
+        Route::get('use-cases/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.use.cases']);
+        Route::post('use-cases/add/save', ['uses' => 'Admin\Categories\CategoryController@storeUseCases', 'as' => 'admin.add.use.cases.save']);
+        Route::post('use-cases/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.use.cases']);
+
         Route::post('category/make-popular', ['uses' => 'Admin\Categories\CategoryController@makePopular', 'as' => 'make.popular.category']);
 
         Route::group(['prefix' => 'transactions'], function ()
@@ -120,16 +125,49 @@ Route::namespace('App\Http\Controllers')->group(function () {
             Route::get('booking/group/lesson/pay', ['uses' => 'User\UserController@payVirtualGroupBooking', 'as' => 'user.apply.group.booking.lesson.pay']);
         });
         Route::get('dashboard', ['uses' => 'User\UserController@getIndex', 'as' => 'user.dashboard']);
-        Route::get('course', ['uses' => 'User\UserController@getCourse', 'as' => 'user.dashboard.course']);
-        Route::post('course/add', ['uses' => 'User\UserController@saveCourse', 'as' => 'user.dashboard.course.add']);
-        Route::get('course/all', ['uses' => 'User\UserController@allCourse', 'as' => 'user.dashboard.course.all']);
-        Route::get('course/paid/all', ['uses' => 'User\UserController@allPaidCourse', 'as' => 'user.dashboard.course.all.paid']);
-        Route::get('course/view/{url}', ['uses' => 'User\UserController@viewCourse', 'as' => 'user.dashboard.course.view']);
-        Route::get('course/view/{course_url}/{lesson_url}', ['uses' => 'User\UserController@viewPaidCourse', 'as' => 'user.dashboard.course.view.paid']);
-        Route::get('course/lesson/add/{id}', ['uses' => 'User\UserController@addLesson', 'as' => 'user.dashboard.course.add.lesson']);
-        Route::get('course/buy/{course_id}', ['uses' => 'User\UserController@buyCourse', 'as' => 'user.dashboard.course.buy']);
-        Route::post('course/buy/save', ['uses' => 'User\UserController@coursePaymentInit', 'as' => 'user.dashboard.course.buy.save']);
-        Route::post('course/lesson/save', ['uses' => 'User\UserController@saveLesson', 'as' => 'user.dashboard.course.lesson.save']);
+
+        Route::group(['prefix' => 'course'], function ()
+        {
+            Route::get('/', ['uses' => 'User\UserController@getCourse', 'as' => 'user.dashboard.course']);
+            Route::post('add', ['uses' => 'User\UserController@saveCourse', 'as' => 'user.dashboard.course.add']);
+            Route::get('all', ['uses' => 'User\UserController@allCourse', 'as' => 'user.dashboard.course.all']);
+            Route::get('paid/all', ['uses' => 'User\UserController@allPaidCourse', 'as' => 'user.dashboard.course.all.paid']);
+            Route::get('sold/all', ['uses' => 'User\UserController@allSoldCourse', 'as' => 'user.dashboard.course.all.sold']);
+            Route::get('view/{url}', ['uses' => 'User\UserController@viewCourse', 'as' => 'user.dashboard.course.view']);
+            Route::get('view/{course_url}/{lesson_url}', ['uses' => 'User\UserController@viewPaidCourse', 'as' => 'user.dashboard.course.view.paid']);
+            Route::get('lesson/add/{id}', ['uses' => 'User\UserController@addLesson', 'as' => 'user.dashboard.course.add.lesson']);
+            Route::get('buy/{course_id}', ['uses' => 'User\UserController@buyCourse', 'as' => 'user.dashboard.course.buy']);
+            Route::post('buy/save', ['uses' => 'User\UserController@coursePaymentInit', 'as' => 'user.dashboard.course.buy.save']);
+            Route::post('lesson/save', ['uses' => 'User\UserController@saveLesson', 'as' => 'user.dashboard.course.lesson.save']);
+            Route::get('type/free', ['uses' => 'User\UserController@allCourseByAction', 'as' => 'user.dashboard.course.free']);
+            Route::get('type/paid', ['uses' => 'User\UserController@allCourseByAction', 'as' => 'user.dashboard.course.paid']);
+            Route::get('use-cases', ['uses' => 'User\UserController@allCourseByAction', 'as' => 'user.dashboard.course.use.cases']);
+
+        });
+
+        Route::group(['prefix' => 'discover'], function ()
+        {
+            Route::get('type/course', ['uses' => 'User\UserController@discoverCourses', 'as' => 'user.dashboard.discover.course']);
+            Route::get('type/tutors', ['uses' => 'User\UserController@discoverTutor', 'as' => 'user.dashboard.discover.tutors']);
+            Route::get('type/sessions', ['uses' => 'User\UserController@discoverSessions', 'as' => 'user.dashboard.discover.sessions']);
+
+        });
+
+        Route::group(['prefix' => 'courses'], function ()
+        {
+            Route::get('type/free', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.free']);
+            Route::get('type/paid', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.paid']);
+            Route::get('use-cases', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.use.cases']);
+
+        });
+
+
+        Route::group(['prefix' => 'group-sessions'], function ()
+        {
+            Route::get('type/free', ['uses' => 'User\UserController@groupSessionByAction', 'as' => 'user.dashboard.group-sessions.free']);
+            Route::get('type/paid', ['uses' => 'User\UserController@groupSessionByAction', 'as' => 'user.dashboard.group-sessions.paid']);
+        });
+
         Route::get('wallet/funding', ['uses' => 'User\UserController@buySpeakToken', 'as' => 'user.dashboard.wallet']);
         Route::post('pay', ['uses' =>'User\PaymentController@redirectToGateway' ,'as' => 'user.pay']);
         Route::get('/profile/photo/add', ['uses' => 'User\UserController@getProfilePhoto', 'as' => 'user.profile.photo']);
@@ -148,12 +186,14 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('group/class/create',[ 'uses' =>'User\UserController@createGroupClass', 'as' => 'user.group.class.create']);
         Route::get('group/class/all',[ 'uses' =>'User\UserController@getGroupClass', 'as' => 'user.group.class.all']);
         Route::get('group/class/paid',[ 'uses' =>'User\UserController@getGroupClassPaid', 'as' => 'user.group.class.all.paid']);
+        Route::get('group/class/sold',[ 'uses' =>'User\UserController@getGroupClassSold', 'as' => 'user.group.class.all.sold']);
         Route::post('group/create/save',[ 'uses' =>'User\UserController@saveGroupClassMeeting', 'as' => 'user.group.class.save']);
 
 
     });
 
 
+    Route::get('use-cases', ['uses' => 'Home\HomeController@getUseCasesByCourse', 'as' => 'index.use.cases']);
     Route::get('{teachers}/{language}', ['uses' => 'Home\HomeController@getTeacherByLang', 'as' => 'index.cat']);
     Route::get('{teacher}/{id}/{language}', ['uses' => 'Home\HomeController@getTeacherLang', 'as' => 'index.teacher.view']);
     Route::get('{category}/{user}/view', ['uses' => 'Home\HomeController@userStatusUpdate', 'as' => 'index.status']);

@@ -79,7 +79,7 @@
                                     @if(\Request::query('action') === "true")
                                     <div class="col-6">
                                         <div class="form-floating">
-                                            <select name="existing" class="form-control">
+                                            <select name="existing" class="form-control" required="required">
                                                 @foreach(Lesson::query()->where('course_id', $row->id)->groupBy('group_id')->get() as $rw)
                                                     <option value="{{$rw->group_id}}"> {{$rw->lesson_name}}</option>
                                                 @endforeach
@@ -91,7 +91,7 @@
                                     @else
                                         <div class="col-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="register4-firstname" name="lesson_name" placeholder="Enter lesson name">
+                                                <input type="text" class="form-control" id="register4-firstname" name="lesson_name" placeholder="Enter lesson name"  required="required">
                                                 <label class="form-label" for="register4-firstname">Lesson Name</label>
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@
                                     @endif
                                     <div class="col-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="price" name="title" placeholder="Enter title">
+                                            <input type="text" class="form-control" id="price" name="title" placeholder="Enter title"  required="required">
                                             <label class="form-label" for="register4-lastname">Lesson Title</label>
                                         </div>
                                     </div>
@@ -110,13 +110,13 @@
                                 <div class="row mb-4">
                                     <div class="col-6">
                                         <div class="form-floating">
-                                            <input type="datetime-local" class="form-control" id="register4-firstname" name="start_time">
+                                            <input type="datetime-local" class="form-control" id="register4-firstname" name="start_time"  required="required">
                                             <label class="form-label" for="register4-firstname">Start DateTime</label>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-floating">
-                                            <input type="datetime-local" class="form-control" id="price" name="end_time">
+                                            <input type="datetime-local" class="form-control" id="price" name="end_time"  required="required">
                                             <label class="form-label" for="register4-lastname">End DateTime</label>
                                         </div>
                                     </div>
@@ -124,13 +124,15 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <div class="form-floating">
-                                        <textarea id="js-ckeditor" name="desc">Description</textarea>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea name="desc" rows="5" style="width: 100%;border: 1px solid #d8dde5;"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-floating">
-                                        <textarea type="text" class="form-control"  name="youtube_link" rows="3" placeholder="Enter your company"></textarea>
+                                        <textarea type="text" class="form-control"  name="youtube_link" rows="3" placeholder="Enter your company"  required="required"></textarea>
                                         <label class="form-label" for="register4-email"> Youtube link (eg https://www.youtube.com/watch?v=xxxxxxx )</label>
                                     </div>
                                 </div>

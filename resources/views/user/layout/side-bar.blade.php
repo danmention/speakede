@@ -68,7 +68,7 @@
                     </a>
                     <ul class="list-inline mt-3 mb-0">
                         <li class="list-inline-item">
-                            <a class="link-fx text-dual fs-sm fw-semibold text-uppercase" href="">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</a>
+                            <a class="link-fx text-dual fs-sm fw-semibold text-uppercase" href="{{route('user.dashboard')}}">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</a>
                         </li>
                         <li class="list-inline-item">
                             <a class="link-fx text-dual" href="{{route('account.logout')}}">
@@ -84,112 +84,309 @@
             <!-- Side Navigation -->
             <div class="content-side content-side-full">
                 <ul class="nav-main">
-                    <li class="nav-main-item">
-                        <a class="nav-main-link {{Request::segment(2)  === "dashboard" ? "active" : ""}}" href="{{route('user.dashboard')}}">
-                            <i class="nav-main-link-icon fa fa-house-user"></i>
-                            <span class="nav-main-link-name">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-main-heading">User Interface</li>
+
+
                     <li class="nav-main-item {{Request::segment(2)  === "course" ? "open" : ""}}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-book"></i>
-                            <span class="nav-main-link-name">Courses</span>
+                            <i class="nav-main-link-icon fa fa-dashboard"></i>
+                            <span class="nav-main-link-name">DASHBOARD</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item {{Request::segment(2)  === "course" ? "open" : ""}}">
-                                <a class="nav-main-link {{Request::segment(2)  === "course" ? "active" : ""}}" href="{{route('user.dashboard.course')}}">
-                                    <span class="nav-main-link-name">Add Course</span>
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-book-open"></i>
+                                    <span class="nav-main-link-name">COURSES</span>
                                 </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{Request::segment(3)  === "all" ? "active" : ""}}" href="{{route('user.dashboard.course.all')}}">
-                                    <span class="nav-main-link-name">All Courses</span>
-                                </a>
+                                <ul class="nav-main-submenu">
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{empty(Request::segment(3))  ? "active" : ""}}" href="{{route('user.dashboard.course')}}">
+                                            <span class="nav-main-link-name">CREATE</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(3)  === "paid" ? "open" : ""}}" href="{{route('user.dashboard.course.all.paid')}}">
+                                            <span class="nav-main-link-name">PAID COURSES</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(3)  === "all" ? "open" : ""}}" href="{{route('user.dashboard.course.all')}}">
+                                            <span class="nav-main-link-name">CREATED COURSES</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(3)  === "sold" ? "open" : ""}}" href="{{route('user.dashboard.course.all.sold')}}">
+                                            <span class="nav-main-link-name">SOLD COURSES</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-main-item">
-                                <a class="nav-main-link {{Request::segment(3)  === "all" ? "active" : ""}}" href="{{route('user.dashboard.course.all.paid')}}">
-                                    <span class="nav-main-link-name">Paid Courses</span>
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-user-group"></i>
+                                    <span class="nav-main-link-name">GROUP SESSIONS</span>
                                 </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all.paid')}}">
+                                            <span class="nav-main-link-name">PAID GROUP SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all')}}">
+                                            <span class="nav-main-link-name">CREATED GROUP SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all.sold')}}">
+                                            <span class="nav-main-link-name">SOLD GROUP SESSIONS</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-user-alt"></i>
+                                    <span class="nav-main-link-name">PRIVATE SESSIONS</span>
+                                </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.schedule.booking.request')}}">
+                                            <span class="nav-main-link-name">PAID PRIVATE SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.schedule.availability.all')}}">
+                                            <span class="nav-main-link-name">CREATED PRIVATE SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all.paid')}}">
+                                            <span class="nav-main-link-name">SOLD PRIVATE SESSIONS</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
 
 
-                    <li class="nav-main-item  {{Request::segment(2)  === "schedule" ? "open" : ""}}">
+                    <li class="nav-main-item {{Request::segment(2)  === "discover" ? "open" : ""}}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-meetup"></i>
-                            <span class="nav-main-link-name">Private Meeting</span>
+                            <i class="nav-main-link-icon fa fa-search"></i>
+                            <span class="nav-main-link-name">DISCOVER</span>
                         </a>
                         <ul class="nav-main-submenu">
-
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.schedule.availability')}}">
-                                    <span class="nav-main-link-name">Set Availability</span>
+                            <li class="nav-main-item {{Request::segment(3) ==="type"  ? "open" : ""}}">
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-user-group"></i>
+                                    <span class="nav-main-link-name">TYPE</span>
                                 </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="tutors"  ? "active" : ""}}" href="{{route('user.dashboard.discover.tutors')}}">
+                                            <span class="nav-main-link-name">TUTORS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="course"  ? "active" : ""}}" href="{{route('user.dashboard.discover.course')}}">
+                                            <span class="nav-main-link-name">COURSES</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.dashboard.discover.sessions')}}">
+                                            <span class="nav-main-link-name">SESSIONS</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.schedule.availability.all')}}">
-                                    <span class="nav-main-link-name">All Schedule Meeting</span>
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-user-group"></i>
+                                    <span class="nav-main-link-name">GROUP SESSIONS</span>
                                 </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all')}}">
+                                            <span class="nav-main-link-name">PAID GROUP SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.create')}}">
+                                            <span class="nav-main-link-name">CREATED GROUP SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all.paid')}}">
+                                            <span class="nav-main-link-name">SOLD GROUP SESSIONS</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.schedule.booking.request')}}">
-                                    <span class="nav-main-link-name">All Booked Private Meeting</span>
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-user-alt"></i>
+                                    <span class="nav-main-link-name">PRIVATE SESSIONS</span>
                                 </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.create')}}">
+                                            <span class="nav-main-link-name">PAID PRIVATE SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all')}}">
+                                            <span class="nav-main-link-name">CREATED PRIVATE SESSIONS</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link" href="{{route('user.group.class.all.paid')}}">
+                                            <span class="nav-main-link-name">SOLD PRIVATE SESSIONS</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-main-item {{Request::segment(2) ==="courses"  ? "open" : ""}}">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-book-open"></i>
+                            <span class="nav-main-link-name">COURSES</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item {{Request::segment(3) ==="type"  ? "open" : ""}}">
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-list-alt"></i>
+                                    <span class="nav-main-link-name">TYPE</span>
+                                </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="free"  ? "active" : ""}}" href="{{route('user.dashboard.discover.course.free')}}">
+                                            <span class="nav-main-link-name">FREE</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="paid"  ? "active" : ""}}" href="{{route('user.dashboard.discover.course.paid')}}">
+                                            <span class="nav-main-link-name">PAID</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+{{--                            <li class="nav-main-item">--}}
+{{--                                <a class="nav-main-link{{Request::segment(3) ==="use-cases"  ? "active" : ""}}" href="{{route('user.dashboard.discover.course.use.cases')}}">--}}
+{{--                                    <i class="nav-main-link-icon fa fa-list-alt"></i>--}}
+{{--                                    <span class="nav-main-link-name">USE-CASES</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
 
                         </ul>
+                    </li>
+
+
+                    <li class="nav-main-item {{Request::segment(2) ==="group-sessions"  ? "open" : ""}}">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">GROUP SESSION</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item {{Request::segment(3) ==="type"  ? "open" : ""}}">
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-list-alt"></i>
+                                    <span class="nav-main-link-name">TYPE</span>
+                                </a>
+                                <ul class="nav-main-submenu">
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="free"  ? "active" : ""}}" href="{{route('user.dashboard.group-sessions.free')}}">
+                                            <span class="nav-main-link-name">FREE</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="paid"  ? "active" : ""}}" href="{{route('user.dashboard.group-sessions.paid')}}">
+                                            <span class="nav-main-link-name">PAID</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+{{--                            <li class="nav-main-item">--}}
+{{--                                <a class="nav-main-link" href="#">--}}
+{{--                                    <i class="nav-main-link-icon fa fa-list-alt"></i>--}}
+{{--                                    <span class="nav-main-link-name">TOPICS</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{Request::segment(2)  === "dashboard" ? "active" : ""}}" href="{{route('user.dashboard.discover.tutors')}}">
+                            <i class="nav-main-link-icon fa fa-chalkboard-teacher"></i>
+                            <span class="nav-main-link-name">TUTORS</span>
+                        </a>
                     </li>
 
 
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-user-group"></i>
-                            <span class="nav-main-link-name">Group Meeting</span>
+                            <i class="nav-main-link-icon fa fa-calendar-times"></i>
+                            <span class="nav-main-link-name">SCHEDULE</span>
                         </a>
+
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.group.class.create')}}">
-                                    <span class="nav-main-link-name">Create Meeting</span>
+                                    <i class="nav-main-link-icon fa fa-user-group"></i>
+                                    <span class="nav-main-link-name">GROUP SESSIONS</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.schedule.availability')}}">
+                                    <i class="nav-main-link-icon fa fa-user-alt"></i>
+                                    <span class="nav-main-link-name">PRIVATE</span>
                                 </a>
                             </li>
 
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.group.class.all')}}">
-                                    <span class="nav-main-link-name">All Meeting</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.group.class.all.paid')}}">
-                                    <span class="nav-main-link-name">All Paid</span>
-                                </a>
-                            </li>
                         </ul>
+
                     </li>
 
-
-
-                    <li class="nav-main-heading">Account</li>
 
                     <li class="nav-main-item {{Request::segment(2)  === "wallet" ? "open" : ""}}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-wallet"></i>
-                            <span class="nav-main-link-name">Wallet</span>
+                            <span class="nav-main-link-name">WALLET</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.dashboard.wallet')}}">
-                                    <span class="nav-main-link-name">Buy Speak Tokens</span>
+                                    <span class="nav-main-link-name">FUND WALLET</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.dashboard.wallet')}}">
-                                    <span class="nav-main-link-name">All Speak Tokens Transactions</span>
+                                    <span class="nav-main-link-name">ALL TRANSACTIONS</span>
                                 </a>
                             </li>
 
@@ -199,19 +396,19 @@
                     <li class="nav-main-item {{Request::segment(3)  === "photo" ? "open" : ""}}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-user-lock"></i>
-                            <span class="nav-main-link-name">Settings </span>
+                            <span class="nav-main-link-name">SETTINGS </span>
                         </a>
                         <ul class="nav-main-submenu">
 
                             <li class="nav-item {{Request::segment(3)  === "photo" ? "open" : ""}}">
                                 <a href="{{route('user.profile.photo')}}" class="nav-main-link {{Request::segment(3)  === "photo" ? "active" : ""}}">
-                                    <span class="nav-main-link-nam">Update profile Photo</span>
+                                    <span class="nav-main-link-nam">UPDATE PROFILE PHOTO</span>
                                 </a>
                             </li>
 
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{ route('user.password') }}">
-                                    <span class="nav-main-link-name">Change Password</span>
+                                    <span class="nav-main-link-name">CHANGE PASSWORD</span>
                                 </a>
                             </li>
 
@@ -221,7 +418,7 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="{{route('account.logout')}}">
                             <i class="nav-main-link-icon fa fa-sign-out-alt"></i>
-                            <span class="nav-main-link-name">Logout</span>
+                            <span class="nav-main-link-name">LOGOUT</span>
                         </a>
                     </li>
 

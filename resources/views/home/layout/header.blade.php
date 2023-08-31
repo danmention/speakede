@@ -59,9 +59,9 @@
                         <!--  Header Menu Start  -->
                         <div class="header-menu d-none d-lg-block">
                             <ul class="main-menu">
-                                <li><a href="{{route('index.find.teacher')}}">Find a teacher</a></li>
+                                <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
                                 <li><a href="{{route('index.all.course')}}">All Course</a></li>
-                                <li><a href="{{route('index.all.group.online.class')}}">Group Online Classes</a></li>
+                                <li><a href="{{route('index.all.online.sessions')}}">Upcoming Online Sessions</a></li>
                                 <li><a href="{{route('index.register')}}">Become a teacher</a></li>
                             </ul>
                         </div>
@@ -78,11 +78,12 @@
 
                                 <select name="type" style="background-color: #f3f3f3;padding: 0 20px;height: 55px;width: 30%;border: 1px solid transparent;color: #93a1a2;font-size: 15px;font-weight: 400;border-radius: 5px;">
                                     <option value=""> Select type</option>
-                                    <option value="teachers"> teachers</option>
-                                    <option value="group"> Group Classes</option>
+                                    <option value="tutors">Tutors</option>
+                                    <option value="course">Course</option>
+                                    <option value="group">Upcoming (group) classes</option>
                                 </select>
 
-                                <input type="text" placeholder="Search" name="keyword">
+                                <input type="text" placeholder="Search" name="keyword" style="width: 62%;">
                                 <button><i class="flaticon-loupe"></i></button>
 
 
@@ -91,12 +92,12 @@
 
                         <div class="header-login d-none d-lg-block">
                         @if(isset(\Illuminate\Support\Facades\Auth::user()->is_admin) && \Illuminate\Support\Facades\Auth::user()->is_admin == 0)
-                            <a class="link" href="{{route('user.dashboard')}}"><i class="far fa-user"></i> {{Auth::user()->firstname.' '.Auth::user()->lastname}}</a>
+                            <a class="link" href="{{route('user.dashboard')}}"><i class="far fa-user"></i> {{Auth::user()->firstname}}</a>
                             <a class="link" href="{{route('account.logout')}}">Logout</a>
 
                         @else
                             <a class="link" href="{{route('index.login')}}"><i class="far fa-user"></i> Login</a>
-                            <a class="link" href="{{route('index.register')}}">Register</a>
+                            <a class="link" href="{{route('index.register')}}">Signup</a>
                         @endif
                         </div>
 
@@ -136,10 +137,10 @@
         <div class="offcanvas-body">
             <div class="offcanvas-menu">
                 <ul class="main-menu">
-                    <li><a href="{{route('index.find.teacher')}}">Find a teacher</a></li>
+                    <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
                     <li><a href="{{route('index.register')}}">Become a teacher</a></li>
                     <li><a href="{{route('index.login')}}">Login</a></li>
-                    <li><a href="{{route('index.register')}}">Register</a></li>
+                    <li><a href="{{route('index.register')}}">Signup</a></li>
                 </ul>
             </div>
         </div>

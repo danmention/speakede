@@ -5,13 +5,15 @@ namespace App\Services\home;
 use App\Helpers\CommonHelpers;
 use App\Models\Category;
 use App\Models\Course;
-use App\Models\CustomerRating;
+use App\Models\CourseRating;
 use App\Models\GroupClass;
 use App\Models\GroupClassEnrollment;
+use App\Models\LanguageISpeak;
 use App\Models\Lesson;
 use App\Models\PreferredLanguage;
 use App\Models\ScheduleEvent;
 use App\Models\User;
+use App\Models\UserRating;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -30,6 +32,7 @@ class HomeService
     {
         $user_id = Auth::user()->id ?? null;
         $lang = Category::query()->where('class_name', 'language')->get();
+        $use_cases = Category::query()->where('class_name', 'use_cases')->get();
         $lang_popular = Category::query()->where('class_name', 'language')->where('popular_status', 1)->get();
         $course = Course::query()->orderBy('id', 'desc')->get();
         (new CommonHelpers)->moreCourseInformation($course);
@@ -38,18 +41,22 @@ class HomeService
                 if (!empty($user_id)) {
                     $query->where("id", "!=", $user_id);
                 }
-            })->where('is_admin', 0)->limit(4)->get();
+            })->where('is_admin', 0)->orderBy('id','desc')->limit(4)->get();
 
         foreach ($expert_teachers as $row) {
             $lang_ = PreferredLanguage::query()->where('user_id', $row->id)->limit(1)->orderBy('id', 'DESC')->value('id');
             $row["lang"] = Category::query()->where('id', $lang_)->value('title') ?? "English";
         }
 
+        $use_cases_course = Category::query()->where('class_name', 'use_cases')->orderBy('id','desc')->take(5)->get();
+
         return array(
             "lang" => $lang,
+            "use_cases" => $use_cases,
             "lang_popular" => $lang_popular,
             "course" => $course,
-            "expert_teachers" => $expert_teachers
+            "expert_teachers" => $expert_teachers,
+            "use_cases_course" => $use_cases_course
         );
     }
 
@@ -117,9 +124,10 @@ class HomeService
         $post->password = bcrypt($request->password);
         $post->identity = $identity;
         $post->verify_code = $verify;
+        $post->save();
 
         Session::flash('message', ' Your registration was successful, please login');
-        return redirect()->back();
+        return redirect()->route('index.login');
     }
 
 
@@ -134,6 +142,9 @@ class HomeService
 
         $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
             ->where('preferred_languages.user_id', $profile[0]->id)->get(['categories.*']);
+
+        $language_i_speak = LanguageISpeak::join('categories', 'categories.id', '=', 'language_i_speaks.language_id')
+            ->where('language_i_speaks.user_id', $profile[0]->id)->get(['categories.*']);
         $private_class = GroupClass::query()->where('status', 1)->where('user_id', $profile[0]->id)->get();
         foreach ($private_class as $row) {
             $paid_slot = GroupClassEnrollment::query()->where('group_class_id', $row->id)->count();
@@ -142,11 +153,20 @@ class HomeService
             $row["available_slots"] = $available;
         }
 
+        $reviews = UserRating::where('tutor_user_id', $profile[0]["id"])->get();
+        foreach ($reviews as $row) {
+            $user_profile = User::query()->where('id', $row->tutor_user_id)->get();
+            $row["profile_image"] = $user_profile[0]->profile_image;
+            $row["fullname"] = $user_profile[0]->firstname. ' '.$user_profile[0]->lastname;
+        }
+
         return array(
             'profile' => $profile,
             'preferred_lang' => $preferred_lang,
+            'language_i_speak' => $language_i_speak,
             'private_class' => $private_class,
-            'identity' => $identity
+            'identity' => $identity,
+            'reviews' => $reviews
         );
 
     }
@@ -154,13 +174,18 @@ class HomeService
     /**
      * @return LengthAwarePaginator
      */
-    public function findTeacher(): LengthAwarePaginator
+    public function findTutor(): LengthAwarePaginator
     {
         $teachers = User::query()->where('is_admin', 0)->orderBy('id', 'DESC')->paginate(15);
 
         foreach ($teachers as $row) {
             $row["preferred_lang"] = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
                 ->where('preferred_languages.user_id', $row->id)->get(['categories.*']);
+
+            $row["language_i_speak"] = LanguageISpeak::join('categories', 'categories.id', '=', 'language_i_speaks.language_id')
+                ->where('language_i_speaks.user_id', $row->id)->get(['categories.*']);
+
+            $row["rating"] = CommonHelpers::ratingUser($row->id);
         }
         return $teachers;
     }
@@ -205,25 +230,7 @@ class HomeService
             $course = Course::query()->orderBy('id', 'DESC')->paginate(15);
         }
 
-        (new CommonHelpers)->moreCourseInformation($course);
-        $instructors = User::query()->where(function ($query) use ($user_id) {
-            if (!empty($user_id)) {
-                $query->where("id", "!=", $user_id);
-            }
-        })->where('is_admin', 0)->orderBy('id', 'DESC')->limit("5")->get();
-
-        foreach ($instructors as $row) {
-            $row["number_of_course"] = Course::query()->where('user_id', $row->id)->count();
-        }
-
-        $free_course = Course::query()->where('type', 'FREE')->count();
-        $paid_course = Course::query()->where('type', 'PAID')->count();
-        return array(
-            'course' => $course,
-            'instructors' => $instructors,
-            'free_course' => $free_course,
-            'paid_course' => $paid_course
-        );
+        return $this->courseListInfo($course, $user_id);
     }
 
 
@@ -237,12 +244,12 @@ class HomeService
         foreach ($course as $row) {
             $row["instructor"] = User::query()->where('id', $row->user_id)->get();
             $row["lesson_total"] = Lesson::query()->where('course_id', $row->id)->count();
-            $row['rating'] = CustomerRating::where('course_id', $row->id)->count();
+            $row['rating'] = CourseRating::where('course_id', $row->id)->count();
         }
         (new CommonHelpers)->moreCourseInformation($course);
         $lessons = Lesson::query()->where('course_id', $course[0]['id'])->groupBy('group_id')->get();
         $profile = User::query()->where('id', $course[0]["user_id"])->get();
-        $reviews = CustomerRating::where('course_id', $course[0]["id"])->get();
+        $reviews = CourseRating::where('course_id', $course[0]["id"])->get();
         foreach ($reviews as $row) {
             $row["profile_image"] = User::query()->where('id', $row->user_id)->value("profile_image");
         }
@@ -293,6 +300,19 @@ class HomeService
         return redirect()->back();
     }
 
+    public function saveUserReview(Request $request): RedirectResponse
+    {
+        if ($request->rating_pro):
+            $data = CommonHelpers::StoreUserReviews($request);
+            if ($data->id) {
+                Session::flash('message', ' Review added successful');
+                return redirect()->back();
+            }
+        endif;
+        Session::flash('message', ' something went wrong');
+        return redirect()->back();
+    }
+
 
     /**
      * @param Request $request
@@ -315,6 +335,8 @@ class HomeService
      */
     public function groupClasses(Request $request): array
     {
+        $user_id = Auth::user()->id ?? null;
+
         if ($request->type) {
             $course = GroupClass::query()->where('type', strtoupper($request->type))->orderBy('id', 'DESC')->paginate(15);
         } else {
@@ -325,46 +347,76 @@ class HomeService
 
         $free_course = GroupClass::query()->where('type', 'FREE')->count();
         $paid_course = GroupClass::query()->where('type', 'PAID')->count();
+
+        $instructors = User::query()->where(function ($query) use ($user_id) {
+            if (!empty($user_id)) {
+                $query->where("id", "!=", $user_id);
+            }
+        })->where('is_admin', 0)->orderBy('id', 'DESC')->limit("5")->get();
+
+        foreach ($instructors as $row) {
+            $row["number_of_course"] = Course::query()->where('user_id', $row->id)->count();
+        }
+
         return array(
             'course' => $course,
             'lang' => $lang,
+            'free_course' => $free_course,
+            'paid_course' => $paid_course,
+            'instructors' =>$instructors
+        );
+    }
+
+
+
+
+    public function getUseCases(Request $request): array
+    {
+        $user_id = Auth::user()->id ?? null;
+        $category = Category::query()->where('url', $request->link)->value('id');
+
+        if ($request->type) {
+            $course = Course::query()->where('type', strtoupper($request->type))->where('use_cases_id',$category)
+                ->orderBy('id', 'DESC')->paginate(15);
+        } else {
+            $course = Course::query()->where('use_cases_id',$category)->orderBy('id', 'DESC')->paginate(15);
+        }
+
+        return $this->courseListInfo($course, $user_id);
+    }
+
+    /**
+     * @param LengthAwarePaginator $course
+     * @param $user_id
+     * @return array
+     */
+    private function courseListInfo(LengthAwarePaginator $course, $user_id): array
+    {
+        (new CommonHelpers)->moreCourseInformation($course);
+        $instructors = User::query()->where(function ($query) use ($user_id) {
+            if (!empty($user_id)) {
+                $query->where("id", "!=", $user_id);
+            }
+        })->where('is_admin', 0)->orderBy('id', 'DESC')->limit("5")->get();
+
+        foreach ($instructors as $row) {
+            $row["number_of_course"] = Course::query()->where('user_id', $row->id)->count();
+        }
+
+        $free_course = Course::query()->where('type', 'FREE')->count();
+        $paid_course = Course::query()->where('type', 'PAID')->count();
+        return array(
+            'course' => $course,
+            'instructors' => $instructors,
             'free_course' => $free_course,
             'paid_course' => $paid_course
         );
     }
 
-
-    /**
-     * @param Request $request
-     * @return array
-     */
-    public function search(Request $request): array
-    {
-
-        if (!empty($request->type)) {
-
-            switch ($request->type) {
-                case "teachers":
-                    $course = User::select('*')->where('firstname', 'LIKE', '%' . $request->keyword . '%')->orWhere('lastname', 'LIKE', '%' . $request->keyword . '%')->where('status', 1)->paginate(40);
-                    $type = "teachers";
-                    break;
-                case "group":
-                    $course = GroupClass::select('*')->where('title', 'LIKE', '%' . $request->keyword . '%')->where('status', 1)->paginate(40);
-                    $type = "teachers";
-                    break;
-                default:
-                    $course = Course::select('*')->where('title', 'LIKE', '%' . $request->keyword . '%')->where('status', 1)->paginate(40);
-                    $type = "course";
-            }
-        } else {
-            $course = Course::select('*')->where('title', 'LIKE', '%' . $request->keyword . '%')->where('status', 1)->paginate(40);
-            $type = "course";
-        }
-
-        return array(
-            'course' => $course,
-            'type' => $type
-        );
+    public function getCourseByUseCases($use_cases_id){
+        $course = Course::query()->where('use_cases_id',$use_cases_id)->orderBy('id', 'desc')->get();
+        (new CommonHelpers)->moreCourseInformation($course);
+        return $course;
     }
 
 }

@@ -1,5 +1,5 @@
 <!-- Single Courses Start -->
-<a href="{{url('group/online/class/'.$row->url)}}">
+<a href="{{url('online-sessions/'.$row->url)}}">
     <div class="single-course" style="background-color:#ffffff; padding: 10px;box-shadow: 0 33px 73px 0 rgba(0, 0, 0, 0.1);border-radius: 20px;">
     <div class="courses-image" style="max-width: 300px; max-height: 200px;">
         <img src="{{asset('group/class/photo/'.$row->user_id.'/'.$row->cover_image)}}" class="img-avatar" style="width: 100%; height: 200px; background-repeat: no-repeat;background-size: contain;">
@@ -9,8 +9,9 @@
             {{ \Carbon\Carbon::parse($row->start_date)->format(' H:i')}}  -  {{\Carbon\Carbon::parse($row->start_date)->addMinutes($row->duration_in_mins)->format(' H:i')}} {{ \Carbon\Carbon::parse($row->start_date)->format('M D Y')}}</p>
         <div style="margin-bottom: 10px;">
             <h2 class="title">
-                <a href="{{url('group/online/class/'.$row->url)}}">{{ucwords($row->title)}}</a>
+                <a href="{{url('online-sessions/'.$row->url)}}">{{ucwords($row->title)}}</a>
             </h2>
+            <p>{!! Str::of($row->description)->words(10, ' ....') !!}</p>
 
         </div>
 

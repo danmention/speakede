@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursePayment;
 use App\Models\GroupClass;
-use App\Models\GroupClassEnrollment;
+use App\Models\LanguageISpeak;
 use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
@@ -15,6 +15,7 @@ use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Services\zoom\ZoomServiceImpl;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -64,7 +65,8 @@ class UserController
         }
         $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
             ->where('preferred_languages.user_id',Auth::user()->id)->get(['categories.*','preferred_languages.price']);
-        return view('user.course.add-course', compact('preferred_lang'));
+        $use_cases = Category::query()->where('class_name','use_cases')->orderBy('id','desc')->get();
+        return view('user.course.add-course', compact('preferred_lang','use_cases'));
     }
 
 
@@ -77,12 +79,28 @@ class UserController
         $data = new Course();
         $data->url = strtolower(CommonHelpers::str_slug($request->title));
         $data->title = $request->title;
-        $data->price = $request->price;
+        $data->price = $request->price ?? 0;
         $data->description = $request->desc;
-        $data->youtube_link = $request->youtube_link;
+        $data->youtube_link = $request->youtube_link ?? null;
         $data->language = $request->language;
         $data->type = $request->course_type;
+        $data->use_cases_id = $request->use_cases_id;
         $data->user_id = Auth::user()->id;
+
+        if ($request->picture) {
+            $image = $request->file('picture');
+            $filename = time().".".$image->getClientOriginalExtension();
+            // Create directory if it does not exist
+            $path = public_path()."/course/photo/". Auth::user()->id ."/";
+            if(!File::isDirectory($path)) {
+                File::makeDirectory(public_path().'/'.$path,0777,true);
+            }
+            $location = public_path('course/photo/'. Auth::user()->id .'/');
+            $image->move($location, $filename);
+            $data->cover_image = $filename;
+        }else {
+            return back()->withInput()->with('response','Please Attach a profile photo');
+        }
         $data->save();
 
         Session::flash('message', ' Course added successful');
@@ -112,12 +130,45 @@ class UserController
             return redirect()->route('user.apply.final');
         }
 
-        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')
+        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('course_payments.user_id', Auth::user()->id)
             ->get(['courses.*']);
 
         return view('user.course.all_course', compact('course'));
     }
 
+    public function allSoldCourse(){
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+
+        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('courses.user_id', Auth::user()->id)
+            ->get(['courses.*']);
+
+        return view('user.course.all_course', compact('course'));
+    }
+
+
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function allCourseByAction(Request $request)
+    {
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+
+        if($request->segment(3) ==="type"){
+            $course = Course::query()->where('type', strtoupper($request->segment(4)))->where('user_id',  Auth::user()->id)
+                ->orderBy('id','desc')->get();
+        }elseif ($request->segment(3) ==="use-cases"){
+            $course = Course::query()->where('use_cases_id', '!=',null)->where('user_id',  Auth::user()->id)
+                ->orderBy('id','desc')->get();
+        } else {
+            $course = Course::query()->where('user_id',  Auth::user()->id)->orderBy('id','desc')->get();
+        }
+        return view('user.course.all_course', compact('course'));
+    }
 
     /**
      * @param $url
@@ -319,6 +370,13 @@ class UserController
             $lang->save();
         }
 
+        foreach ($request->i_speak_language_id as $row){
+            $lang = new LanguageISpeak();
+            $lang->user_id = Auth::user()->id;
+            $lang->language_id = $row;
+            $lang->save();
+        }
+
         $profile = User::find(Auth::user()->id);
         $profile->about_me = $request->about_me;
         $profile->update();
@@ -368,11 +426,10 @@ class UserController
             $image = $request->file('picture');
             $filename = time().".".$image->getClientOriginalExtension();
             // Create directory if it does not exist
-            if(!is_dir("group/class/photo/". Auth::user()->id ."/")) {
-                $path = "group/class/photo/". Auth::user()->id ."/";
+            $path = public_path()."/group/class/photo/". Auth::user()->id ."/";
+            if(!File::isDirectory($path)) {
                 File::makeDirectory(public_path().'/'.$path,0777,true);
             }
-
             $location = public_path('group/class/photo/'. Auth::user()->id .'/');
             $image->move($location, $filename);
         }else {
@@ -421,6 +478,17 @@ class UserController
         return view('user.all_group_class', compact('schedule'));
     }
 
+    public function getGroupClassSold(){
+
+        $user_id = Auth::user()->id;
+        $schedule = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
+            ->where('group_classes.user_id',$user_id)->get(['group_classes.*']);
+        foreach ($schedule as $row){
+            $row["zoom_response"] = json_decode($row->zoom_response, true);
+        }
+        return view('user.all_group_class', compact('schedule'));
+    }
+
 
     /**
      * @param Request $request
@@ -452,6 +520,87 @@ class UserController
         return PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
             ->where('preferred_languages.user_id', Auth::user()->id)->get(['categories.*', 'preferred_languages.price']);
     }
+
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function discoverCourses()
+    {
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+
+        $course = Course::query()->orderBy('id','DESC')->get();
+        return view('user.course.all_course', compact('course'));
+    }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function discoverTutor()
+    {
+        $tutors = User::query()->where('is_admin', 0)->orderBy('id', 'DESC')->paginate(15);
+
+        foreach ($tutors as $row) {
+            $row["preferred_lang"] = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
+                ->where('preferred_languages.user_id', $row->id)->get(['categories.*']);
+            $row["rating"] = CommonHelpers::ratingUser($row->id);
+        }
+        return view('user.discover.tutors', compact('tutors'));
+    }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function discoverSessions()
+    {
+        $sessions = GroupClass::query()->orderBy('id', 'DESC')->paginate(15);
+        (new CommonHelpers)->moreGroupCourseInformation($sessions);
+        return view('user.discover.sessions', compact('sessions'));
+
+    }
+
+
+    /**
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function discoverAllCourseByAction(Request $request)
+    {
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        }
+
+        if($request->segment(3) ==="type"){
+            $course = Course::query()->where('type', strtoupper($request->segment(4)))->orderBy('id','desc')->get();
+        }elseif ($request->segment(3) ==="use-cases"){
+            $course = Course::query()->where('use_cases_id', '!=',null)->orderBy('id','desc')->get();
+        } else {
+            $course = Course::query()->orderBy('id','desc')->get();
+        }
+        return view('user.course.all_course', compact('course'));
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function groupSessionByAction(Request $request)
+    {
+        if($request->segment(3) ==="type"){
+            $sessions = GroupClass::query()->where('type', strtoupper($request->segment(4)))->orderBy('id', 'DESC')->paginate(15);
+        } elseif ($request->segment(3) ==="use-cases"){
+            $sessions = GroupClass::query()->orderBy('id', 'DESC')->paginate(15);
+        }else {
+            $sessions = GroupClass::query()->orderBy('id', 'DESC')->paginate(15);
+        }
+
+
+        (new CommonHelpers)->moreGroupCourseInformation($sessions);
+        return view('user.discover.sessions', compact('sessions'));
+    }
+
 
 
 }

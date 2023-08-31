@@ -978,17 +978,16 @@ textarea:-ms-input-placeholder {
 }
 
 .header-search {
-  min-width: 450px;
   width: 100%;
   position: relative;
-  margin-right: 35px;
+  margin-right: 5px;
   flex-grow: 1;
 }
 
 @media only screen and (min-width: 1400px) and (max-width: 1650px), only screen and (max-width: 1399px) {
   .header-search {
     min-width: 310px;
-    margin-right: 115px;
+    /*margin-right: 20px;*/
   }
 }
 
@@ -1049,7 +1048,7 @@ textarea:-ms-input-placeholder {
   background: none;
   position: absolute;
   top: 0;
-  right: 0;
+  right: 40px;
   color: #020202;
   font-size: 17px;
 }
@@ -3017,6 +3016,10 @@ textarea:-ms-input-placeholder {
   margin-top: 30px;
 }
 
+.category-item-ex {
+    padding: 20px 8px !important;
+}
+
 .category-item.color-2 {
   background: #fff6f3;
 }
@@ -3039,7 +3042,8 @@ textarea:-ms-input-placeholder {
 }
 
 .category-item .category-content {
-  margin-left: 10px;
+  /*margin-left: 10px;*/
+    width: 100%;
 }
 
 .category-item .category-content .title {

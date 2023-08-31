@@ -66,14 +66,6 @@
                                     </div>
 
                                     <div class="single-form">
-                                        <select class="form-control" required="required" name="account_type">
-                                            <option value="">Select Account Type</option>
-                                            <option value="1">Teacher</option>
-                                            <option value="0">Student</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="single-form">
                                         <input type="password" class="form-control" placeholder="Password" name="password">
                                     </div>
 

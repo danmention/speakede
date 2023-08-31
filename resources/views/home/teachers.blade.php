@@ -14,8 +14,8 @@
             <div class="page-banner-wrap">
                 <div class="row">
                     <div class="col-lg-8">
-                        <h1>Teachers</h1>
-                        <p>Looking for a great way to improve your English? italki provides you with qualified English teachers. Hire an online English tutor to help you learn English</p>
+                        <h1>Tutor</h1>
+                        <p>Learn your favourite languages with our relatable tutors. Find a tutor to guide you on your learning journey</p>
                     </div>
                     <div class="col-lg-4">
                         <img src="{{asset('class_logo.svg')}}" style="float: right" />

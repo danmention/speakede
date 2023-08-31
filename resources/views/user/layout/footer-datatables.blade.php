@@ -38,6 +38,9 @@
 
 <!-- jQuery (required for DataTables plugin) -->
 <script src="{{asset("admin/assets/js/lib/jquery.min.js")}}"></script>
+<script src="{{asset("admin/assets/js/plugins/select2/js/select2.full.min.js")}}"></script>
+{{--<script>Codebase.helpersOnLoad(['jq-select2']);</script>]--}}
+<script>Codebase.helpersOnLoad(['jq-select3']);</script>
 <script src="{{asset("admin/assets/js/plugins/datatables/jquery.dataTables.min.js")}}"></script>
 <script src="{{asset("admin/assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js")}}"></script>
 <script src="{{asset("admin/assets/js/plugins/datatables-responsive/js/dataTables.responsive.min.js")}}"></script>

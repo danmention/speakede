@@ -137,11 +137,10 @@ class AdminController
             $image = $request->file('picture');
             $filename = time().".".$image->getClientOriginalExtension();
             // Create directory if it does not exist
-            if(!is_dir("profile/photo/". Auth::user()->id ."/")) {
-                $path = "profile/photo/". Auth::user()->id ."/";
+            $path = public_path()."profile/photo/". Auth::user()->id ."/";
+            if(!File::isDirectory($path)) {
                 File::makeDirectory(public_path().'/'.$path,0777,true);
             }
-
             $location = public_path('profile/photo/'. Auth::user()->id .'/');
             $image->move($location, $filename);
         }else {

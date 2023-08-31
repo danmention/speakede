@@ -1,7 +1,7 @@
 <!-- Single Courses Start -->
 <div class="single-course">
     <div class="courses-image">
-        <iframe width="310" height="218" src="https://www.youtube.com/embed/{{substr($row->youtube_link, strpos($row->youtube_link, "watch?v=") + strlen("watch?v="))}}?rel=0&amp;controls=1&amp&amp;showinfo=0&amp;modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <img src="{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}" width="310" height="218" >
     </div>
     <div class="courses-content">
         <div class="top-meta">

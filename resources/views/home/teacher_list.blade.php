@@ -15,8 +15,17 @@
         </div>
 
         <div class="top-meta">
-            <a class="tag" href="#">SPEAKS</a>
+            <a class="tag" href="#">TEACH:</a>
             @foreach($row["preferred_lang"] as $rw)
+                <span class="language">{{$rw->title}}</span>
+            @endforeach
+
+        </div>
+
+        <br />
+        <div class="top-meta">
+            <a class="tag" href="#">SPEAKS:</a>
+            @foreach($row["language_i_speak"] as $rw)
                 <span class="language">{{$rw->title}}</span>
             @endforeach
 
@@ -26,9 +35,9 @@
         <div class="bottom-meta">
             <div class="rating">
                 <div class="rating-star">
-                    <div class="rating-active" style="width: 60%;"></div>
+                    <div class="rating-active" style="width: {{$row->rating}}%;"></div>
                 </div>
-                <span>(4.5)</span>
+                <span>({{$row->rating}})</span>
             </div>
         </div>
     </div>

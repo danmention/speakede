@@ -48,7 +48,7 @@ class AuthController extends Controller
                         if(Auth::user()->is_admin  == 1) {
                             return redirect()->route('admin.dashboard');
                         }elseif(Auth::user()->is_admin  == 0) {
-                            return redirect()->route('user.dashboard');
+                            return redirect()->route('user.dashboard.discover.course');
                         }
                         else {
                             return back()->withInput()->with('error', "you are not allowed here!");

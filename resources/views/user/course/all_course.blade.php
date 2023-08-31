@@ -38,8 +38,7 @@
                         text-center h-100 mb-0" href="{{url('user/course/view/'.$row->url)}}">
 
                             <br />
-                            <iframe width="220" height="150" src="https://www.youtube.com/embed/{{substr($row->youtube_link, strpos($row->youtube_link, "watch?v=") + strlen("watch?v="))}}?rel=0&amp;controls=1&amp&amp;showinfo=0&amp;modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
-                                         encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                            <img src="{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}" width="220" height="150" >
 
 
                             <div class="ribbon-box">{{$row->price}}</div>
@@ -49,13 +48,6 @@
                             </div>
                             <div class="block-content block-content-full">
                                 <div class="fw-semibold">{{$row->title}}</div>
-
-                                <button type="button" class="btn rounded-pill btn-alt-success me-1 mb-1">
-                                    <i class="fa fa-pencil-alt"></i>
-                                </button>
-                                <button type="button" class="btn rounded-pill btn-alt-success me-1 mb-1">
-                                    <i class="fa fa-remove"></i>
-                                </button>
                             </div>
                         </a>
 

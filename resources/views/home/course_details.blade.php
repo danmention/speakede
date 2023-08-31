@@ -22,7 +22,7 @@
 
                         @if(!empty($rw->profile_image))
                             <div class="meta-author">
-                                <img src="{{asset('profile/photo/'.$rw->id.'/'.$rw->profile_image)}}" class="img-avatar" alt="author">
+                                <img src="{{asset('profile/photo/'.$rw->id.'/'.$rw->profile_image)}}"  style="width: 50px; height: 50px;">
                             </div>
                         @else
                             <div class="meta-author">
@@ -112,7 +112,7 @@
 
                                             @if(!empty($instructor->profile_image))
                                                 <div class="figure mb-3">
-                                                    <img src="{{asset('profile/photo/'.$instructor->id.'/'.$instructor->profile_image)}}" class="img-avatar" alt="author">
+                                                    <img src="{{asset('profile/photo/'.$instructor->id.'/'.$instructor->profile_image)}}" style="width: 100px; height: 100px;" alt="author">
                                                 </div>
                                             @else
                                                 <div class="figure mb-3">
@@ -143,7 +143,9 @@
                             </div>
                             <!-- Course Instructor End -->
 
-                            <h3 class="title">Review</h3>
+                            @if($reviews->count() > 0)
+                            <h3 class="title">Reviews</h3>
+                            @endif
                             <!-- Review Item Start -->
                             <div class="review-items">
                                 <ul>
@@ -196,7 +198,7 @@
                                             </div>
                                         @endif
 
-                                    <form action="{{route('index.user.review.save')}}" method="POST" class="candidates-leave-comment">
+                                    <form action="{{route('index.course.review.save')}}" method="POST" class="candidates-leave-comment">
                                         {{ csrf_field() }}
 
                                         <div class="rating">
@@ -290,15 +292,17 @@
 
                             </div>
                             <div class="sidebar-description">
+
+                                @if($row->price > 0)
                                 <div class="price-wrap">
                                     <span class="label">Price  :</span>
                                     <div class="price">
                                         <span class="sale-price">₦ {{number_format($row->price)}}</span>
                                     </div>
                                 </div>
+                                @endif
                                 <ul class="description-list">
                                     <li><i class="flaticon-wall-clock"></i> Duration <span>{{$row->course_duration}}</span></li>
-                                    <li><i class="fas fa-sliders-h"></i> Level <span>Expert</span></li>
                                     <li><i class="far fa-file-alt"></i> Lectures <span>{{$row->lesson_total}} Lectures</span></li>
                                     <li><i class="fas fa-language"></i> Language <span>{{$row->language}}</span></li>
                                 </ul>

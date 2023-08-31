@@ -44,20 +44,28 @@
                                                 <span class="language">{{$rw->title}}</span>
                                             @endforeach
 
+
+                                            <p>Speaks:</p>
+
+                                            @foreach($language_i_speak as $rws)
+                                                <span class="language">{{$rws->title}}</span>
+                                            @endforeach
+
                                         </div>
 
                                     </div>
 
                             </div>
                             <!-- Team Profile Info End -->
-                            <!-- Team Profile Description Start -->
+
                             <div class="col-lg-10">
                                 <div class="team-profile-description">
                                     <h3 class="title">About Me</h3>
                                     <p>{!! $row->about_me !!}</p>
                                 </div>
                             </div>
-                            <!-- Team Profile Description End -->
+
+
                             <div class="col-lg-10">
                                 <div class="team-profile-description">
                                     <h3 class="title"> Availability</h3>
@@ -117,6 +125,138 @@
 {{--                                @endif--}}
 {{--                                    <!-- Team Profile End -->--}}
 {{--                            </div>--}}
+
+                            <!-- Team Profile Description Start -->
+
+                            <br />
+                            <div class="col-lg-10">
+
+                                @if($reviews->count() > 0)
+                                    <h3 class="title">Reviews</h3>
+                                @endif
+                                <!-- Review Item Start -->
+                                <div class="review-items">
+                                    <ul>
+                                        @foreach($reviews as $review)
+                                            <li>
+                                                <!-- Single Review Start -->
+                                                <div class="single-review">
+                                                    <div class="review-author">
+
+                                                        @if(!empty($review->profile_image))
+                                                            <div class="figure mb-3">
+                                                                <img src="{{asset('profile/photo/'.$review->user_id.'/'.$review->profile_image)}}" alt="author">
+                                                            </div>
+                                                        @else
+                                                            <div class="figure mb-3">
+                                                                <img src="{{asset('avater2.png')}}" alt="author">
+                                                            </div>
+                                                        @endif
+
+                                                    </div>
+                                                    <div class="review-content">
+                                                        <div class="review-top">
+                                                            <h4 class="name">{{$review->fullname}}</h4>
+                                                            <div class="rating-star">
+                                                                <div class="rating-active" style="width: {{$review->rating * 20}}%;"></div>
+                                                            </div>
+                                                            <span class="date">{{$review->created_at}}</span>
+                                                        </div>
+                                                        <p>{{$review->review}}.</p>
+                                                    </div>
+                                                </div>
+                                                <!-- Single Review End -->
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <!-- Review Item End -->
+
+                                <br />
+                                @if(isset(Auth::user()->id) && (Auth::user()->is_admin == 0))
+                                    <div class="contact-form-wrap">
+                                        <h3>Leave A Review </h3>
+
+                                        @if(Session::has('message'))
+                                            <div class="notification-alert-danger alert alert-danger alert-dismissible fade show" role="alert">
+                                                {{ Session::get('message') }}
+                                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                        @endif
+
+                                        <form action="{{route('index.user.review.save')}}" method="POST" class="candidates-leave-comment">
+                                            {{ csrf_field() }}
+
+                                            <div class="rating">
+                                                <input name="rating" class="stars" type="radio" value="5" style="margin-right: 5px;" required="required">
+                                                <div class="rating-star">
+                                                    <div class="rating-active" style="width: 100%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="rating">
+                                                <input name="rating" class="stars" type="radio" value="4" style="margin-right: 5px;" required="required">
+                                                <div class="rating-star">
+                                                    <div class="rating-active" style="width: 80%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="rating">
+                                                <input name="rating" class="stars" type="radio" value="3" style="margin-right: 5px;" required="required">
+                                                <div class="rating-star">
+                                                    <div class="rating-active" style="width: 60%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="rating">
+                                                <input name="rating" class="stars" type="radio" value="2" style="margin-right: 5px;" required="required">
+                                                <div class="rating-star">
+                                                    <div class="rating-active" style="width: 40%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="rating">
+                                                <input name="rating" class="stars" type="radio" value="1" style="margin-right: 5px;" required="required">
+                                                <div class="rating-star">
+                                                    <div class="rating-active" style="width: 20%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="rating">
+                                                <input name="rating" class="stars" type="radio" value="0" style="margin-right: 5px;" required="required">
+                                                <div class="rating-star">
+                                                    <div class="rating-active" style="width: 10%;"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-lg-12 col-md-12">
+                                                    <div class="single-form">
+                                                        <textarea name="review" class="form-control" placeholder="Your Review" required="required"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <input type="hidden" name="rating_pro" value="rating">
+                                                <input type="hidden" value="{{Auth::user()->id}}" name="user_id"/>
+                                                <input type="hidden" value="{{$row->id}}" name="tutor_user_id"/>
+
+
+                                                <div class="form-btn">
+                                                    <button class="btn" type="submit">Post A Review</button>
+                                                </div>
+
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                @endif
+
+                            </div>
+                            <!-- Team Profile Description End -->
 
                         </div>
                         <!-- Team Profile Description Wrap End -->

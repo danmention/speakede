@@ -131,8 +131,8 @@ class HomeController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function findTeacher(){
-        $teachers = $this->homeService->findTeacher();
+    public function findTutor(){
+        $teachers = $this->homeService->findTutor();
         return view('home.teachers', compact('teachers'));
     }
 
@@ -215,13 +215,24 @@ class HomeController extends Controller
     }
 
 
+
     /**
-     * @param Request $request
      * @return Application|Factory|View
      */
-    public function getSearchResult(Request $request){
-       $data = $this->homeService->search($request);
-        return view('home.search', $data);
+    public function getUseCasesByCourse(Request $request)
+    {
+        $data = $this->homeService->getUseCases($request);
+        return view('home.all-course', $data);
     }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function SubmitUserReviews(Request $request): RedirectResponse
+    {
+        return $this->homeService->saveUserReview($request);
+    }
+
 
 }

@@ -28,7 +28,7 @@
                                 @if($schedule_info[0]->price > $wallet)
                                     <div class="col-6">
                                         <a class="btn w-100 btn-alt-secondary" href="{{route('user.dashboard.wallet')}}">
-                                            <i class="fa fa-archive me-1 text-muted"></i> Buy SpeakToken
+                                            <i class="fa fa-archive me-1 text-muted"></i> Fund wallet
                                         </a>
                                     </div>
                                 @else

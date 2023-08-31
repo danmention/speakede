@@ -123,7 +123,7 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-vector-square"></i>
-                            <span class="nav-main-link-name">Categories</span>
+                            <span class="nav-main-link-name">Language</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
@@ -137,11 +137,19 @@
                                     <span class="nav-main-link-name">All Language</span>
                                 </a>
                             </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                                    <span class="nav-main-link-name">Profile</span>
-                                </a>
+                        </ul>
+                    </li>
 
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-vector-square"></i>
+                            <span class="nav-main-link-name">Use-cases</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.use.cases')}}">
+                                    <span class="nav-main-link-name">Add Use-cases</span>
+                                </a>
                             </li>
                         </ul>
                     </li>

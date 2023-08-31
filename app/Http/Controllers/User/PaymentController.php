@@ -19,7 +19,7 @@ class PaymentController extends Controller
 
     public function redirectToGateway()
     {
-        \request()->amount =  \request()->amount * 100;
+//        \request()->amount =  \request()->amount ."00";
         try{
             return (new Paystack)->getAuthorizationUrl()->redirectNow();
         }catch(\Exception $e) {
