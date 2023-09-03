@@ -236,6 +236,7 @@ return [
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
         'Image' => 'Intervention\Image\Facades\Image',
         'Rave' => KingFlamez\Rave\Facades\Rave::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

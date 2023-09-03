@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,6 +84,9 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @return Application|RedirectResponse|Redirector
+     */
     public function getLogOut()
     {
         Session::flush();
@@ -89,40 +94,19 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function redirectDashboard()
-    {
-        $id = Auth::user()->id;
-        $user_type = User::where('id', $id)->value('role');
 
-        if ($user_type == 0) {
-            return back()->withInput()->with('error', "Your account is currently under review and will be approved by admin within 24 hours.");
-        } elseif ($user_type == "Admin") {
-            return redirect()->route('admin.home');
-        } elseif ($user_type == "Artisan") {
-            return redirect()->route('user.home');
-        } elseif ($user_type == "Employer") {
-            return redirect()->route('employer.home');
-        } else {
-            return back()->withInput()->with('error', "you are not allowed here!");
-        }
-
-
-    }
-
+    /**
+     * @return Application|Factory|View
+     */
     public function forgetPassword()
     {
-
-        /** SEO */
-        $seo = CommonHelpers::seoTemplate("Forget Password");
-        /** END OF SEO */
-
-        $listed = [];
-        if (App::environment('production')) {
-            $listed = array_merge($listed,$seo);
-        }
-        return view('home.forget-password',$listed);
+        return view('home.forget-password');
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function verifyingEmailAccountReset(Request $request): RedirectResponse
     {
 
@@ -143,8 +127,7 @@ class AuthController extends Controller
                 'link' => url('password/verify?ref='.$check[0]->identity)
             ];
 
-            Mail::to($request->email)->send(new ResetYourPassword($details));
-
+//            Mail::to($request->email)->send(new ResetYourPassword($details));
 
             return back()->withInput()->with('responses','Verification link has been sent to your email');
 
@@ -155,24 +138,19 @@ class AuthController extends Controller
 
     }
 
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View|RedirectResponse|Redirector
+     */
     public function VerifyUserAccountPasswordResetView(Request $request)
     {
-
-        /** SEO */
-        $seo = CommonHelpers::seoTemplate("Reset Password");
-        /** END OF SEO */
-        $listed = [];
-
-        if (App::environment('production')) {
-            $listed = array_merge($listed,$seo);
-        }
-
 
         if(!empty($request->ref)){
             $check = User::where('identity', $request->ref)->get();
             if($check->count() > 0){
 
-                return view('home.new-password', $listed);
+                return view('home.new-password');
             }
             else {
                 return redirect('/account/login')->with('response','invalid code');
@@ -184,7 +162,10 @@ class AuthController extends Controller
     }
 
 
-
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
     public function VerifyUserAccountPasswordReset(Request $request){
 
         $check = User::where('verify_code', $request->verify_code)->get();

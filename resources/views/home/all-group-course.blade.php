@@ -1,27 +1,31 @@
 @extends('home.template')
 @section('content')
 
+
+
+
     <!-- Page Banner Start -->
-    <div class="section page-banner-section" style="background-image: url({{asset("home/assets/images/bg/page-banner.jpg")}});">
+    <div class="section page-banner-section" style="background-color: #FACB27">
+        <div class="shape-3"></div>
         <div class="container">
             <div class="page-banner-wrap">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <!-- Page Banner Content Start -->
-                        <div class="page-banner text-center">
-                            <h2 class="title">Upcoming Online Sessions</h2>
-                            <ul class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Online Sessions</li>
-                            </ul>
-                        </div>
-                        <!-- Page Banner Content End -->
+                    <div class="col-lg-8">
+                        <br />
+                        <h1>All Online Sessions</h1>
+                        <p>Find the courses most suitable to your current language goals</p>
+                        <br />
+                    </div>
+                    <div class="col-lg-4">
+                        <img src="{{asset('banners/image9.png')}}" style="float: right" />
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Page Banner End -->
+
 
     <!-- Course List Start -->
     <div class="section section-padding">

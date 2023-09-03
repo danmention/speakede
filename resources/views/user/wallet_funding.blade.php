@@ -46,37 +46,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-6 col-xl-3">
-                        <div class="block block-rounded block-link-shadow text-end" >
-                            <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center">
-
-
-                                <div>
-                                    <div class="fs-sm fw-semibold text-uppercase text-muted">
-                                        <img src="{{asset('home/flutterwave.png')}}"  style="width: 80%; margin-bottom: 20px"/>
-                                    </div>
-
-                                    <form method="POST" action="{{ route('user.pay.rave') }}" id="paymentForm">
-                                        {{ csrf_field() }}
-
-                                        <input type="hidden" name="email" value="{{Auth::user()->email}}"> {{-- required --}}
-                                        <input type="hidden" name="name" value="{{Auth::user()->name}}">
-                                        <input type="hidden" name="phone" value="{{Auth::user()->phone}}">
-
-                                        <div class="input-group">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="example-group3-floating2" name="amount" placeholder="Enter amount">
-                                                <label for="example-group3-floating2">Amount</label>
-                                            </div>
-                                            <button class="btn btn-secondary">Pay</button>
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 

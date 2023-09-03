@@ -67,14 +67,14 @@
                             <div class="row mb-4">
                                 <div class="col-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="start" value="{{request()->query('start')}}" readonly>
+                                        <input type="text" class="js-flatpickr form-control" id="example-flatpickr-datetime-24" name="start" value="{{request()->query('start')}}" data-enable-time="true" data-time_24hr="true">
                                         <label class="form-label" for="register4-lastname">Start Time</label>
                                     </div>
                                 </div>
 
                                 <div class="col-4">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="end" value="{{request()->query('end')}}" readonly>
+                                        <input type="text" class="js-flatpickr form-control" id="example-flatpickr-datetime-24" name="end" value="{{request()->query('end')}}" data-enable-time="true" data-time_24hr="true">
                                         <label class="form-label" for="register4-lastname">End Time</label>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
 
                             <div class="mb-4">
                                 <div class="form-floating">
-                                    <textarea id="js-ckeditor" name="description"></textarea>
+                                    <textarea name="description" rows="4" style="width: 100%;border-color: #d8dde5;">Write a Description</textarea>
                                 </div>
                             </div>
 

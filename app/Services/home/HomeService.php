@@ -33,7 +33,6 @@ class HomeService
         $user_id = Auth::user()->id ?? null;
         $lang = Category::query()->where('class_name', 'language')->get();
         $use_cases = Category::query()->where('class_name', 'use_cases')->get();
-        $lang_popular = Category::query()->where('class_name', 'language')->where('popular_status', 1)->get();
         $course = Course::query()->orderBy('id', 'desc')->get();
         (new CommonHelpers)->moreCourseInformation($course);
         $expert_teachers = User::query()->where('status', 1)
@@ -44,16 +43,16 @@ class HomeService
             })->where('is_admin', 0)->orderBy('id','desc')->limit(4)->get();
 
         foreach ($expert_teachers as $row) {
-            $lang_ = PreferredLanguage::query()->where('user_id', $row->id)->limit(1)->orderBy('id', 'DESC')->value('id');
+            $lang_ = PreferredLanguage::query()->where('user_id', $row->id)->limit(1)->orderBy('id', 'DESC')->value('language_id');
             $row["lang"] = Category::query()->where('id', $lang_)->value('title') ?? "English";
         }
 
-        $use_cases_course = Category::query()->where('class_name', 'use_cases')->orderBy('id','desc')->take(5)->get();
+        $themes = [7,12,9,13,10];
+        $use_cases_course = Category::query()->whereIn('id', $themes)->orderBy('id','desc')->take(5)->get();
 
         return array(
             "lang" => $lang,
             "use_cases" => $use_cases,
-            "lang_popular" => $lang_popular,
             "course" => $course,
             "expert_teachers" => $expert_teachers,
             "use_cases_course" => $use_cases_course

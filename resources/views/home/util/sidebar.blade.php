@@ -41,7 +41,7 @@
 
         <!-- Sidebar Wrapper Start -->
         <div class="sidebar-widget-02">
-            <h3 class="widget-title">Use-Cases</h3>
+            <h3 class="widget-title">Theme</h3>
 
             <div class="widget-checkbox">
                 <ul class="checkbox-list">

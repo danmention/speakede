@@ -11,7 +11,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+{{--    <meta name="csrf-token" content="{{ csrf_token() }}" />--}}
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}">
 
@@ -52,7 +52,7 @@
 
                         <!--  Header Logo Start  -->
                         <div class="header-logo">
-                            <a href="{{url('/')}}"><img src="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}" alt="logo"></a>
+                            <a href="{{route('index.home')}}"><img src="{{asset("logo-black.png")}}" style="width: 50px" alt="logo"></a>
                         </div>
                         <!--  Header Logo End  -->
 
@@ -60,9 +60,9 @@
                         <div class="header-menu d-none d-lg-block">
                             <ul class="main-menu">
                                 <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
-                                <li><a href="{{route('index.all.course')}}">All Course</a></li>
-                                <li><a href="{{route('index.all.online.sessions')}}">Upcoming Online Sessions</a></li>
-                                <li><a href="{{route('index.register')}}">Become a teacher</a></li>
+                                <li><a href="{{route('index.all.course')}}">All Courses</a></li>
+                                <li><a href="{{route('index.all.online.sessions')}}">Online Sessions</a></li>
+                                <li><a href="{{route('index.register')}}">Become a Tutor</a></li>
                             </ul>
                         </div>
                         <!--  Header Menu End  -->
@@ -79,8 +79,8 @@
                                 <select name="type" style="background-color: #f3f3f3;padding: 0 20px;height: 55px;width: 30%;border: 1px solid transparent;color: #93a1a2;font-size: 15px;font-weight: 400;border-radius: 5px;">
                                     <option value=""> Select type</option>
                                     <option value="tutors">Tutors</option>
-                                    <option value="course">Course</option>
-                                    <option value="group">Upcoming (group) classes</option>
+                                    <option value="course">courses</option>
+                                    <option value="group">Online Sessions</option>
                                 </select>
 
                                 <input type="text" placeholder="Search" name="keyword" style="width: 62%;">
@@ -127,7 +127,7 @@
         <div class="offcanvas-header">
             <!-- Offcanvas Logo Start -->
             <div class="offcanvas-logo">
-                <a href="{{url('/')}}"><img src="{{asset("home/assets/images/logo-white.png")}}" alt=""></a>
+                <a href="{{url('/')}}"><img src="{{asset("logo-black.png")}}" style="width: 50px" alt="logo"></a>
             </div>
             <!-- Offcanvas Logo End -->
 
@@ -138,7 +138,7 @@
             <div class="offcanvas-menu">
                 <ul class="main-menu">
                     <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
-                    <li><a href="{{route('index.register')}}">Become a teacher</a></li>
+                    <li><a href="{{route('index.register')}}">Become a Tutor</a></li>
                     <li><a href="{{route('index.login')}}">Login</a></li>
                     <li><a href="{{route('index.register')}}">Signup</a></li>
                 </ul>

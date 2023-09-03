@@ -7,7 +7,7 @@
     @endphp
 
     <!-- Page Banner Start -->
-    <div class="section page-banner-section" style="background-image: url({{asset("home/assets/images/bg/page-banner.jpg")}});">
+    <div class="section page-banner-section" style="background-color: #FACB27">
         <div class="container">
 
             @foreach($course as $row)
@@ -31,14 +31,6 @@
                         @endif
                         <div class="meta-name">
                             <p class="name">{{$row->instructor[0]["firstname"].' '.$row->instructor[0]["lastname"]}}</p>
-                        </div>
-                    </div>
-                    <div class="meta-action">
-                        <div class="rating">
-                            <div class="rating-star">
-                                <div class="rating-active" style="width: {{$row->rating}}%;"></div>
-                            </div>
-                            <span>({{$row->rating}})</span>
                         </div>
                     </div>
                     @endforeach

@@ -23,8 +23,7 @@ class CategoryController extends Controller
      */
     public function getIndex()
     {
-        $category = $this->getCategoryParentCategoryCheck();
-        return view('admin.categories.add-category', compact('category'));
+        return view('admin.categories.add-category');
     }
 
     /**
@@ -41,12 +40,7 @@ class CategoryController extends Controller
      */
     public function getCategory()
     {
-        $all_categories = $this->getallCategory();
-        $category = array();
-        foreach ($all_categories as $rows => $row) {
-            $row['total_sub_category'] = $this->getTotalSubCategory($row['id']);
-            $category[] = $row;
-        }
+        $category = Category::query()->where('class_name','language')->get();
         return view('admin.Categories.view-category', compact( 'category'));
     }
 
@@ -59,13 +53,6 @@ class CategoryController extends Controller
         return Category::where('parent_id', '=', $id)->count();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getallCategory(): mixed
-    {
-        return Category::select('*')->get();
-    }
 
 
     /**
@@ -126,44 +113,6 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * @param $parent
-     * @return string
-     */
-    private function getCategoryParentCategoryCheck($parent = ''): string
-    {
-
-        $ul = '<ul class="ul-category">';
-        if ($parent !== '') {
-            $menu_action = DB::table('categories')->where('parent_id', $parent)->get();
-        } else {
-            $menu_action = DB::table('categories')->where('parent_id', 0)->get();
-        }
-
-        foreach ($menu_action as $row) {
-            $folder = !empty($this->hasChild($row->id)) ? '&nbsp;<cite class="fa fa-folder"></cite>&nbsp;' : '';
-            if ($this->hasChild($row->id)):
-                $ul .= '<li class="has-child" data-id="' . $row->id . '"><input type="checkbox" name="assoc_category" value="' . $row->id . '">&nbsp;' . '<span class="closex">' . $folder . $row->title . '</span>' . $this->getCategoryParentCategoryCheck($row->id) . '</li>';
-            else:
-                $ul .= '<li data-id="' . $row->id . '"><input type="checkbox" name="assoc_category" value="' . $row->id . '">&nbsp;' . '<span>' . $folder . $row->title . '</span>' . $this->getCategoryParentCategoryCheck($row->id) . '</li>';
-            endif;
-        }
-        $ul .= '</ul>';
-        return $ul;
-
-
-    }
-
-    /**
-     * @param $id
-     * @return int
-     */
-    private function hasChild($id): int
-    {
-        return DB::table('categories')->where('parent_id', '=', $id)->count();
-    }
-
-
 
     /**
      * @param $id
@@ -204,7 +153,7 @@ class CategoryController extends Controller
     public function getUseCasesIndex()
     {
         $category = Category::query()->where('class_name', 'use_cases')->orderBy('id','DESC')->get();
-        return view('admin.categories.use-cases', compact('category'));
+        return view('admin.categories.theme', compact('category'));
     }
 
     /**

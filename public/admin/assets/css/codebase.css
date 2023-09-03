@@ -31722,7 +31722,7 @@ pre.pre-sh code.pwrap {
   align-items: center;
   border-color: #d8dde5;
   border-radius: 0.375rem;
-  min-height: calc(1.5em + 0.75rem + 2px);
+  min-height: calc(2.5em + 0.75rem + 6px);
 }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
   padding-right: 0.75rem;

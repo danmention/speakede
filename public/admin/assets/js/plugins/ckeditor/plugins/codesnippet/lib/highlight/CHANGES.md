@@ -96,7 +96,7 @@ Miscelleanous improvements:
 
 A catch-up release dealing with some of the accumulated contributions. This one
 is probably will be the last before the 8.0 which will be slightly backwards
-incompatible regarding some advanced use-cases.
+incompatible regarding some advanced theme.
 
 One outstanding change in this version is the addition of 6 languages to the
 [hosted script][d]: Markdown, ObjectiveC, CoffeeScript, Apache, Nginx and

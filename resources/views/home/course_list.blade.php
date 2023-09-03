@@ -1,7 +1,7 @@
 <!-- Single Courses Start -->
 <div class="single-course">
-    <div class="courses-image">
-        <img src="{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}" width="310" height="218" >
+    <div class="courses-image" style="background-image: url('{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}');
+    width: 310px; height: 218px; background-size: cover; background-repeat: no-repeat">
     </div>
     <div class="courses-content">
         <div class="top-meta">

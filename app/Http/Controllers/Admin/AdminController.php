@@ -63,8 +63,8 @@ class AdminController
      */
     public function getUsers()
     {
-        $users = User::all();
-        return view('admin.user.view-user',compact('users'));
+        $users = User::query()->where('is_admin',0)->get();
+        return view('admin.users',compact('users'));
     }
 
 

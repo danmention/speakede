@@ -33,14 +33,19 @@
 <script src="{{asset("admin/assets/js/plugins/ckeditor/ckeditor.js")}}"></script>
 
 
+
 <!-- Page JS Helpers (SimpleMDE + CKEditor plugins) -->
 <script>Codebase.helpersOnLoad(['js-ckeditor', 'js-simplemde']);</script>
 
 <!-- jQuery (required for DataTables plugin) -->
 <script src="{{asset("admin/assets/js/lib/jquery.min.js")}}"></script>
 <script src="{{asset("admin/assets/js/plugins/select2/js/select2.full.min.js")}}"></script>
+<script src="{{asset("admin/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")}}"></script>
+<script src="{{asset("admin/assets/js/plugins/masked-inputs/jquery.maskedinput.min.js")}}"></script>
+<script src="{{asset("admin/assets/js/plugins/dropzone/min/dropzone.min.js")}}"></script>
+<script src="{{asset("admin/assets/js/plugins/flatpickr/flatpickr.min.js")}}"></script>
 {{--<script>Codebase.helpersOnLoad(['jq-select2']);</script>]--}}
-<script>Codebase.helpersOnLoad(['jq-select3']);</script>
+<script>Codebase.helpersOnLoad(['jq-select3','js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-rangeslider', 'jq-masked-inputs', 'jq-pw-strength']);</script>
 <script src="{{asset("admin/assets/js/plugins/datatables/jquery.dataTables.min.js")}}"></script>
 <script src="{{asset("admin/assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js")}}"></script>
 <script src="{{asset("admin/assets/js/plugins/datatables-responsive/js/dataTables.responsive.min.js")}}"></script>
@@ -55,3 +60,11 @@
 
 <!-- Page JS Code -->
 <script src="{{asset("admin/assets/js/pages/be_tables_datatables.min.js")}}"></script>
+
+
+<script>
+    var SITE_URL = "{{ url('/') }}";
+    function loadUrl(){
+        window.location.href = SITE_URL+'/user/discover';
+    }
+</script>

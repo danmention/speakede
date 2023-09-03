@@ -9,13 +9,6 @@
         </div>
         <div class="block-content block-content-full">
 
-            <div class="form-group">
-                <div class="ul-category">
-                    {!! $category !!}
-
-                </div>
-            </div>
-
                 <div class="card radius-15">
                     <div class="card-body">
                     @if(session('response'))

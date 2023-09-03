@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,19 +16,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers')->group(function () {
 
+
+    Route::get('/clear-cache', function() {
+        Artisan::call('optimize');
+        return "done";
+    });
+
+
+    Route::get('/', ['uses' => 'Home\HomeController@getIndex', 'as' => 'index.home']);
+    Route::get('all-course', ['uses' => 'Home\HomeController@getAllCourse', 'as' => 'index.all.course']);
+    Route::get('online-sessions', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.online.sessions']);
+    Route::get('online-sessions/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
+    Route::get('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
+    Route::get('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
+    Route::get('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
+
+
     Route::get('/payment/callback', ['uses' =>'User\PaymentController@handleGatewayCallback' ,'as' => 'user.payment.callback']);
     Route::post('/pay',  ['uses' =>'User\FlutterWaveController@initialize','as' => 'user.pay.rave']);
     Route::get('/rave/callback', ['uses' =>'User\FlutterWaveController@callback', 'as' => 'callback']);
     Route::get('auth/google', ['uses' => 'Home\GoogleController@signInWithGoogle', 'as' => 'auth.google']);
     Route::get('callback/google', ['uses' => 'Home\GoogleController@callbackToGoogle', 'as' => 'callback.google']);
 
-    Route::any('/', ['uses' => 'Home\HomeController@getIndex', 'as' => 'index.home']);
-    Route::any('all-course', ['uses' => 'Home\HomeController@getAllCourse', 'as' => 'index.all.course']);
-    Route::any('online-sessions', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.online.sessions']);
-    Route::get('online-sessions/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
-    Route::any('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
-    Route::any('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
-    Route::any('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
 
     Route::get('community', ['uses' => 'Home\HomeController@getCommunity', 'as' => 'index.community']);
     Route::get('become-a-teacher', ['uses' => 'Home\HomeController@getBecomeATeacher', 'as' => 'index.teacher']);
@@ -53,23 +63,23 @@ Route::namespace('App\Http\Controllers')->group(function () {
     /**
      * GENERAL ACTION ROUTES
      */
-    Route::group(['prefix' => 'actions', 'middleware' => ['web','auth.users']], function ()
+    Route::group(['prefix' => 'actions', 'middleware' => ['auth.users']], function ()
     {
         Route::post('delete', ['uses' => 'Admin\AdminController@deletingExe', 'as' => 'delete.exe']);
         Route::post('updating/user/status', ['uses' => 'Admin\AdminController@userStatusUpdate', 'as' => 'user.exe.status']);
         Route::post('profile/photo/save', ['uses' => 'Admin\AdminController@UpdateProfilePhoto', 'as' => 'profile.dp.save']);
-        Route::any('/change/password/save', ['uses' => 'Admin\AdminController@ChangeUserPassword', 'as' => 'user.password.save']);
+        Route::get('/change/password/save', ['uses' => 'Admin\AdminController@ChangeUserPassword', 'as' => 'user.password.save']);
     });
 
     /**
      * ADMIN DASHBOARD ROUTES
      */
-    Route::group(['prefix' => 'admin/secure', 'middleware' => ['web','auth.users']], function ()
+    Route::group(['prefix' => 'admin/secure', 'middleware' => ['auth.users']], function ()
     {
-        Route::any('/', ['uses' => 'Admin\AdminController@getLogin', 'as' => 'admin.home']);
-        Route::any('dashboard', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.dashboard']);
-        Route::any('group/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.group.call.history']);
-        Route::any('call/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.call.history']);
+        Route::get('/', ['uses' => 'Admin\AdminController@getLogin', 'as' => 'admin.home']);
+        Route::get('dashboard', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.dashboard']);
+        Route::get('group/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.group.call.history']);
+        Route::get('call/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.call.history']);
 
         Route::get('/category/add', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.add.cat']);
         Route::get('/category/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.cat']);
@@ -77,32 +87,47 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::post('/category/add/save', ['uses' => 'Admin\Categories\CategoryController@storeCategory', 'as' => 'admin.add.cat.save']);
         Route::post('category/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.category']);
 
-        Route::get('use-cases/add', ['uses' => 'Admin\Categories\CategoryController@getUseCasesIndex', 'as' => 'admin.add.use.cases']);
-        Route::get('use-cases/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.use.cases']);
-        Route::post('use-cases/add/save', ['uses' => 'Admin\Categories\CategoryController@storeUseCases', 'as' => 'admin.add.use.cases.save']);
-        Route::post('use-cases/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.use.cases']);
+        Route::get('theme/add', ['uses' => 'Admin\Categories\CategoryController@getUseCasesIndex', 'as' => 'admin.add.use.cases']);
+        Route::get('theme/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.use.cases']);
+        Route::post('theme/add/save', ['uses' => 'Admin\Categories\CategoryController@storeUseCases', 'as' => 'admin.add.use.cases.save']);
+        Route::post('theme/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.use.cases']);
 
         Route::post('category/make-popular', ['uses' => 'Admin\Categories\CategoryController@makePopular', 'as' => 'make.popular.category']);
 
         Route::group(['prefix' => 'transactions'], function ()
         {
-            Route::any('wallet/funding', ['uses' => 'Admin\AdminController@getWalletFunding', 'as' => 'admin.transactions.funding']);
-            Route::any('payment', ['uses' => 'Admin\AdminController@getPaymentTransactions', 'as' => 'admin.transactions.payment']);
+            Route::get('wallet/funding', ['uses' => 'Admin\AdminController@getWalletFunding', 'as' => 'admin.transactions.funding']);
+            Route::get('payment', ['uses' => 'Admin\AdminController@getPaymentTransactions', 'as' => 'admin.transactions.payment']);
         });
-        Route::group(['prefix' => 'student'], function ()
-        {
-            Route::any('/', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.student']);
-        });
-        Route::group(['prefix' => 'teachers'], function ()
-        {
-            Route::any('/', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.teachers']);
-        });
+
         Route::group(['prefix' => 'user'], function ()
         {
-            Route::any('/all', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.all']);
-            Route::any('/add', ['uses' => 'Admin\AdminController@AddUsers', 'as' => 'admin.user.add']);
+            Route::get('/', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.index']);
+            Route::get('/dashboard', 'Shared\SharedController@getIndex');
+            Route::group(['prefix' => 'course'], function ()
+            {
+                Route::get('all', 'Shared\SharedController@allCourse');
+                Route::get('paid/all', 'Shared\SharedController@allPaidCourse');
+                Route::get('sold/all',  'Shared\SharedController@allSoldCourse');
+                Route::get('view/{url}',  'Shared\SharedController@viewCourse');
+                Route::get('view/{course_url}/{lesson_url}', 'Shared\SharedController@viewPaidCourse');
+                Route::get('type/free',  'Shared\SharedController@allCourseByAction');
+                Route::get('type/paid', 'Shared\SharedController@allCourseByAction');
+                Route::get('theme', 'Shared\SharedController@allCourseByAction');
+
+            });
+
+            Route::group(['prefix' => 'group'], function ()
+            {
+                Route::get('class/all','Shared\SharedController@getGroupClass');
+                Route::get('class/paid','Shared\SharedController@getGroupClassPaid');
+                Route::get('class/sold','Shared\SharedController@getGroupClassSold');
+            });
+
+            Route::get('/all', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.all']);
+            Route::get('/add', ['uses' => 'Admin\AdminController@AddUsers', 'as' => 'admin.user.add']);
             Route::post('/save', ['uses' => 'Admin\AdminController@SaveUsers', 'as' => 'admin.user.save']);
-            Route::any('/change/password', ['uses' => 'Admin\AdminController@changePassword', 'as' => 'admin.user.password']);
+            Route::get('/change/password', ['uses' => 'Admin\AdminController@changePassword', 'as' => 'admin.user.password']);
             Route::post('/action/enabling', ['uses' => 'Admin\AdminController@UpdateUserAccount', 'as' => 'admin.user.enabling']);
             Route::get('/profile/photo/add', ['uses' => 'Admin\AdminController@getProfilePhoto', 'as' => 'admin.profile.photo']);
 
@@ -112,55 +137,54 @@ Route::namespace('App\Http\Controllers')->group(function () {
     /**
      * USER DASHBOARD ROUTES
      */
-    Route::group(['prefix' => 'user', 'middleware' => ['web','auth.users']], function ()
+    Route::group(['prefix' => 'user', 'middleware' => ['auth.users']], function ()
     {
         Route::group(['prefix' => 'apply'], function ()
         {
             Route::get('step/final', ['uses' => 'User\UserController@addTeachersInfo', 'as' => 'user.apply.final']);
             Route::post('step/final/update', ['uses' => 'User\UserController@updateUserInfo', 'as' => 'user.apply.final.save']);
-            Route::any('step/2', ['uses' => 'User\UserController@getBecomeATeacher', 'as' => 'user.apply.step.2']);
+            Route::get('step/2', ['uses' => 'User\UserController@getBecomeATeacher', 'as' => 'user.apply.step.2']);
 
             Route::get('booking/lesson', ['uses' => 'User\UserController@processingVirtualBooking', 'as' => 'user.apply.booking.lesson']);
             Route::get('booking/lesson/pay', ['uses' => 'User\UserController@payVirtualBooking', 'as' => 'user.apply.booking.lesson.pay']);
             Route::get('booking/group/lesson/pay', ['uses' => 'User\UserController@payVirtualGroupBooking', 'as' => 'user.apply.group.booking.lesson.pay']);
         });
-        Route::get('dashboard', ['uses' => 'User\UserController@getIndex', 'as' => 'user.dashboard']);
+
+        Route::get('dashboard', ['uses' => 'Shared\SharedController@getIndex', 'as' => 'user.dashboard']);
 
         Route::group(['prefix' => 'course'], function ()
         {
-            Route::get('/', ['uses' => 'User\UserController@getCourse', 'as' => 'user.dashboard.course']);
+            Route::get('/', ['uses' => 'User\UserController@getAddCourseView', 'as' => 'user.dashboard.course']);
             Route::post('add', ['uses' => 'User\UserController@saveCourse', 'as' => 'user.dashboard.course.add']);
-            Route::get('all', ['uses' => 'User\UserController@allCourse', 'as' => 'user.dashboard.course.all']);
-            Route::get('paid/all', ['uses' => 'User\UserController@allPaidCourse', 'as' => 'user.dashboard.course.all.paid']);
-            Route::get('sold/all', ['uses' => 'User\UserController@allSoldCourse', 'as' => 'user.dashboard.course.all.sold']);
-            Route::get('view/{url}', ['uses' => 'User\UserController@viewCourse', 'as' => 'user.dashboard.course.view']);
-            Route::get('view/{course_url}/{lesson_url}', ['uses' => 'User\UserController@viewPaidCourse', 'as' => 'user.dashboard.course.view.paid']);
+            Route::get('all', ['uses' => 'Shared\SharedController@allCourse', 'as' => 'user.dashboard.course.all']);
+            Route::get('paid/all', ['uses' => 'Shared\SharedController@allPaidCourse', 'as' => 'user.dashboard.course.all.paid']);
+            Route::get('sold/all', ['uses' => 'Shared\SharedController@allSoldCourse', 'as' => 'user.dashboard.course.all.sold']);
+            Route::get('view/{url}', ['uses' => 'Shared\SharedController@viewCourse', 'as' => 'user.dashboard.course.view']);
+            Route::get('view/{course_url}/{lesson_url}', ['uses' => 'Shared\SharedController@viewPaidCourse', 'as' => 'user.dashboard.course.view.paid']);
             Route::get('lesson/add/{id}', ['uses' => 'User\UserController@addLesson', 'as' => 'user.dashboard.course.add.lesson']);
             Route::get('buy/{course_id}', ['uses' => 'User\UserController@buyCourse', 'as' => 'user.dashboard.course.buy']);
             Route::post('buy/save', ['uses' => 'User\UserController@coursePaymentInit', 'as' => 'user.dashboard.course.buy.save']);
             Route::post('lesson/save', ['uses' => 'User\UserController@saveLesson', 'as' => 'user.dashboard.course.lesson.save']);
-            Route::get('type/free', ['uses' => 'User\UserController@allCourseByAction', 'as' => 'user.dashboard.course.free']);
-            Route::get('type/paid', ['uses' => 'User\UserController@allCourseByAction', 'as' => 'user.dashboard.course.paid']);
-            Route::get('use-cases', ['uses' => 'User\UserController@allCourseByAction', 'as' => 'user.dashboard.course.use.cases']);
+            Route::get('type/free', ['uses' => 'Shared\SharedController@allCourseByAction', 'as' => 'user.dashboard.course.free']);
+            Route::get('type/paid', ['uses' => 'Shared\SharedController@allCourseByAction', 'as' => 'user.dashboard.course.paid']);
+            Route::get('theme', ['uses' => 'Shared\SharedController@allCourseByAction', 'as' => 'user.dashboard.course.use.cases']);
 
         });
 
         Route::group(['prefix' => 'discover'], function ()
         {
+            Route::get('/', ['uses' => 'User\UserController@discoverCourses', 'as' => 'user.dashboard.discover.course.all']);
             Route::get('type/course', ['uses' => 'User\UserController@discoverCourses', 'as' => 'user.dashboard.discover.course']);
             Route::get('type/tutors', ['uses' => 'User\UserController@discoverTutor', 'as' => 'user.dashboard.discover.tutors']);
             Route::get('type/sessions', ['uses' => 'User\UserController@discoverSessions', 'as' => 'user.dashboard.discover.sessions']);
-
         });
 
         Route::group(['prefix' => 'courses'], function ()
         {
             Route::get('type/free', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.free']);
             Route::get('type/paid', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.paid']);
-            Route::get('use-cases', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.use.cases']);
-
+            Route::get('theme', ['uses' => 'User\UserController@discoverAllCourseByAction', 'as' => 'user.dashboard.discover.course.use.cases']);
         });
-
 
         Route::group(['prefix' => 'group-sessions'], function ()
         {
@@ -181,19 +205,20 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::post('schedule/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingSchedule', 'as' => 'user.schedule.booking']);
         Route::post('schedule/group/booking',[ 'uses' =>'User\ScheduleCalendarController@bookingGroupSchedule', 'as' => 'user.group.schedule.booking']);
 
-        Route::get('meeting/private/all',[ 'uses' =>'User\ScheduleCalendarController@getScheduleRequest', 'as' => 'user.schedule.booking.request']);
+        Route::get('meeting/private/paid',[ 'uses' =>'User\ScheduleCalendarController@getPaidPrivateMeeting', 'as' => 'user.private.meeting.paid']);
+        Route::get('meeting/private/sold',[ 'uses' =>'User\ScheduleCalendarController@getSoldPrivateMeeting', 'as' => 'user.private.meeting.sold']);
 
         Route::get('group/class/create',[ 'uses' =>'User\UserController@createGroupClass', 'as' => 'user.group.class.create']);
-        Route::get('group/class/all',[ 'uses' =>'User\UserController@getGroupClass', 'as' => 'user.group.class.all']);
-        Route::get('group/class/paid',[ 'uses' =>'User\UserController@getGroupClassPaid', 'as' => 'user.group.class.all.paid']);
-        Route::get('group/class/sold',[ 'uses' =>'User\UserController@getGroupClassSold', 'as' => 'user.group.class.all.sold']);
+        Route::get('group/class/all',[ 'uses' =>'Shared\SharedController@getGroupClass', 'as' => 'user.group.class.all']);
+        Route::get('group/class/paid',[ 'uses' =>'Shared\SharedController@getGroupClassPaid', 'as' => 'user.group.class.all.paid']);
+        Route::get('group/class/sold',[ 'uses' =>'Shared\SharedController@getGroupClassSold', 'as' => 'user.group.class.all.sold']);
         Route::post('group/create/save',[ 'uses' =>'User\UserController@saveGroupClassMeeting', 'as' => 'user.group.class.save']);
 
 
     });
 
 
-    Route::get('use-cases', ['uses' => 'Home\HomeController@getUseCasesByCourse', 'as' => 'index.use.cases']);
+    Route::get('theme', ['uses' => 'Home\HomeController@getUseCasesByCourse', 'as' => 'index.use.cases']);
     Route::get('{teachers}/{language}', ['uses' => 'Home\HomeController@getTeacherByLang', 'as' => 'index.cat']);
     Route::get('{teacher}/{id}/{language}', ['uses' => 'Home\HomeController@getTeacherLang', 'as' => 'index.teacher.view']);
     Route::get('{category}/{user}/view', ['uses' => 'Home\HomeController@userStatusUpdate', 'as' => 'index.status']);

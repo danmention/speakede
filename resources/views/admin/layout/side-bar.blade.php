@@ -10,10 +10,10 @@
               <span class="smini-visible fw-bold tracking-wide fs-lg">
                 c<span class="text-primary">b</span>
               </span>
-                <a class="link-fx fw-bold tracking-wide mx-auto" href="{{route('admin.dashboard')}}">
+                <a class="link-fx fw-bold tracking-wide mx-auto" href="{{url('/')}}">
                 <span class="smini-hidden">
-                    <img src="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}" alt="logo">
-                  <span class="fs-4 text-dual">Speak</span><span class="fs-4 text-primary">ede</span>
+                    <img src="{{asset("logo-black.png")}}"  style="width: 40px;" alt="logo">
+                  <span class="fs-4 text-dual">SpeakEde</span>
                 </span>
                 </a>
             </div>
@@ -92,31 +92,19 @@
                     </li>
                     <li class="nav-main-heading">User Interface</li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                        <a class="nav-main-link" href="{{route('admin.user.index')}}">
                             <i class="nav-main-link-icon fa fa-user-group"></i>
-                            <span class="nav-main-link-name">Users</span>
+                            <span class="nav-main-link-name">All user</span>
                         </a>
-                        <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('admin.student')}}">
-                                    <span class="nav-main-link-name">All user</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
+
                     <li class="nav-main-item">
-                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                        <a class="nav-main-link" href="{{route('admin.transactions.funding')}}">
                             <i class="nav-main-link-icon fa fa-wallet"></i>
-                            <span class="nav-main-link-name">Transactions</span>
+                            <span class="nav-main-link-name">Wallet Funding</span>
                         </a>
-                        <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('admin.transactions.funding')}}">
-                                    <span class="nav-main-link-name">Wallet Funding</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
+
 
 
                     <li class="nav-main-heading">OTHERS</li>
@@ -143,12 +131,12 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-vector-square"></i>
-                            <span class="nav-main-link-name">Use-cases</span>
+                            <span class="nav-main-link-name">theme</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.use.cases')}}">
-                                    <span class="nav-main-link-name">Add Use-cases</span>
+                                    <span class="nav-main-link-name">Add theme</span>
                                 </a>
                             </li>
                         </ul>

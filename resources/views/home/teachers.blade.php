@@ -8,17 +8,19 @@
     </style>
 
     <!-- Page Banner Start -->
-    <div class="section page-banner-section" style="background-image: url({{asset("home/assets/images/bg/page-banner.jpg")}}">
+    <div class="section page-banner-section" style="background-color: #FACB27;">
         <div class="shape-3"></div>
         <div class="container">
             <div class="page-banner-wrap">
                 <div class="row">
                     <div class="col-lg-8">
+                        <br />
                         <h1>Tutor</h1>
                         <p>Learn your favourite languages with our relatable tutors. Find a tutor to guide you on your learning journey</p>
+                        <br />
                     </div>
                     <div class="col-lg-4">
-                        <img src="{{asset('class_logo.svg')}}" style="float: right" />
+                        <img src="{{asset('banners/image5.png')}}" style="float: right" />
 
                     </div>
                 </div>

@@ -73,7 +73,7 @@
                             <div class="row mb-4">
                                 <div class="col-6">
                                     <div class="form-floating">
-                                        <input type="datetime-local" class="form-control" name="start_date">
+                                        <input type="text" class="js-flatpickr form-control" id="example-flatpickr-datetime-24" name="start_date" data-enable-time="true" data-time_24hr="true">
                                         <label class="form-label" for="register4-firstname">Start Date</label>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
 
                             <div class="mb-4">
                                 <div class="form-floating">
-                                    <textarea id="js-ckeditor" name="description"></textarea>
+                                    <textarea name="description" rows="4" style="width: 100%;border-color: #d8dde5;"></textarea>
                                 </div>
                             </div>
 

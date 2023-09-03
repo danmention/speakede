@@ -76,17 +76,18 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-4">
-                                        <div class="form-floating">
-                                            <select name="use_cases_id" class="form-control"  required="required">
-                                                @foreach($use_cases as $rw)
-                                                    <option value="{{$rw->id}}"> {{$rw->title}}</option>
+                                        <div class="col-4">
+                                            <div class="form-floating">
+                                            <select class="js-select2 form-select form-control" id="val-select2-multiple" name="use_cases_id[]" style="width: 100%;" data-placeholder="Choose Themes.." multiple>
+                                                <option></option>
+                                                @foreach($use_cases as $row)
+                                                    <option value="{{$row->id}}">{{$row->title}}</option>
                                                 @endforeach
                                             </select>
-
-                                            <label class="form-label" for="register4-firstname">Use Cases</label>
+                                            </div>
                                         </div>
-                                    </div>
+
+
 
                                     <div class="col-4">
                                         <div class="form-floating">

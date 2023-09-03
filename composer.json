@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-http": "*",
         "ext-json": "*",
         "firebase/php-jwt": "^6.8",
         "fruitcake/laravel-cors": "^2.0",
@@ -14,9 +15,9 @@
         "kingflamez/laravelrave": "^4.2",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
+        "laravel/socialite": "^5.8",
         "laravel/tinker": "^2.5",
-        "unicodeveloper/laravel-paystack": "^1.0",
-      "ext-http": "*"
+        "unicodeveloper/laravel-paystack": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

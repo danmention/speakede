@@ -33,7 +33,7 @@
 
                                 </div>
                                 <div class="block-content block-content-full bg-body-light text-left">
-                                    <span class="author-name"><b>PROFESSIONAL TEACHER</b></span>
+                                    <span class="author-name"><b>TUTOR</b></span>
 
                                     <div class="top-meta">
                                         <a class="tag" href="#">SPEAKS</a>
@@ -42,6 +42,8 @@
                                         @endforeach
 
                                     </div>
+
+                                    <a href="{{url('teacher/'.$row->identity)}}" class="btn btn-primary">Book a private session</a>
 
                                 </div>
                             </div>

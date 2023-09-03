@@ -7,7 +7,6 @@ use App\Enums\ScheduleTypes;
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\CommunicationPayment;
-use App\Models\CoursePayment;
 use App\Models\GroupClassEnrollment;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
@@ -15,6 +14,9 @@ use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Services\zoom\ZoomServiceImpl;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,6 +37,10 @@ class ScheduleCalendarController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return Application|Factory|View|JsonResponse
+     */
     public function getEvent(Request $request)
     {
         if ($request->ajax()) {
@@ -49,11 +55,20 @@ class ScheduleCalendarController extends Controller
         return view('user.schedule');
     }
 
+
+    /**
+     * @return Application|Factory|View
+     */
     public function getAllSchedule(){
         $schedule = ScheduleEvent::query()->where('user_id',Auth::user()->id)->orderBy('id','DESC')->get();
         return view('user.schedule-all', compact('schedule'));
     }
 
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
     public function getCreateScheduleEvent(Request $request)
     {
         $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
@@ -103,6 +118,10 @@ class ScheduleCalendarController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|null
+     */
     public function bookingSchedule(Request $request): ?RedirectResponse
     {
        $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
@@ -134,13 +153,6 @@ class ScheduleCalendarController extends Controller
                 $data->status = 1;
                 $data->save();
 
-                $data = new CommunicationPayment();
-                $data->user_id = Auth::user()->id;
-                $data->instructor_id =  $request->teacher_id;
-                $data->schedule_events_id = $request->id;
-                $data->reference_no = $ref;
-                $data->is_active = "yes";
-                $data->save();
                 Session::flash('message', "Payment successful");
                 return redirect()->route('user.dashboard');
             default:
@@ -150,20 +162,31 @@ class ScheduleCalendarController extends Controller
     }
 
 
-    public function getScheduleRequest(Request $request)
+    /**
+     * @return Application|Factory|View
+     */
+    public function getPaidPrivateMeeting()
     {
         $user_id = Auth::user()->id;
-        $data = Schedule::query()->where('initiate_user_id',$user_id)->where('status',1)->get();
-        foreach ($data as $row){
-           $instructor = User::query()->where('id',$row->instructor_user_id)->get();
-            $row['student'] = $instructor[0]->firstname.' '.$instructor[0]->lastname;
-            $row["instructor"] =  Auth::user()->firstname.' '.Auth::user()->lastname;
-            $row["zoom_response"] = json_decode($row->zoom_response, true);
-        }
-        return view('user.booked-schedule', compact('data'));
+        $data = Schedule::query()->where('initiate_user_id',$user_id)->where('instructor_user_id', '!=', $user_id)->where('status',1)->get();
+        return $this->privateMeetingInfo($data);
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function getSoldPrivateMeeting()
+    {
+        $user_id = Auth::user()->id;
+        $data = Schedule::query()->where('instructor_user_id',$user_id)->where('initiate_user_id', '!=', $user_id)->where('status',1)->get();
+        return $this->privateMeetingInfo($data);
     }
 
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|null
+     */
     public function bookingGroupSchedule(Request $request): ?RedirectResponse
     {
         $ref = CommonHelpers::code_ref(10);
@@ -193,5 +216,20 @@ class ScheduleCalendarController extends Controller
                 break;
         }
         return null;
+    }
+
+    /**
+     * @param $data
+     * @return Application|Factory|View
+     */
+    private function privateMeetingInfo($data)
+    {
+        foreach ($data as $row) {
+            $instructor = User::query()->where('id', $row->instructor_user_id)->get();
+            $row['student'] = $instructor[0]->firstname . ' ' . $instructor[0]->lastname;
+            $row["instructor"] = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+            $row["zoom_response"] = json_decode($row->zoom_response, true);
+        }
+        return view('user.booked-schedule', compact('data'));
     }
 }

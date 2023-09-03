@@ -11,17 +11,7 @@
                     <!-- Footer Widget Start -->
                     <div class="footer-widget widget-about">
                         <div class="footer-logo">
-                            <a href="{{url('/')}}"><img src="{{asset("home/img/NewSpeakede-white-1.png")}}" alt=""></a>
-                        </div>
-                        <p class="text">World largest online learning platform. Download our apps to start learning.</p>
-                        <div class="widget-info">
-                            <div class="info-icon">
-                                <i class="flaticon-phone-call"></i>
-                            </div>
-                            <div class="info-text">
-                                <p class="call-text">Call Us Free</p>
-                                <a href="tel:+91458654528">+91 458 654 528</a>
-                            </div>
+                            <a href="{{url('/')}}"><img src="{{asset("logo-white.png")}}" style="width: 80px;" alt=""></a>
                         </div>
                     </div>
                     <!-- Footer Widget End -->
@@ -30,13 +20,11 @@
                 <div class="col-lg-3 col-sm-6">
                     <!-- Footer Widget Start -->
                     <div class="footer-widget">
-                        <h4 class="footer-widget-title">Trending Courses</h4>
+                        <h4 class="footer-widget-title">Company</h4>
                         <div class="widget-link">
                             <ul class="link">
-                                <li><a href="index.html">Home </a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="about.html">Compare plans</a></li>
-                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="https://docs.google.com/document/d/17Igenndkp8LWxGu8s4a2iXudONl2aAECSVlQwfST4T8/edit?ouid=109014632192778990569&usp=docs_home&ths=true">Privacy policy </a></li>
+                                <li><a href="https://docs.google.com/document/d/1U10mGJaO7_zHE64OCaGLQK1ZXA2kCUMvlWvbCpHpiww">Terms of service</a></li>
                             </ul>
                         </div>
                     </div>
@@ -46,29 +34,33 @@
                 <div class="col-lg-3 col-sm-6">
                     <!-- Footer Widget Start -->
                     <div class="footer-widget">
-                        <h4 class="footer-widget-title">Study material</h4>
+                        <h4 class="footer-widget-title">Connect with us</h4>
                         <div class="widget-link">
                             <ul class="link">
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="#">Weekly webinar</a></li>
-                                <li><a href="#">Academy</a></li>
-                                <li><a href="#">Free eBooks & checklists</a></li>
+                                <li><a href="https://twitter.com/speakede" target="_blank">Twitter</a></li>
+                                <li><a href="https://facebook.com/speakede" target="_blank">Facebook</a></li>
+
                             </ul>
                         </div>
                     </div>
                     <!-- Footer Widget End -->
                 </div>
+
                 <div class="col-lg-3 col-sm-6">
                     <!-- Footer Widget Start -->
                     <div class="footer-widget">
-                        <h4 class="footer-widget-title">Download Now</h4>
-                        <div class="widget-download">
-                            <a href="#"><img src="{{asset("home/assets/images/app-1.jpg")}}" alt=""></a>
-                            <a href="#"><img src="{{asset("home/assets/images/app-2.png")}}" alt=""></a>
+                        <h4 class="footer-widget-title">Join our communities</h4>
+                        <div class="widget-link">
+                            <ul class="link">
+                                <li><a href="#">Whatsapp</a></li>
+                                <li><a href="#">Telegram</a></li>
+
+                            </ul>
                         </div>
                     </div>
                     <!-- Footer Widget End -->
                 </div>
+
             </div>
         </div>
         <!-- Footer Widget Wrapper End -->
@@ -80,7 +72,7 @@
                     <div class="col-lg-6 col-md-6">
                         <!-- Footer Copyright Text Start -->
                         <div class="copyright-text">
-                            <p>© Copyright 2023 upstudy All rights reserved. </p>
+                            <p>© Copyright 2023 Speakede All rights reserved. </p>
                         </div>
                         <!-- Footer Copyright Text End -->
                     </div>
@@ -88,9 +80,10 @@
                         <!-- Footer Copyright Social Start -->
                         <div class="copyright-social">
                             <ul class="social">
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                <li><a href="https://facebook.com/speakede" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="https://Instagram.com/speakede" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://twitter.com/speakede" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="https://linkedin.com/company/speakede" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
                             </ul>
                         </div>
                         <!-- Footer Copyright Social End -->
@@ -258,6 +251,7 @@
             $("#group_class_view").hide();
         });
     });
+
 
 </script>
 <script src="{{asset("home/assets/js/vendor/modernizr-3.11.2.min.js")}}"></script>

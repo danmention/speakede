@@ -62,7 +62,7 @@
                                 <div class="row mb-4">
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea id="js-ckeditor" name="about_me"></textarea>
+                                            <textarea name="about_me" rows="4" style="width: 100%;border-color: #d8dde5;">Write your bio. Tell us about you</textarea>
                                         </div>
                                     </div>
                                 </div>

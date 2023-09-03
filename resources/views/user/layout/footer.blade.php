@@ -34,7 +34,7 @@
 
 
 <!-- Page JS Helpers (SimpleMDE + CKEditor plugins) -->
-<script>Codebase.helpersOnLoad(['js-ckeditor', 'js-simplemde']);</script>
+<script>Codebase.helpersOnLoad(['js-ckeditor', 'js-simplemde','js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-rangeslider', 'jq-masked-inputs', 'jq-pw-strength']);</script>
 
 <script>
     $(document).ready(function () {

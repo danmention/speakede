@@ -7,16 +7,31 @@
 
 
   <!-- Hero Start -->
-  <div class="upstudy-hero-section section" style="background-image: url({{asset("home/assets/images/bg/hero-bg.jpg")}}">
+  <div class="upstudy-hero-section section" style="background-color: #FACB27">
       <div class="container">
           <div class="row align-items-center">
               <div class="col-lg-6">
                   <!-- Hero Content Start -->
                   <div class="hero-content">
-                      <h2 class="title">START SPEAKING<span>IN</span>  2 WEEKS</h2>
+                      <h2 class="title">START SPEAKING<span> IN</span> 2 WEEKS</h2>
                       <p>Learn from celebrities, influencers and peers Book private and group learning <br /> sessions Learn only the topics you want per time. </p>
+                      <br />
+
+                      <ul class="list-none space-y-1 font-medium text-sm text-gray2 mt-7">
+                          <li class="flex items-center" style="display:flex; margin-right: 5px;">
+                              <div class="shrink-0 mr-3" style="background-color: black;padding: 5px; height: 10px; margin-top: 8px; margin-right: 10px;"></div>
+                              <span>Take customizable 1-on-1 lessons trusted by millions of users</span>
+                          </li>
+                          <li class="flex items-center" style="display:flex; margin-right: 5px;">
+                              <div class="shrink-0 mr-3" style="background-color: black;padding: 5px; height: 10px; margin-top: 8px; margin-right: 10px;"></div>
+                              <span>Learn from certified teachers that fit your budget and schedule</span></li>
+                          <li class="flex items-center" style="display:flex; margin-right: 5px;">
+                              <div class="shrink-0 mr-3" style="background-color: black;padding: 5px; height: 10px; margin-top: 8px; margin-right: 10px;"></div>
+                              <span>Connect with a global community of language learners</span></li>
+                      </ul>
+
                       <div class="hero-btn">
-                          <a class="btn" href="{{url('register')}}">START NOW </a>
+                          <a class="btn" href="{{url('register')}}" style="background-color: #000000 !important;">START NOW </a>
                       </div>
                       <p class="link-text" data-aos="fade-up" data-aos-delay="1000"><span>No credit card required.</span> By clicking ‘Start a Free Trial’</p>
                   </div>
@@ -26,11 +41,11 @@
                   <!-- Hero Images Start -->
                   <div class="hero-images">
                       <div class="image">
-                          <img src="{{asset("home/img/Join-the-laguage-revolution-1638x2048.jpeg")}}" alt="">
+                          <img src="{{asset("banners/image1.png")}}" alt="">
                           <div class="image-content text-center">
                               <img src="{{asset("home/img/student-img.png")}}" alt="">
                               <div class="image-text">
-                                  <h3 class="number">100k+</h3>
+                                  <h3 class="number">3k+</h3>
                                   <p>Total Enrolled Students</p>
                               </div>
                           </div>
@@ -53,7 +68,7 @@
               <div class="row">
                   <div class="section-title text-center">
                       <br />
-                      <h2 class="title">Use-Cases </h2>
+                      <h2 class="title">I’m learning language for </h2>
                   </div>
               </div>
               <div class="category-content-wrap">
@@ -61,7 +76,7 @@
                       @foreach($use_cases as $row)
                           <div class="col-xl-3 col-lg-4 col-sm-6">
                               <!-- Category Item Start -->
-                              <a href="{{url('use-cases?link='.$row->url)}}" class="category-item category-item-ex">
+                              <a href="{{url('theme?link='.$row->url)}}" class="category-item category-item-ex">
                                   <div class="category-content">
                                       <h3 class="title">{{$row->title}}</h3>
                                   </div>
@@ -84,7 +99,7 @@
           <div class="course-header">
               <!-- Section Title Start -->
               <div class="section-title">
-                  <h2 class="title"><span>Popular</span> Course</h2>
+                  <h2 class="title"><span>Latest</span> Courses</h2>
               </div>
               <!-- Section Title End -->
 
@@ -136,41 +151,6 @@
   </div>
   <!-- Courses End -->
 
-
-  <!-- Category Start -->
-  <div class="section upstudy-category-section">
-      <div class="container">
-          <div class="category-wrap">
-              <div class="row">
-                  <div class="section-title text-center">
-                      <h2 class="title">Popular <span>languages</span></h2>
-                  </div>
-              </div>
-              <div class="category-content-wrap">
-                  <div class="row justify-content-md-center">
-                      @foreach($lang_popular as $row)
-                          <div class="col-xl-3 col-lg-4 col-sm-6">
-                              <!-- Category Item Start -->
-                              <a href="{{url('teachers/'.$row->url)}}" class="category-item">
-                                  <div class="category-icon">
-                                      <img src="{{asset('lang/icons/'.$row->featured_img)}}" alt="">
-                                  </div>
-                                  <div class="category-content">
-                                      <h3 class="title">{{$row->title}}</h3>
-                                  </div>
-                              </a>
-                              <!-- Category Item End -->
-                          </div>
-                      @endforeach
-                  </div>
-              </div>
-          </div>
-          <br />
-      </div>
-  </div>
-  <!-- Category End -->
-
-
   <div class="section upstudy-team-section section-padding">
 
       <div class="container">
@@ -182,8 +162,7 @@
                   <div class="col-lg-7">
                       <!-- Section Title Start -->
                       <div class="section-title-2 text-center">
-                          <h3 class="sub-title">Meet Our Tutors</h3>
-                          <h2 class="title">Top Tutors</h2>
+                          <h2 class="title">Meet Our Tutors</h2>
                       </div>
                       <!-- Section Title End -->
                   </div>
@@ -223,7 +202,7 @@
   </div>
 
   <!-- Counter Start -->
-  <div class="section upstudy-counter-section section-padding-02" style="background-image: url({{asset("home/assets/images/bg/counter-bg.png")}}">
+  <div class="section upstudy-counter-section section-padding-02" style="background-color:#FACB27; ">
       <div class="container">
           <div class="counter-wrap">
               <div class="row">
@@ -235,7 +214,7 @@
                           </div>
                           <div class="counter-content">
                               <h3 class="title">
-                                  <sapn class="counter">24</sapn>k+
+                                  <sapn class="counter">3</sapn>k+
                               </h3>
                               <p>Total student signups</p>
                           </div>
@@ -250,7 +229,7 @@
                           </div>
                           <div class="counter-content">
                               <h3 class="title">
-                                  <sapn class="counter">3</sapn>M+
+                                  <sapn class="counter">100</sapn>+
                               </h3>
                               <p>Total video lessons</p>
                           </div>
@@ -265,7 +244,7 @@
                           </div>
                           <div class="counter-content">
                               <h3 class="title">
-                                  <sapn class="counter">2.5</sapn>k+
+                                  <sapn class="counter">500</sapn>+
                               </h3>
                               <p>Total group sessions</p>
                           </div>
@@ -280,7 +259,7 @@
                           </div>
                           <div class="counter-content">
                               <h3 class="title">
-                                  <sapn class="counter">75</sapn>+
+                                  <sapn class="counter">100</sapn>+
                               </h3>
                               <p>Customized private sessions</p>
                           </div>
@@ -293,79 +272,11 @@
   </div>
   <!-- Counter End -->
 
-  <!-- Brand Start -->
-  <div class="section upstudy-brand-section section-padding">
-      <div class="container">
-          <div class="brand-wrap">
-              <div class="row align-items-center">
-                  <div class="col-lg-6">
-                      <div class="brand-title-wrap">
-                          <h2 class="title">The trusted market leader in talent transformation through education </h2>
-                          <a href="{{url('register')}}" class="btn">Start Learning Now</a>
-                      </div>
-                  </div>
-                  <div class="col-lg-6">
-                      <div class="brand-content-wrap">
-                          <div class="row g-0">
-                              <div class="col-sm-4">
-                                  <div class="upstudy-brand-box">
-                                      <!-- Single Brand Start -->
-                                      <div class="single-brand">
-                                          <img src="{{asset("home/assets/images/brand/brand-1.png")}}" alt="">
-                                      </div>
-                                      <!-- Single Brand End -->
-                                      <!-- Single Brand Start -->
-                                      <div class="single-brand">
-                                          <img src="{{asset("home/assets/images/brand/brand-4.png")}}" alt="">
-                                      </div>
-                                      <!-- Single Brand End -->
-                                  </div>
-                              </div>
-                              <div class="col-sm-4">
-                                  <div class="upstudy-brand-box">
-                                      <!-- Single Brand Start -->
-                                      <div class="single-brand">
-                                          <img src="{{asset("home/assets/images/brand/brand-2.png")}}" alt="">
-                                      </div>
-                                      <!-- Single Brand End -->
-                                      <!-- Single Brand Start -->
-                                      <div class="single-brand">
-                                          <img src="{{asset("home/assets/images/brand/brand-5.png")}}" alt="">
-                                      </div>
-                                      <!-- Single Brand End -->
-                                  </div>
-                              </div>
-                              <div class="col-sm-4">
-                                  <div class="upstudy-brand-box brand-box-03">
-                                      <!-- Single Brand Start -->
-                                      <div class="single-brand">
-                                          <img src="{{asset("home/assets/images/brand/brand-3.png")}}" alt="">
-                                      </div>
-                                      <!-- Single Brand End -->
-                                      <!-- Single Brand Start -->
-                                      <div class="single-brand">
-                                          <img src="{{asset("home/assets/images/brand/brand-6.png")}}" alt="">
-                                      </div>
-                                      <!-- Single Brand End -->
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!-- Brand End -->
-
   <!-- Testimonial Start -->
-  <div class="section upstudy-testimonial-section">
+  <div class="section upstudy-testimonial-section section-padding">
       <div class="container">
           <!-- Testimonial Wrap Start -->
           <div class="testimonial-wrap" style="background-image: url({{asset("home/assets/images/bg/testi-bg.jpg")}}">
-              <div class="shape-1">
-                  <img src="{{asset("home/assets/images/shape/testi-shape1.png")}}" alt="">
-              </div>
 
               <!-- Testimonial Content Start -->
               <div class="testimonial-content testimonial-content-active">
@@ -373,8 +284,11 @@
                       <div class="swiper-wrapper">
                           <div class="swiper-slide single-testimonial-content">
 
-                              <h3 class="title">Learn from your idols, celebrities, influencers and your peers</h3>
-                              <p>With Speakede, you can connect with folks from every corner of the world, sharing language and culture along the way. Who knows? You might even find your new BFF (Best Friend in a Foreign language).</p>
+                              <h3 class="title">Learn from Influencers, celebrities and Peers</h3>
+                              <p>Speakede helps you learn from peers as well as from icons you already know and love</p>
+                              <div class="hero-btn">
+                                  <a class="btn" href="{{url('register')}}" style="background-color: #000000 !important;">START NOW </a>
+                              </div>
                           </div>
                           <div class="swiper-slide single-testimonial-content">
                               <h3 class="title">Share your voice in any language</h3>
@@ -397,8 +311,8 @@
                       <div class="author-images-wrap author-images-active">
                           <div class="swiper-container">
                               <div class="swiper-wrapper">
-                                  <div class="swiper-slide author-image">
-                                      <img src="{{asset("home/img/Meet-People-1365x2048.jpeg")}}" alt="" style="width: 362px; height: 372px; background-size: cover">
+                                  <div class="swiper-slide author-image" style="background-size: contain;">
+                                      <img src="{{asset("banners/image3.jpeg")}}" alt="" style="width: 362px; height: 372px;">
                                   </div>
                                   <div class="swiper-slide author-image">
                                       <img src="{{asset("home/img/Share-your-voice-in-any-language-1367x2048.jpeg")}}" alt="" style="width: 362px; height: 372px; background-size: cover">
