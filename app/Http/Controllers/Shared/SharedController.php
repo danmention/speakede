@@ -6,7 +6,9 @@ use App\Services\user\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SharedController
 {
@@ -24,15 +26,21 @@ class SharedController
 
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
     public function getIndex(Request $request)
     {
         $data = $this->userService->getUserDashboard($request);
         if ($request->identity){
             return view('admin.user-dashboard', $data);
+        } else {
+            if (empty(Auth::user()->about_me)){
+                return redirect()->route('user.apply.final');
+            } else {
+                return view('user.dashboard', $data);
+            }
         }
-        return view('user.dashboard', $data);
+
     }
 
 

@@ -34,7 +34,6 @@ class UserController
 
 
 
-
     /**
      * @param Request $request
      * @return RedirectResponse
@@ -220,12 +219,16 @@ class UserController
 
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
     public function discoverCourses()
     {
-        $data = $this->userService->discoverCourses();
-        return view('user.course.all_course', $data);
+        if (empty(Auth::user()->about_me)){
+            return redirect()->route('user.apply.final');
+        } else {
+            $data = $this->userService->discoverCourses();
+            return view('user.course.all_course', $data);
+        }
     }
 
 

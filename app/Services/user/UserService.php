@@ -106,23 +106,12 @@ class UserService
         return $wallet;
     }
 
-    /**
-     * @return void
-     */
-    private function initUser(): void
-    {
-        if (empty(Auth::user()->about_me)){
-            redirect()->route('user.apply.final');
-        }
-    }
-
 
     /**
      * @return array
      */
     public function getAddCourseInfo(): array
     {
-        $this->initUser();
         $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
             ->where('preferred_languages.user_id',Auth::user()->id)->get(['categories.*','preferred_languages.price']);
         $use_cases = Category::query()->where('class_name','use_cases')->orderBy('id','desc')->get();
@@ -140,14 +129,7 @@ class UserService
      */
     public function saveCourse(Request $request): RedirectResponse
     {
-        if ($request->use_cases_id){
-            $use_cases_id = count($request->use_cases_id);
-            if ($use_cases_id > 1){
-                $use_cases_id = $request->use_cases_id;
-            } else {
-                $use_cases_id = $request->use_cases_id[0];
-            }
-        }
+        $use_cases_id = $request->use_cases_id[0];
 
         $data = new Course();
         $data->url = strtolower(CommonHelpers::str_slug($request->title));
@@ -175,7 +157,7 @@ class UserService
 
 
 
-        if ($use_cases_id > 1){
+        if (count($request->use_cases_id) > 1){
             foreach ($request->use_cases_id as $row){
                 $new_course = new RelatedCourses();
                 $new_course->user_id = Auth::user()->id;
@@ -196,7 +178,7 @@ class UserService
     public function discoverCourses(): array
     {
 
-        $this->initUser();
+
         $course = Course::query()->orderBy('id','DESC')->get();
         return array(
             "course" => $course,
@@ -208,7 +190,7 @@ class UserService
      */
     public function allCourse(): array
     {
-        $this->initUser();
+
         $course = Course::query()->where('user_id', Auth::user()->id)->orderBy('id','DESC')->get();
         return array(
             "course" => $course,
@@ -220,7 +202,7 @@ class UserService
      */
     public function paidCourse(): array
     {
-        $this->initUser();
+
 
         $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('course_payments.user_id', Auth::user()->id)
             ->get(['courses.*']);
@@ -234,7 +216,7 @@ class UserService
      */
     public function soldCourse(): array
     {
-        $this->initUser();
+
         $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('courses.user_id', Auth::user()->id)
             ->get(['courses.*']);
         return array(
@@ -250,7 +232,7 @@ class UserService
     public function courseByActions(Request $request): array
     {
 
-        $this->initUser();
+
         if($request->segment(3) ==="type"){
             $course = Course::query()->where('type', strtoupper($request->segment(4)))->where('user_id',  Auth::user()->id)
                 ->orderBy('id','desc')->get();
@@ -607,7 +589,7 @@ class UserService
      */
     public function discoverCourseByAction(Request $request): array
     {
-        $this->initUser();
+
         if($request->segment(3) ==="type"){
             $course = Course::query()->where('type', strtoupper($request->segment(4)))->orderBy('id','desc')->get();
         }elseif ($request->segment(3) ==="theme"){

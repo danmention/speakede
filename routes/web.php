@@ -29,7 +29,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('online-sessions/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
     Route::get('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
     Route::get('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
-    Route::get('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
+    Route::post('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
 
 
     Route::get('/payment/callback', ['uses' =>'User\PaymentController@handleGatewayCallback' ,'as' => 'user.payment.callback']);

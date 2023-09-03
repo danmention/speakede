@@ -11,6 +11,7 @@ use App\Models\GroupClassEnrollment;
 use App\Models\LanguageISpeak;
 use App\Models\Lesson;
 use App\Models\PreferredLanguage;
+use App\Models\RelatedCourses;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Models\UserRating;
@@ -381,6 +382,11 @@ class HomeService
             $course = Course::query()->where('use_cases_id',$category)->orderBy('id', 'DESC')->paginate(15);
         }
 
+        if($course->count() == 0){
+            $course =  RelatedCourses::join('courses', 'courses.id', '=', 'related_courses.course_id')
+                ->where('related_courses.use_cases_id', $category)->select('courses.*')->paginate(15);
+        }
+
         return $this->courseListInfo($course, $user_id);
     }
 
@@ -414,6 +420,11 @@ class HomeService
 
     public function getCourseByUseCases($use_cases_id){
         $course = Course::query()->where('use_cases_id',$use_cases_id)->orderBy('id', 'desc')->get();
+
+        if($course->count() == 0){
+            $course =  RelatedCourses::join('courses', 'courses.id', '=', 'related_courses.course_id')->where('related_courses.use_cases_id', $use_cases_id)->get('courses.*');
+        }
+
         (new CommonHelpers)->moreCourseInformation($course);
         return $course;
     }

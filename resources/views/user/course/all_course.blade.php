@@ -14,7 +14,7 @@
 
                 <h2 class="content-heading d-flex justify-content-between align-items-center">
                         <span>
-                          <i class="fa fa-fw fa-star opacity-50 me-1"></i> All Courses
+                           All Courses
                         </span>
                 </h2>
 
@@ -34,12 +34,13 @@
                     @endif
                     @foreach($course as $row)
                     <div class="col-md-6 col-xl-3">
-                        <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success
-                        text-center h-100 mb-0" href="{{url('user/course/view/'.$row->url)}}">
+                        @if($row->user_id == auth()->user()->id)
+                        <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success text-center h-100 mb-0" href="{{url('user/course/view/'.$row->url)}}">
+                            @else
+                                <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success text-center h-100 mb-0" href="{{url('course/'.$row->url)}}">
+                            @endif
 
-                            <br />
-                            <img src="{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}" width="220" height="150" >
-
+                            <div class="courses-image" style="background-image: url('{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}'); width: 231px; height: 200px; background-size: cover; background-repeat: no-repeat"></div>
 
                             <div class="ribbon-box">{{$row->price}}</div>
 
