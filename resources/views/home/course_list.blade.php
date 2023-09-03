@@ -1,9 +1,9 @@
 <!-- Single Courses Start -->
-<div class="single-course">
+<div class="single-course" style="background-color:#ffffff;box-shadow: 0 33px 73px 0 rgba(0, 0, 0, 0.1);border-radius: 20px; margin-bottom: 20px;">
     <div class="courses-image" style="background-image: url('{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}');
-    width: 310px; height: 218px; background-size: cover; background-repeat: no-repeat">
+    width: 100%; height: 218px; background-size: cover; background-repeat: no-repeat">
     </div>
-    <div class="courses-content">
+    <div class="courses-content" style="padding: 10px;">
         <div class="top-meta">
             <div class="tag-time">
                 <a class="tag" href="{{url('course/'.$row->url)}}" style="color: black;">{{ucwords($row->title)}}</a>

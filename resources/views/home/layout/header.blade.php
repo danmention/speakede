@@ -11,7 +11,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-{{--    <meta name="csrf-token" content="{{ csrf_token() }}" />--}}
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}">
 
@@ -127,7 +127,7 @@
         <div class="offcanvas-header">
             <!-- Offcanvas Logo Start -->
             <div class="offcanvas-logo">
-                <a href="{{url('/')}}"><img src="{{asset("logo-black.png")}}" style="width: 50px" alt="logo"></a>
+                <a href="{{url('/')}}"><img src="{{asset("logo-white.png")}}" style="width: 50px" alt="logo"></a>
             </div>
             <!-- Offcanvas Logo End -->
 
@@ -137,10 +137,21 @@
         <div class="offcanvas-body">
             <div class="offcanvas-menu">
                 <ul class="main-menu">
+
                     <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
+                    <li><a href="{{route('index.all.course')}}">All Courses</a></li>
+                    <li><a href="{{route('index.all.online.sessions')}}">Online Sessions</a></li>
                     <li><a href="{{route('index.register')}}">Become a Tutor</a></li>
-                    <li><a href="{{route('index.login')}}">Login</a></li>
-                    <li><a href="{{route('index.register')}}">Signup</a></li>
+
+                    @if(isset(\Illuminate\Support\Facades\Auth::user()->is_admin) && \Illuminate\Support\Facades\Auth::user()->is_admin == 0)
+                        <li> <a  href="{{route('user.dashboard')}}"><i class="far fa-user"></i> {{Auth::user()->firstname}}</a></li>
+                        <li> <a href="{{route('account.logout')}}">Logout</a></li>
+
+                    @else
+                        <li> <a  href="{{route('index.login')}}"><i class="far fa-user"></i> Login</a></li>
+                        <li> <a  href="{{route('index.register')}}">Signup</a></li>
+                    @endif
+
                 </ul>
             </div>
         </div>
