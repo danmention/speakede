@@ -11,11 +11,11 @@
     <div class="course-content">
         <div style="margin-bottom: 10px">
             <h3 class="title"><a href="{{url('teacher/'.$row->identity)}}">{{$row->firstname. ' '.$row->lastname}}</a></h3>
-            <span class="author-name">PROFESSIONAL TEACHER</span>
+            <span class="author-name">TUTOR</span>
         </div>
 
         <div class="top-meta">
-            <a class="tag" href="#">TEACH:</a>
+            <a class="tag" href="#">TUTORS:</a>
             @foreach($row["preferred_lang"] as $rw)
                 <span class="language">{{$rw->title}}</span>
             @endforeach

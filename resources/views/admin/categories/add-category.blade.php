@@ -4,7 +4,12 @@
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">
-                Language
+
+                @if(request()->segment(4) === "tutor")
+                  Add  Tutor Language
+                @else
+                Add Global Language
+                @endif
             </h3>
         </div>
         <div class="block-content block-content-full">
@@ -31,19 +36,15 @@
                  {{ csrf_field() }}
 
 
-
                      <div class="form-floating mb-4">
-                         <input type="text" class="form-control" id="example-text-input-floating"  name="category_name"
-                                placeholder="Enter Language Name">
+                         <input type="text" class="form-control" id="example-text-input-floating"  name="category_name" placeholder="Enter Language Name">
+                         @if(request()->segment(4) === "tutor")
+                         <input type="hidden" class="form-control"  name="class_name" value="tutor">
+                         @else
+                             <input type="hidden" class="form-control"  name="class_name" value="language">
+                         @endif
                          <label class="form-label" for="example-text-input-floating">Language Name</label>
                      </div>
-
-                     <div class=" mb-4">
-                        <label class="form-label" for="image">Language icon *</label>
-                          <input class="form-control" type="file" name="post_image" required="required">
-                         <input type="hidden" name="class_name" required="required" value="language">
-                    </div>
-
 
                     <button type="submit" class="btn btn-secondary mb-2"><i class="glyphicon glyphicon-plus"></i> Add Language</button>
                 </form>

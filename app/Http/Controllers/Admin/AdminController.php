@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -126,33 +127,28 @@ class AdminController
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function UpdateProfilePhoto(Request $request): RedirectResponse
+    public function UpdateProfilePhoto(Request $request): JsonResponse
     {
 
         $id = Auth::user()->id;
 
-        if ($request->home) {
-            $image = $request->file('picture');
-            $filename = time().".".$image->getClientOriginalExtension();
-            // Create directory if it does not exist
-            $path = public_path()."profile/photo/". Auth::user()->id ."/";
-            if(!File::isDirectory($path)) {
-                File::makeDirectory(public_path().'/'.$path,0777,true);
-            }
-            $location = public_path('profile/photo/'. Auth::user()->id .'/');
-            $image->move($location, $filename);
-        }else {
-            return back()->withInput()->with('response','Please Attach a profile photo');
+        $image = $request->picture;
+        $filename = time().".".$image->extension();
+        // Create directory if it does not exist
+        $path = public_path()."/profile/photo/". Auth::user()->id ."/";
+        if(!File::isDirectory($path)) {
+            File::makeDirectory(public_path().'/'.$path,0777,true);
         }
+        $location = public_path('profile/photo/'. Auth::user()->id .'/');
+        $image->move($location, $filename);
+
         // update account information
         $post = User::find($id);
         $post->profile_image = $filename;
         $post->save();
-        Session::flash('message', 'profile picture updated');
-        return back()->withInput()->with('response','profile picture updated');
-
+        return response()->json('Course added successfully');
 
     }
 
@@ -164,14 +160,14 @@ class AdminController
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function ChangeUserPassword(Request $request): RedirectResponse
+    public function ChangeUserPassword(Request $request): JsonResponse
     {
         $user = User::find(Auth::user()->id);
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withInput()->with('response', "The current password is incorrect");
+            return response()->json('The current password is incorrect',500);
         }
 
         $validator = Validator::make($request->all(), [
@@ -180,7 +176,7 @@ class AdminController
         ]);
 
         if ($validator->fails()) {
-            return back()->withInput()->with('response', "Password didn't match or your current password is wrong");
+            return response()->json('Password didn\'t match or your current password is wrong',500);
         }
 
         $password                   =   $request->new_password;
@@ -189,8 +185,7 @@ class AdminController
         $Users->password            =   $encrypt_pass;
         $Users->save();
 
-        Session::flash('message', 'Password Updated Successfully');
-        return back()->withInput()->with('response','Password Updated Successfully');
+        return response()->json('Password Updated Successfully');
     }
 
 }

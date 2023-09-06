@@ -154,7 +154,7 @@ class ScheduleCalendarController extends Controller
                 $data->save();
 
                 Session::flash('message', "Payment successful");
-                return redirect()->route('user.dashboard');
+                return redirect()->route('user.dashboard.discover.tutors');
             default:
                 break;
         }

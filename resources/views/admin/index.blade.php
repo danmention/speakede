@@ -9,7 +9,7 @@
                 <!-- Row #1 -->
                 <div class="col-6 col-xl-3">
                     <a class="block block-rounded block-link-shadow text-end" href="javascript:void(0)">
-                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-secondary">
+                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-primary">
                             <div class="d-none d-sm-block">
                                 <i class="fa fa-user fa-2x text-white"></i>
                             </div>

@@ -1,7 +1,8 @@
 <!-- Single Courses Start -->
 
 <div style="background-color:#ffffff;box-shadow: 0 33px 73px 0 rgba(0, 0, 0, 0.1);border-radius: 20px; margin-bottom: 20px;">
-    <div class="courses-image" style="background-image: url('{{asset('group/class/photo/'.$row->user_id.'/'.$row->cover_image)}}');width: 100%; height: 218px; background-size: cover; background-repeat: no-repeat"></div>
+    <div class="courses-image" style="background-image: url('{{asset('group/class/photo/'.$row->user_id.'/'.$row->cover_image)}}');
+    width: 100%; height: 218px; background-size: cover; background-repeat: no-repeat;border-top-left-radius: 20px;border-top-right-radius: 20px;"></div>
     <div class="courses-content" style="padding: 10px;">
         <p style="color: skyblue">
             {{ \Carbon\Carbon::parse($row->start_date)->format(' H:i')}}

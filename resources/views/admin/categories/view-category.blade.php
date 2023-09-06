@@ -4,7 +4,7 @@
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">
-                View Language Category
+                View Language
             </h3>
         </div>
         <div class="block-content">
@@ -13,8 +13,8 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Category Name</th>
-                        <th>Icon</th>
+                        <th>Language Name</th>
+                        <th>Language Type</th>
                         <th>Date Created</th>
                         <th>Make Popular</th>
                         <th>Action</th>
@@ -28,7 +28,12 @@
 
                             <td>{{$x++}}</td>
                             <td>{{$row->title}}</td>
-                            <td><img src="{{asset('lang/icons/'.$row->featured_img)}}" class="img-avatar" alt="image">
+                            <td>
+                                @if($row->class_name === "language")
+                                    Global Language
+                                @else
+                                    Tutors Language
+                                @endif
                             </td>
                             <td>{{$row->created_at}}</td>
 

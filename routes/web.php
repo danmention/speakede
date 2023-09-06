@@ -68,7 +68,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::post('delete', ['uses' => 'Admin\AdminController@deletingExe', 'as' => 'delete.exe']);
         Route::post('updating/user/status', ['uses' => 'Admin\AdminController@userStatusUpdate', 'as' => 'user.exe.status']);
         Route::post('profile/photo/save', ['uses' => 'Admin\AdminController@UpdateProfilePhoto', 'as' => 'profile.dp.save']);
-        Route::get('/change/password/save', ['uses' => 'Admin\AdminController@ChangeUserPassword', 'as' => 'user.password.save']);
+        Route::post('/change/password/save', ['uses' => 'Admin\AdminController@ChangeUserPassword', 'as' => 'user.password.save']);
     });
 
     /**
@@ -81,7 +81,8 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('group/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.group.call.history']);
         Route::get('call/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.call.history']);
 
-        Route::get('/category/add', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.add.cat']);
+        Route::get('/language/add', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.add.cat']);
+        Route::get('/language/tutor/add', ['uses' => 'Admin\Categories\CategoryController@getTutorIndex', 'as' => 'admin.add.tutor']);
         Route::get('/category/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.cat']);
         Route::get('/category/view', ['uses' => 'Admin\Categories\CategoryController@getCategory', 'as' => 'admin.view.cat']);
         Route::post('/category/add/save', ['uses' => 'Admin\Categories\CategoryController@storeCategory', 'as' => 'admin.add.cat.save']);
@@ -177,6 +178,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
             Route::get('type/course', ['uses' => 'User\UserController@discoverCourses', 'as' => 'user.dashboard.discover.course']);
             Route::get('type/tutors', ['uses' => 'User\UserController@discoverTutor', 'as' => 'user.dashboard.discover.tutors']);
             Route::get('type/sessions', ['uses' => 'User\UserController@discoverSessions', 'as' => 'user.dashboard.discover.sessions']);
+            Route::get('theme', ['uses' => 'User\UserController@discoverTheme', 'as' => 'user.dashboard.discover.theme']);
         });
 
         Route::group(['prefix' => 'courses'], function ()

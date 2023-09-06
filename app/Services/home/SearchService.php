@@ -64,11 +64,20 @@ class SearchService
             $row["rating"] = CommonHelpers::ratingUser($row->id);
         }
         $instructors = $this->getInstructors($user_id);
+
+        $all_theme = Category::query()->where('class_name', "use_cases")->orderBy('id','desc')->get();
+
+        foreach ($all_theme as $row){
+            $row['total'] = Course::join('related_courses', 'related_courses.course_id', '=', 'courses.id')
+                ->where('related_courses.use_cases_id', $row->id)->Orwhere('courses.use_cases_id', $row->id)->count();
+        }
+
         return array(
             'tutors' => $teachers,
             'instructors' => $instructors,
             'free_course' => 0,
-            'paid_course' => 0
+            'paid_course' => 0,
+            'all_theme' => $all_theme
         );
 
     }
@@ -98,11 +107,20 @@ class SearchService
 
         $free_course = Course::query()->where('type', 'FREE')->count();
         $paid_course = Course::query()->where('type', 'PAID')->count();
+
+        $all_theme = Category::query()->where('class_name', "use_cases")->orderBy('id','desc')->get();
+
+        foreach ($all_theme as $row){
+            $row['total'] = Course::join('related_courses', 'related_courses.course_id', '=', 'courses.id')
+                ->where('related_courses.use_cases_id', $row->id)->Orwhere('courses.use_cases_id', $row->id)->count();
+        }
+
         return array(
             'course' => $course,
             'instructors' => $instructors,
             'free_course' => $free_course,
-            'paid_course' => $paid_course
+            'paid_course' => $paid_course,
+            'all_theme' => $all_theme
         );
     }
 
@@ -125,12 +143,21 @@ class SearchService
         $free_course = GroupClass::query()->where('type', 'FREE')->count();
         $paid_course = GroupClass::query()->where('type', 'PAID')->count();
         $instructors = $this->getInstructors($user_id);
+
+        $all_theme = Category::query()->where('class_name', "use_cases")->orderBy('id','desc')->get();
+
+        foreach ($all_theme as $row){
+            $row['total'] = Course::join('related_courses', 'related_courses.course_id', '=', 'courses.id')
+                ->where('related_courses.use_cases_id', $row->id)->Orwhere('courses.use_cases_id', $row->id)->count();
+        }
+
         return array(
             'group' => $course,
             'lang' => $lang,
             'instructors' => $instructors,
             'free_course' => $free_course,
-            'paid_course' => $paid_course
+            'paid_course' => $paid_course,
+            "all_theme" => $all_theme
         );
 
     }

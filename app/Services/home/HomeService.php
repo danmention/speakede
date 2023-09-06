@@ -51,6 +51,7 @@ class HomeService
         $themes = [7,12,9,13,10];
         $use_cases_course = Category::query()->whereIn('id', $themes)->orderBy('id','desc')->take(5)->get();
 
+
         return array(
             "lang" => $lang,
             "use_cases" => $use_cases,
@@ -358,12 +359,20 @@ class HomeService
             $row["number_of_course"] = Course::query()->where('user_id', $row->id)->count();
         }
 
+        $all_theme = Category::query()->where('class_name', "use_cases")->orderBy('id','desc')->get();
+
+        foreach ($all_theme as $row){
+            $row['total'] = Course::join('related_courses', 'related_courses.course_id', '=', 'courses.id')
+                ->where('related_courses.use_cases_id', $row->id)->Orwhere('courses.use_cases_id', $row->id)->count();
+        }
+
         return array(
             'course' => $course,
             'lang' => $lang,
             'free_course' => $free_course,
             'paid_course' => $paid_course,
-            'instructors' =>$instructors
+            'instructors' =>$instructors,
+            'all_theme' =>$all_theme
         );
     }
 
@@ -410,11 +419,17 @@ class HomeService
 
         $free_course = Course::query()->where('type', 'FREE')->count();
         $paid_course = Course::query()->where('type', 'PAID')->count();
+        $all_theme = Category::query()->where('class_name', "use_cases")->orderBy('id','desc')->get();
+        foreach ($all_theme as $row){
+            $row['total'] = Course::join('related_courses', 'related_courses.course_id', '=', 'courses.id')
+                ->where('related_courses.use_cases_id', $row->id)->Orwhere('courses.use_cases_id', $row->id)->count();
+        }
         return array(
             'course' => $course,
             'instructors' => $instructors,
             'free_course' => $free_course,
-            'paid_course' => $paid_course
+            'paid_course' => $paid_course,
+            "all_theme" =>$all_theme
         );
     }
 

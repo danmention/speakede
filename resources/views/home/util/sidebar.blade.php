@@ -45,14 +45,15 @@
 
             <div class="widget-checkbox">
                 <ul class="checkbox-list">
-                    <li class="form-check">
-                        <input class="form-check-input" type="checkbox" value="free" name="type" id="checkbox1">
-                        <label class="form-check-label" for="checkbox1">Free ({{$free_course}})</label>
-                    </li>
-                    <li class="form-check">
-                        <input class="form-check-input" type="checkbox" value="paid" name="type" id="checkbox2">
-                        <label class="form-check-label" for="checkbox2">Paid ({{$paid_course}})</label>
-                    </li>
+
+                    @foreach($all_theme as $row)
+                        <li class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{$row->url}}" name="checkbox8"
+                                   id="checkbox8" onclick="CheckedBox(this)" {{request()->link === $row->url ? "checked" : ""}}>
+                            <label class="form-check-label" for="checkbox8"> {{$row->title}} ({{$row->total}})</label>
+                        </li>
+                    @endforeach
+
                 </ul>
             </div>
         </div>

@@ -61,10 +61,5 @@
 <!-- Page JS Code -->
 <script src="{{asset("admin/assets/js/pages/be_tables_datatables.min.js")}}"></script>
 
-
-<script>
-    var SITE_URL = "{{ url('/') }}";
-    function loadUrl(){
-        window.location.href = SITE_URL+'/user/discover';
-    }
-</script>
+<script src="{{asset("admin/assets/js/plugins/sweetalert2/sweetalert2.min.js")}}"></script>
+<script src="{{asset("admin/assets/js/user.js")}}"></script>

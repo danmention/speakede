@@ -17,9 +17,11 @@ use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Services\zoom\ZoomServiceImpl;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,23 +55,27 @@ class UserService
         }
 
         $wallet = $this->accountBalance();
-        $course = Course::query()->where('user_id', $user_id)->count();
         $paid_course = CoursePayment::query()->where('user_id', $user_id)->count();
         $sold_course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('courses.user_id', $user_id)->get(['courses.*'])->count();
-        $created_group_sessions = GroupClass::join('categories', 'categories.id', '=', 'group_classes.language_id')
-            ->where('group_classes.user_id',$user_id)->get(['group_classes.*'])->count();
         $paid_group_sessions = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
             ->where('group_class_enrollments.user_id',$user_id)->get(['group_classes.*'])->count();
 
         $sold_group_sessions = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
             ->where('group_classes.user_id',$user_id)->get(['group_classes.*'])->count();
 
-        $paid_private_sessions = Schedule::query()->where('initiate_user_id',$user_id)->where('instructor_user_id', '!=', $user_id)->where('status',1)->count();
+        $paid_private_sessions = Schedule::query()->where('initiate_user_id',$user_id)->where('instructor_user_id', '!=', $user_id)
+            ->where('status',1)->count();
+
+        $created_group_sessions = GroupClass::join('categories', 'categories.id', '=', 'group_classes.language_id')
+            ->where('group_classes.user_id',$user_id)->get(['group_classes.*'])->count();
         $created_private_sessions = ScheduleEvent::query()->where('user_id',$user_id)->orderBy('id','DESC')->count();
+        $course = Course::query()->where('user_id', $user_id)->count();
+
         $sold_private_sessions =Schedule::query()->where('instructor_user_id',$user_id)->where('initiate_user_id', '!=', $user_id)->where('status',1)->count();
 
 
         return array(
+            "total_created" => $created_group_sessions + $course + $created_private_sessions,
             "wallet" => $wallet,
             "course" => $course,
             "paid_course" => $paid_course,
@@ -125,14 +131,15 @@ class UserService
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function saveCourse(Request $request): RedirectResponse
+    public function saveCourse(Request $request): JsonResponse
     {
-        $use_cases_id = $request->use_cases_id[0];
+        $use_cases_ids  = json_decode($request->use_cases_id,true);
+        $use_cases_id = $use_cases_ids[0];
 
         $data = new Course();
-        $data->url = strtolower(CommonHelpers::str_slug($request->title));
+        $data->url = strtolower(CommonHelpers::create_unique_slug($request->title,"courses","url"));
         $data->title = $request->title;
         $data->price = $request->price ?? 0;
         $data->description = $request->desc;
@@ -142,8 +149,8 @@ class UserService
         $data->use_cases_id = $use_cases_id;
         $data->user_id = Auth::user()->id;
 
-        $image = $request->file('picture');
-        $filename = time().".".$image->getClientOriginalExtension();
+        $image = $request->picture;
+        $filename = time().".".$image->extension();
         // Create directory if it does not exist
         $path = public_path()."/course/photo/". Auth::user()->id ."/";
         if(!File::isDirectory($path)) {
@@ -155,10 +162,8 @@ class UserService
         $data->cover_image = $filename;
         $data->save();
 
-
-
-        if (count($request->use_cases_id) > 1){
-            foreach ($request->use_cases_id as $row){
+        if (count($use_cases_ids) > 1){
+            foreach ($use_cases_ids as $row){
                 $new_course = new RelatedCourses();
                 $new_course->user_id = Auth::user()->id;
                 $new_course->use_cases_id = $row;
@@ -167,8 +172,7 @@ class UserService
             }
         }
 
-        Session::flash('message', ' Course added successful');
-        return redirect()->back();
+        return response()->json('Course added successfully');
     }
 
 
@@ -177,8 +181,6 @@ class UserService
      */
     public function discoverCourses(): array
     {
-
-
         $course = Course::query()->orderBy('id','DESC')->get();
         return array(
             "course" => $course,
@@ -202,10 +204,8 @@ class UserService
      */
     public function paidCourse(): array
     {
-
-
-        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('course_payments.user_id', Auth::user()->id)
-            ->get(['courses.*']);
+        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')
+            ->where('course_payments.user_id', Auth::user()->id)->select('course_payments.user_id as payed_user_id','courses.*' )->get(['courses.*']);
         return array(
             "course" => $course,
         );
@@ -237,8 +237,8 @@ class UserService
             $course = Course::query()->where('type', strtoupper($request->segment(4)))->where('user_id',  Auth::user()->id)
                 ->orderBy('id','desc')->get();
         }elseif ($request->segment(3) ==="theme"){
-            $course = Course::query()->where('use_cases_id', '!=',null)->where('user_id',  Auth::user()->id)
-                ->orderBy('id','desc')->get();
+            $course =  RelatedCourses::join('courses', 'courses.id', '=', 'related_courses.course_id')->select('courses.*') ->orderBy('courses.id','desc')->get();
+
         } else {
             $course = Course::query()->where('user_id',  Auth::user()->id)->orderBy('id','desc')->get();
         }
@@ -333,15 +333,15 @@ class UserService
         );
     }
 
+
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function addLessons(Request $request): RedirectResponse
+    public function addLessons(Request $request): JsonResponse
     {
         $data                   = new Lesson();
-
-        if(!empty($request->existing)){
+        if(!empty($request->existing && !$request->existing == "undefined")){
             $lesson_name = Lesson::query()->where('group_id', $request->existing)->orderBy('id','desc')
                 ->take(1)->value('lesson_name');
             $data->group_id         = $request->existing;
@@ -350,17 +350,16 @@ class UserService
             $data->group_id         = CommonHelpers::code_ref(10);
             $data->lesson_name      = $request->lesson_name;
         }
-        $data->url              = strtolower(CommonHelpers::str_slug($request->title));
+        $data->url              = strtolower(CommonHelpers::create_unique_slug($request->title,"lessons","url"));
         $data->lesson_title     = $request->title;
         $data->description      = $request->desc;
         $data->youtube_link     = $request->youtube_link;
         $data->course_id        = $request->course_id;
-        $data->start_time       = $request->start_time;
-        $data->end_time         = $request->end_time;
+        $data->start_time       = Carbon::now();
+        $data->end_time         = Carbon::now();
         $data->save();
 
-        Session::flash('message', ' Lesson added successful');
-        return redirect()->back();
+        return response()->json('Lesson added successfully');
     }
 
 
@@ -397,11 +396,13 @@ class UserService
     public function updateProfileAfterRegistration(Request $request): RedirectResponse
     {
 
-        foreach ($request->language_id as $row){
-            $lang = new PreferredLanguage();
-            $lang->user_id = Auth::user()->id;
-            $lang->language_id = $row;
-            $lang->save();
+        if (!empty($request->language_id)){
+            foreach ($request->language_id as $row){
+                $lang = new PreferredLanguage();
+                $lang->user_id = Auth::user()->id;
+                $lang->language_id = $row;
+                $lang->save();
+            }
         }
 
         foreach ($request->i_speak_language_id as $row){
@@ -416,7 +417,7 @@ class UserService
         $profile->update();
 
         Session::flash('message', "profile updated");
-        return redirect()->route('user.dashboard');
+        return redirect()->route('user.dashboard.discover.course.all');
     }
 
     /**
@@ -448,30 +449,27 @@ class UserService
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function saveGroupSessions(Request  $request): RedirectResponse
+    public function saveGroupSessions(Request  $request): JsonResponse
     {
         $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
 
-        if ($request->picture) {
-            $image = $request->file('picture');
-            $filename = time().".".$image->getClientOriginalExtension();
-            // Create directory if it does not exist
-            $path = public_path()."/group/class/photo/". Auth::user()->id ."/";
-            if(!File::isDirectory($path)) {
-                File::makeDirectory(public_path().'/'.$path,0777,true);
-            }
-            $location = public_path('group/class/photo/'. Auth::user()->id .'/');
-            $image->move($location, $filename);
-        }else {
-            return back()->withInput()->with('response','Please Attach a profile photo');
+        $image = $request->picture;
+        $filename = time().".".$image->extension();
+        // Create directory if it does not exist
+        $path = public_path()."/group/class/photo/". Auth::user()->id ."/";
+        if(!File::isDirectory($path)) {
+            File::makeDirectory(public_path().'/'.$path,0777,true);
         }
+        $location = public_path('group/class/photo/'. Auth::user()->id .'/');
+        $image->move($location, $filename);
+
 
         $data = new GroupClass();
         $data->user_id = Auth::user()->id;
         $data->title = $request->title;
-        $data->price = $request->price;
+        $data->price = $request->price ?? 0;
         $data->description = $request->description;
         $data->language_id = $request->language;
         $data->slot = $request->slot;
@@ -483,8 +481,7 @@ class UserService
         $data->type = $request->class_type;
         $data->save();
 
-        Session::flash('message', "Group Class created");
-        return redirect()->route('user.dashboard');
+        return response()->json('Group Sessions created successfully');
     }
 
 
@@ -572,7 +569,7 @@ class UserService
      */
     public function getTutors(): array
     {
-        $tutors = User::query()->where('is_admin', 0)->orderBy('id', 'DESC')->paginate(15);
+        $tutors = User::join('courses', 'courses.user_id', '=', 'users.id')->groupBy('users.id')->select(['users.*'])->orderBy('users.id', 'DESC')->paginate(15);
         foreach ($tutors as $row) {
             $row["preferred_lang"] = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
                 ->where('preferred_languages.user_id', $row->id)->get(['categories.*']);
@@ -621,6 +618,18 @@ class UserService
 
         return array(
             'sessions' => $sessions
+        );
+    }
+
+    public function getUseCases(Request $request): array
+    {
+        $category = Category::query()->where('url', $request->link)->value('id');
+        $course =  RelatedCourses::join('courses', 'courses.id', '=', 'related_courses.course_id')
+                ->where('related_courses.use_cases_id', $category)->orWhere('courses.use_cases_id', $category)->select('courses.*')->paginate(15);
+        (new CommonHelpers)->moreCourseInformation($course);
+
+        return array(
+            'course' => $course
         );
     }
 }

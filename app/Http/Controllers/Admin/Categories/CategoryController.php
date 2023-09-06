@@ -29,6 +29,14 @@ class CategoryController extends Controller
     /**
      * @return Application|Factory|View
      */
+    public function getTutorIndex()
+    {
+        return view('admin.categories.add-category');
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
     public function getEditCategory($id)
     {
         $category = Category::query()->where('id', $id)->get();
@@ -40,8 +48,8 @@ class CategoryController extends Controller
      */
     public function getCategory()
     {
-        $category = Category::query()->where('class_name','language')->get();
-        return view('admin.Categories.view-category', compact( 'category'));
+        $category = Category::query()->where('class_name','language')->Orwhere('class_name','tutor')->orderBy('id','desc')->get();
+        return view('admin.categories.view-category', compact( 'category'));
     }
 
     /**
@@ -72,41 +80,7 @@ class CategoryController extends Controller
         $post->parent_id = $parent_ID;
         $post->class_name = $request->class_name ?? null;
         $post->user_id = $user_id;
-        $post->url = strtolower(CommonHelpers::str_slug($request->category_name));
-
-        if ($request->hasFile('post_image')) {
-
-            if($request->class_name ==="language"){
-                // Create directory if it does not exist
-                if (!is_dir("lang/icons/")) {
-                    $path = "lang/icons/";
-                    File::makeDirectory(public_path() . '/' . $path, 0777, true);
-                }
-                if (!is_dir("lang/icons/")) {
-                    $path = "lang/icons/";
-                    File::makeDirectory(public_path() . '/' . $path, 0777, true);
-                }
-                $location = public_path('lang/icons/');
-            } else {
-                // Create directory if it does not exist
-                if (!is_dir("categories/icons/" . $user_id . "/")) {
-                    $path = "categories_images/headers/" . $user_id . "/";
-                    File::makeDirectory(public_path() . '/' . $path, 0777, true);
-                }
-
-                if (!is_dir("categories/icons/" . $user_id . "/")) {
-                    $path = "categories/icons/" . $user_id . "/";
-                    File::makeDirectory(public_path() . '/' . $path, 0777, true);
-                }
-                $location = public_path('categories/icons/' . $user_id . '/');
-            }
-
-            $image = $request->file('post_image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->move($location, $filename);
-            $post->featured_img = $filename;
-        }
-
+        $post->url = strtolower(CommonHelpers::create_unique_slug($request->category_name,"categories","url"));
         $post->save();
         return back()->withInput()->with('response', 'Language Added');
 

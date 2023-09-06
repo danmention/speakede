@@ -31,10 +31,6 @@
                                 </div>
 
                                 <div class="block-content">
-                                    <p>
-                                        Your teacher can use any of the these communication tools. Which communication tool would you like to use for your lesson?
-                                    </p>
-
                                     <form role="form" method="get" class="validate" action="{{ url('user/apply/booking/lesson/pay?teacher_id='.request()->teacher_id.'&id='.request()->id) }}">
                                         {{ csrf_field() }}
                                         <div class="row mb-4">
@@ -50,18 +46,10 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-6">
-                                                <div class="form-floating">
-                                                    <select name="tool" class="form-control">
-                                                            <option value="zoom"> Zoom</option>
-                                                    </select>
-
-                                                    <label class="form-label" for="register4-firstname">Select Communication Tool </label>
-                                                </div>
-                                            </div>
 
                                             <input type="hidden" name="teacher_id" value="{{request()->teacher_id}}">
                                             <input type="hidden" name="id" value="{{request()->id}}">
+                                            <input type="hidden" name="tool" value="zoom">
 
                                         </div>
 

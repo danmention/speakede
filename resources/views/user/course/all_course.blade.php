@@ -14,7 +14,17 @@
 
                 <h2 class="content-heading d-flex justify-content-between align-items-center">
                         <span>
-                           All Courses
+                            @if(request()->segment(2) === "course" && request()->segment(3) === "paid")
+                           All Paid Courses
+                            @elseif(request()->segment(2) === "course" && request()->segment(3) === "sold")
+                               All Sold Courses
+                            @elseif(request()->segment(3) === "theme")
+                                All Theme Courses
+                            @elseif(request()->segment(3) === "type")
+                                All {{ucwords(request()->segment(4))}} Courses
+                            @else
+                            All Courses
+                            @endif
                         </span>
                 </h2>
 
@@ -34,13 +44,16 @@
                     @endif
                     @foreach($course as $row)
                     <div class="col-md-6 col-xl-3">
-                        @if($row->user_id == auth()->user()->id)
+                        @if($row->payed_user_id == auth()->user()->id)
                         <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success text-center h-100 mb-0" href="{{url('user/course/view/'.$row->url)}}">
-                            @else
-                                <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success text-center h-100 mb-0" href="{{url('course/'.$row->url)}}">
+                            @elseif($row->user_id == auth()->user()->id)
+                                <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success text-center h-100 mb-0" href="{{url('user/course/view/'.$row->url)}}">
+                                    @else
+                                    <a class="block block-link-shadow block-rounded ribbon ribbon-bookmark ribbon-left ribbon-success text-center h-100 mb-0" href="{{url('course/'.$row->url)}}">
                             @endif
 
-                            <div class="courses-image" style="background-image: url('{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}'); width: 231px; height: 200px; background-size: cover; background-repeat: no-repeat"></div>
+                            <div class="courses-image" style="background-image: url('{{asset('course/photo/'.$row->user_id.'/'.$row->cover_image)}}');
+                             width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat;border-radius: 0.875rem 0.875rem 0 0"></div>
 
                             <div class="ribbon-box">{{$row->price}}</div>
 

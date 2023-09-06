@@ -13,27 +13,28 @@
               <div class="col-lg-6">
                   <!-- Hero Content Start -->
                   <div class="hero-content">
-                      <h2 class="title">START SPEAKING<span> IN</span> 2 WEEKS</h2>
-                      <p>Learn from celebrities, influencers and peers Book private and group learning <br /> sessions Learn only the topics you want per time. </p>
-                      <br />
-
+                      <span class="title-speak">START SPEAKING <br />
+                          <span class="title" id="word"> <i>YORUBA</i>  </span> IN 2 WEEKS </span>
+                     <br />
                       <ul class="list-none space-y-1 font-medium text-sm text-gray2 mt-7">
                           <li class="flex items-center" style="display:flex; margin-right: 5px;">
-                              <div class="shrink-0 mr-3" style="background-color: black;padding: 5px; height: 10px; margin-top: 8px; margin-right: 10px;"></div>
-                              <span>Take customizable 1-on-1 lessons trusted by millions of users</span>
+                              <img src="{{asset("logo-black.png")}}" style="width: 15px; height: 18px;margin-top: 8px; margin-right: 10px;" >
+                              <span>Learn from Influencers, Celebrities and Peers</span>
                           </li>
                           <li class="flex items-center" style="display:flex; margin-right: 5px;">
-                              <div class="shrink-0 mr-3" style="background-color: black;padding: 5px; height: 10px; margin-top: 8px; margin-right: 10px;"></div>
-                              <span>Learn from certified teachers that fit your budget and schedule</span></li>
+                              <img src="{{asset("logo-black.png")}}" style="width: 15px; height: 18px;margin-top: 8px; margin-right: 10px;" >
+                              <span>Flexible scheduling with private and group sessions</span></li>
                           <li class="flex items-center" style="display:flex; margin-right: 5px;">
-                              <div class="shrink-0 mr-3" style="background-color: black;padding: 5px; height: 10px; margin-top: 8px; margin-right: 10px;"></div>
-                              <span>Connect with a global community of language learners</span></li>
+                              <img src="{{asset("logo-black.png")}}" style="width: 15px; height: 18px;margin-top: 8px; margin-right: 10px;" >
+                              <span>Learn only topics you want</span></li>
+                          <li class="flex items-center" style="display:flex; margin-right: 5px;">
+                              <img src="{{asset("logo-black.png")}}" style="width: 15px; height: 18px;margin-top: 8px; margin-right: 10px;" >
+                              <span>Pay as you go</span></li>
                       </ul>
 
                       <div class="hero-btn">
                           <a class="btn" href="{{url('register')}}" style="background-color: #000000 !important;">START NOW </a>
                       </div>
-                      <p class="link-text" data-aos="fade-up" data-aos-delay="1000"><span>No credit card required.</span> By clicking ‘Start a Free Trial’</p>
                   </div>
                   <!-- Hero Content End -->
               </div>
@@ -185,7 +186,7 @@
                               </div>
                               <div class="team-content">
                                   <h3 class="name"><a href="{{url('teacher/'.$row->identity)}}">{{$row->firstname. ' '.$row->lastname}}</a></h3>
-                                  <p class="designation">Teacher - {{$row->lang}}</p>
+                                  <p class="designation">Tutors - {{$row->lang}}</p>
                               </div>
                           </div>
                           <!-- Single Team End -->
@@ -276,7 +277,7 @@
   <div class="section upstudy-testimonial-section section-padding">
       <div class="container">
           <!-- Testimonial Wrap Start -->
-          <div class="testimonial-wrap" style="background-image: url({{asset("home/assets/images/bg/testi-bg.jpg")}}">
+          <div class="testimonial-wrap" style="background-color:#FACB27; ">
 
               <!-- Testimonial Content Start -->
               <div class="testimonial-content testimonial-content-active">
@@ -284,46 +285,20 @@
                       <div class="swiper-wrapper">
                           <div class="swiper-slide single-testimonial-content">
 
-                              <h3 class="title">Learn from Influencers, celebrities and Peers</h3>
+                              <h3 class="title">Learn From Influencers, Celebrities And Peers</h3>
                               <p>Speakede helps you learn from peers as well as from icons you already know and love</p>
                               <div class="hero-btn">
                                   <a class="btn" href="{{url('register')}}" style="background-color: #000000 !important;">START NOW </a>
                               </div>
                           </div>
-                          <div class="swiper-slide single-testimonial-content">
-                              <h3 class="title">Share your voice in any language</h3>
-                              <p>Say goodbye to language barriers and express yourself freely in any language. Whether it’s a joke, a song, or a silly dance, you can show off your skills and let your creativity soar.</p>
-                          </div>
-                          <div class="swiper-slide single-testimonial-content">
-                              <h3 class="title">No need to be perfect</h3>
-                              <p>Mistakes happen, and that’s okay! Speakede is the perfect place to practice your language skills without worrying about getting it right every time. Just have fun and let loose!.</p>
-                          </div>
                       </div>
-
-                      <div class="swiper-pagination"></div>
                   </div>
               </div>
               <!-- Testimonial Content End -->
 
               <!-- Testimonial Author Start -->
               <div class="testimonial-author">
-                  <div class="testimonial-author-wrap">
-                      <div class="author-images-wrap author-images-active">
-                          <div class="swiper-container">
-                              <div class="swiper-wrapper">
-                                  <div class="swiper-slide author-image" style="background-size: contain;">
-                                      <img src="{{asset("banners/image3.jpeg")}}" alt="" style="width: 362px; height: 372px;">
-                                  </div>
-                                  <div class="swiper-slide author-image">
-                                      <img src="{{asset("home/img/Share-your-voice-in-any-language-1367x2048.jpeg")}}" alt="" style="width: 362px; height: 372px; background-size: cover">
-                                  </div>
-                                  <div class="swiper-slide author-image">
-                                      <img src="{{asset("home/img/No-need-to-be-perfect-1365x2048.jpeg")}}" alt="" style="width: 362px; height: 372px; background-size: cover">
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                  <div  class="testimonial-author-image"></div>
               </div>
               <!-- Testimonial Author End -->
 

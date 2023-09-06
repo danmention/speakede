@@ -10,6 +10,17 @@
     <main>
         <div class="content">
 
+
+            @if(Session::has('message'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <p class="mb-0">
+                        {{ Session::get('message') }}
+                    </p>
+                </div>
+            @endif
+
+
             <div class="col-xl-11">
 
                 <h2 class="content-heading d-flex justify-content-between align-items-center">

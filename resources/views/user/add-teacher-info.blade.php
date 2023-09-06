@@ -39,21 +39,21 @@
                                 {{ csrf_field() }}
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="val-select2-multiple">Select Language You Teach<span class="text-danger">*</span></label>
+                                    <label class="form-label" for="val-select2-multiple">I’d like to tutor learners</label>
                                     <select class="js-select2 form-select" id="val-select2-multiple" name="language_id[]" style="width: 100%;" data-placeholder="Choose at least one.." multiple>
                                         <option></option>
-                                       @foreach($lang as $row)
+                                       @foreach($tutor_lang as $row)
                                             <option value="{{$row->id}}">{{$row->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
 
 
-                                <div class="mb-4">
-                                    <label class="form-label" for="val-select2-multiple">Select Language You Speak<span class="text-danger">*</span></label>
+                                <div class="mb-4 form-group options">
+                                    <label class="form-label" for="val-select2-multiple">I speak<span class="text-danger">*</span></label>
                                     <ul style="list-style: none">
                                         @foreach($lang as $row)
-                                        <li> <input type="checkbox" name="i_speak_language_id[]" value="{{$row->id}}"> {{$row->title}}</li>
+                                        <li> <input type="checkbox" name="i_speak_language_id[]" value="{{$row->id}}" required="required"> {{$row->title}}</li>
                                         @endforeach
                                     </ul>
 
@@ -61,8 +61,9 @@
 
                                 <div class="row mb-4">
                                     <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea name="about_me" rows="4" style="width: 100%;border-color: #d8dde5;">Write your bio. Tell us about you</textarea>
+                                        <label class="form-label" for="val-select2-multiple">Write your bio. Tell us about you<span class="text-danger">*</span></label>
+                                        <div>
+                                            <textarea name="about_me" rows="4" style="width: 100%;border-color: #d8dde5;" required="required"></textarea>
                                         </div>
                                     </div>
                                 </div>

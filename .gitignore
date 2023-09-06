@@ -16,3 +16,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/public/group
+/public/profile
+/public/course
+/public/Users

@@ -100,6 +100,25 @@
 
                         </a>
                         <ul class="nav-main-submenu">
+
+                            <li class="nav-main-item {{Request::segment(3) ==="theme"  ? "open" : ""}}">
+                                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <i class="nav-main-link-icon fa fa-user-group"></i>
+                                    <span class="nav-main-link-name">Theme</span>
+                                </a>
+                                <ul class="nav-main-submenu">
+
+                                    @foreach(\App\Models\Category::query()->where('class_name', 'use_cases')->get() as $row)
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link{{Request::segment(4) ==="tutors"  ? "active" : ""}}" href="{{route('user.dashboard.discover.theme')}}?link={{$row->url}}">
+                                            <span class="nav-main-link-name">{{$row->title}}</span>
+                                        </a>
+                                    </li>
+                                    @endforeach
+
+                                </ul>
+                            </li>
+
                             <li class="nav-main-item {{Request::segment(3) ==="type"  ? "open" : ""}}">
                                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                     <i class="nav-main-link-icon fa fa-user-group"></i>
@@ -190,11 +209,6 @@
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('user.dashboard.wallet')}}">
                                     <span class="nav-main-link-name">FUND WALLET</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('user.dashboard.wallet')}}">
-                                    <span class="nav-main-link-name">ALL TRANSACTIONS</span>
                                 </a>
                             </li>
 

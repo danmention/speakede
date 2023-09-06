@@ -4,27 +4,19 @@
 
 
     <main>
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
         <div class="content">
 
             <div class="col-xl-11">
 
 
-                @if(Session::has('message'))
-                    <p class="alert alert-success">{{ Session::get('message') }}</p>
-                @endif
-
-
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">x</button>
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-
                 <div class="block block-rounded h-100 mb-0">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Create Group Meeting</h3>
+                        <h3 class="block-title">Create Online Group session</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>
@@ -33,18 +25,32 @@
                         </div>
                     </div>
                     <div class="block-content">
-                        <form role="form" method="post" class="validate" action="{{ route('user.group.class.save') }}"  enctype="multipart/form-data" style="color:#000000;">
+                        <form role="form" method="post" class="validate" action="#"  enctype="multipart/form-data" style="color:#000000;" id="postFormSessionCourse">
                             {{ csrf_field() }}
                             <div class="row mb-4">
                                 <div class="col-6">
+                                    <div class="form-floating">
+                                        <select name="class_type" class="form-control" onchange="showDiv('hidden_div', this)">
+                                            <option value="FREE"> FREE</option>
+                                            <option value="PAID"> PAID</option>
+                                        </select>
+                                        <label class="form-label" for="register4-lastname">Type</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-6" id="course_title">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" name="title">
                                         <label class="form-label" for="register4-firstname">Title</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+
+                            </div>
+
+                            <div class="row mb-4" id="hidden_div" style=" display: none;">
+                                <div class="col-12" >
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="price" name="price">
+                                        <input type="number" class="form-control" id="price" name="price">
                                         <label class="form-label" for="register4-lastname">Price</label>
                                     </div>
                                 </div>
@@ -74,35 +80,26 @@
                                 <div class="col-6">
                                     <div class="form-floating">
                                         <input type="text" class="js-flatpickr form-control" id="example-flatpickr-datetime-24" name="start_date" data-enable-time="true" data-time_24hr="true">
-                                        <label class="form-label" for="register4-firstname">Start Date</label>
+                                        <label class="form-label" for="register4-firstname">Date</label>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="price" name="duration">
+                                        <input type="number" class="form-control"  name="duration">
                                         <label class="form-label" for="register4-lastname">Duration in Minutes</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="file" class="form-control" placeholder="Service Title Here" name="picture" required="required">
+                                        <input type="file" class="form-control" name="picture" required="required">
                                         <label class="form-label" for="register4-firstname">Cover Photo</label>
                                         <input type="hidden" name="home" value="home">
                                     </div>
                                 </div>
 
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <select name="class_type" class="form-control">
-                                            <option value="FREE"> FREE</option>
-                                            <option value="PAID"> PAID</option>
-                                        </select>
-                                        <label class="form-label" for="register4-lastname">Type</label>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="mb-4">
@@ -127,4 +124,16 @@
         </div>
 
     </main>
+
+    <script>
+        function showDiv(divId, element)
+        {
+            if(element.value ==="FREE"){
+                document.getElementById(divId).style.display = 'none';
+            } else {
+                document.getElementById(divId).style.display = 'block';
+
+            }
+        }
+    </script>
 @endsection

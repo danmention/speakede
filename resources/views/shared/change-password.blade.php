@@ -1,20 +1,13 @@
 <main>
+
+
+    <section id="loading">
+        <div id="loading-content"></div>
+    </section>
+
     <div class="content">
 
         <div class="col-xl-11">
-
-
-            @if(Session::has('message'))
-                <p class="alert alert-success">{{ Session::get('message') }}</p>
-            @endif
-
-
-            @if (session('error'))
-                <div class="alert alert-danger" role="alert">
-                    <button type="button" class="close" data-dismiss="alert">x</button>
-                    {{ session('error') }}
-                </div>
-            @endif
 
 
             <div class="block block-rounded h-100 mb-0">
@@ -28,11 +21,8 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form role="form" method="post" class="validate" action="{{ route('user.password.save') }}"
-                                enctype="multipart/form-data">
+                    <form role="form" method="post" class="validate" action="#"  id="postFormChangePassword">
                                 {{ csrf_field() }}
-
-
                                 <div class="card-body">
                                     <div class="mb-3">
                                         <div class="form-floating">

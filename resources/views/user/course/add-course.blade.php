@@ -4,27 +4,18 @@
 
 
     <main>
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
         <div class="content">
 
             <div class="col-xl-11">
 
-
-                @if(Session::has('message'))
-                    <p class="alert alert-success">{{ Session::get('message') }}</p>
-                @endif
-
-
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">x</button>
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-
                     <div class="block block-rounded h-100 mb-0">
                         <div class="block-header block-header-default">
-                            <h3 class="block-title">Add Course</h3>
+                            <h3 class="block-title">Create Course</h3>
                             <div class="block-options">
                                 <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                     <i class="si si-refresh"></i>
@@ -33,7 +24,7 @@
                             </div>
                         </div>
                         <div class="block-content">
-                            <form role="form" method="post" class="validate" action="{{ route('user.dashboard.course.add') }}" enctype="multipart/form-data">
+                            <form role="form" method="post" class="validate" action="#" enctype="multipart/form-data" id="postFormCourse">
                                 {{ csrf_field() }}
                                 <div class="row mb-4">
 
@@ -56,7 +47,7 @@
 
                                     <div class="col-4" id="hidden_div" style=" display: none;">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="price" name="price"  required="required">
+                                            <input type="number" class="form-control" id="price" name="price">
                                             <label class="form-label" for="register4-lastname">Price</label>
                                         </div>
                                     </div>
@@ -78,7 +69,7 @@
 
                                         <div class="col-4">
                                             <div class="form-floating">
-                                            <select class="js-select2 form-select form-control" id="val-select2-multiple" name="use_cases_id[]" style="width: 100%;" data-placeholder="Choose Themes.." multiple>
+                                            <select class="js-select2 form-select form-control" id="val-select2-multiple" name="use_cases_id" style="width: 100%;" data-placeholder="Choose Themes.." multiple>
                                                 <option></option>
                                                 @foreach($use_cases as $row)
                                                     <option value="{{$row->id}}">{{$row->title}}</option>
@@ -91,7 +82,7 @@
 
                                     <div class="col-4">
                                         <div class="form-floating">
-                                            <input type="file" class="form-control"  name="picture"  required="required">
+                                            <input type="file" class="form-control"  name="picture"  id="picture" required="required">
                                             <label class="form-label" for="register4-firstname">Thumbnail</label>
                                             <input type="hidden" name="home" value="home">
                                         </div>

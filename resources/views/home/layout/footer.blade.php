@@ -23,7 +23,10 @@
                         <h4 class="footer-widget-title">Company</h4>
                         <div class="widget-link">
                             <ul class="link">
-                                <li><a href="https://docs.google.com/document/d/17Igenndkp8LWxGu8s4a2iXudONl2aAECSVlQwfST4T8/edit?ouid=109014632192778990569&usp=docs_home&ths=true">Privacy policy </a></li>
+                                <li><a href="https://docs.google.com/document/d/17Igenndkp8LWxGu8s4a2iXudONl2aAECSVlQwfST4T8/edit?ouid=109014632192778990569&usp=docs_home&ths=true" target="_blank">Privacy policy </a></li>
+                                <li><a href="https://docs.google.com/document/d/1fFL9Phf_RnB_guF0Lwto1Ir5pOpZB95SSOme0878ecM/edit?usp=sharing" target="_blank">Payment policy</a> </li>
+                                <li><a href="https://docs.google.com/document/d/1MlB4H0fUy9gMIxsxd19hcSBrXBDDvZchGd4G35bnABQ/edit?usp=sharing" target="_blank">Copyright Policy</a> </li>
+                                <li><a href=" https://docs.google.com/document/d/1Fw5h0tMs5z7UQTj-iluixNwoFpt2657EihRaSwUQISU/edit?usp=sharing" target="_blank">Tutor Policy</a> </li>
                                 <li><a href="https://docs.google.com/document/d/1U10mGJaO7_zHE64OCaGLQK1ZXA2kCUMvlWvbCpHpiww">Terms of service</a></li>
                             </ul>
                         </div>
@@ -39,6 +42,8 @@
                             <ul class="link">
                                 <li><a href="https://twitter.com/speakede" target="_blank">Twitter</a></li>
                                 <li><a href="https://facebook.com/speakede" target="_blank">Facebook</a></li>
+                                <li><a href="https://Instagram.com/speakede" target="_blank">Instagram</a></li>
+                                <li><a href="https://linkedin.com/company/speakede" target="_blank">Linkedin</a></li>
 
                             </ul>
                         </div>
@@ -140,35 +145,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 
-
 <script>
-
     var SITE_URL = "{{ url('/') }}";
-
-    $("#checkbox1").on("change", function() {
-        var href = SITE_URL, params = $(this).serialize();
-        if (params.length > 0) { href += "/all-course?" + params; }
-        window.location.href= href;
-    });
-
-    $("#checkbox2").on("change", function() {
-        var href = SITE_URL, params = $(this).serialize();
-        if (params.length > 0) { href += "/all-course?" + params; }
-        window.location.href= href;
-    });
-
-    $("#checkbox_group1").on("change", function() {
-        var href = SITE_URL, params = $(this).serialize();
-        if (params.length > 0) { href += "/group/online/class?" + params; }
-        window.location.href= href;
-    });
-
-    $("#checkbox_group2").on("change", function() {
-        var href = SITE_URL, params = $(this).serialize();
-        if (params.length > 0) { href += "/group/online/class?" + params; }
-        window.location.href= href;
-    });
-
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
@@ -239,21 +217,9 @@
             }
         });
     });
-
-
-    $(document).ready(function(){
-        $("#group_class").click(function(event){
-            $("#private_class_view").hide();
-            $("#group_class_view").show();
-        });
-        $("#private_class").click(function(event){
-            $("#private_class_view").show();
-            $("#group_class_view").hide();
-        });
-    });
-
-
 </script>
+
+<script src="{{asset("home/assets/js/home.js")}}"></script>
 <script src="{{asset("home/assets/js/vendor/modernizr-3.11.2.min.js")}}"></script>
 
 <!-- Bootstrap JS -->

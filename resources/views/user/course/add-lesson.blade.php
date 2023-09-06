@@ -8,6 +8,12 @@
     @endphp
 
     <main>
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
+
         <div class="content">
 
             @if($lessons > 0)
@@ -47,18 +53,6 @@
                 @foreach($course as $row)
                 <div class="col-xl-11">
 
-                    @if(Session::has('message'))
-                        <p class="alert alert-success">{{ Session::get('message') }}</p>
-                    @endif
-
-
-                    @if (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            <button type="button" class="close" data-dismiss="alert">x</button>
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
 
                     <div class="block block-rounded h-100 mb-0">
                         <div class="block-header block-header-default">
@@ -71,7 +65,7 @@
                             </div>
                         </div>
                         <div class="block-content">
-                            <form role="form" method="post" class="validate" action="{{ route('user.dashboard.course.lesson.save') }}" enctype="multipart/form-data">
+                            <form role="form" method="post" class="validate" action="#" enctype="multipart/form-data" id="postFormLesson">
                                 {{ csrf_field() }}
                                 <input name="course_id" value="{{$row->id}}" type="hidden">
                                 <div class="row mb-4">
@@ -91,37 +85,22 @@
                                     @else
                                         <div class="col-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="register4-firstname" name="lesson_name" placeholder="Enter lesson name"  required="required">
-                                                <label class="form-label" for="register4-firstname">Lesson Name</label>
+                                                <input type="text" class="form-control" name="lesson_name" placeholder="Enter title"  required="required">
+                                                <label class="form-label" for="register4-lastname">Lesson Name</label>
                                             </div>
                                         </div>
 
                                     @endif
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="price" name="title" placeholder="Enter title"  required="required">
-                                            <label class="form-label" for="register4-lastname">Lesson Title</label>
+
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="title" placeholder="Enter title"  required="required">
+                                                <label class="form-label" for="register4-lastname">Lesson Title</label>
+                                            </div>
                                         </div>
-                                    </div>
 
                                 </div>
 
-
-                                <div class="row mb-4">
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <input type="datetime-local" class="form-control" id="register4-firstname" name="start_time"  required="required">
-                                            <label class="form-label" for="register4-firstname">Start DateTime</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <input type="datetime-local" class="form-control" id="price" name="end_time"  required="required">
-                                            <label class="form-label" for="register4-lastname">End DateTime</label>
-                                        </div>
-                                    </div>
-
-                                </div>
 
                                 <div class="mb-4">
                                     <div class="col-12">

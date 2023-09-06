@@ -11,7 +11,7 @@
                 <!-- Row #1 -->
                 <div class="col-6 col-xl-6">
                     <a class="block block-rounded block-link-shadow text-end" href="{{url('')}}">
-                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-secondary">
+                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-primary">
                             <div class="d-none d-sm-block">
                                 <i class="fa fa-book fa-2x text-white"></i>
                             </div>
@@ -44,7 +44,7 @@
             <div class="row text-center">
                 <div class="col-6 col-xl-4">
                     <a class="block block-rounded block-link-shadow text-end" href="{{url('')}}">
-                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-secondary">
+                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-dark">
                             <div class="d-none d-sm-block">
                                 <i class="fa fa-book fa-2x text-white"></i>
                             </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-6 col-xl-4">
                     <a class="block block-rounded block-link-shadow text-end" href="{{url('')}}">
-                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-info">
+                        <div class="block-content block-content-full d-sm-flex justify-content-between align-items-center bg-primary">
                             <div class="d-none d-sm-block">
                                 <i class="fa fa-book fa-2x text-white"></i>
                             </div>

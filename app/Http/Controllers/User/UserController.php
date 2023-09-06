@@ -15,6 +15,7 @@ use App\Services\user\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -33,12 +34,11 @@ class UserController
     }
 
 
-
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function saveCourse(Request $request): RedirectResponse
+    public function saveCourse(Request $request): JsonResponse
     {
        return $this->userService->saveCourse($request);
     }
@@ -59,9 +59,9 @@ class UserController
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function saveLesson(Request $request): RedirectResponse
+    public function saveLesson(Request $request): JsonResponse
     {
         return $this->userService->addLessons($request);
     }
@@ -143,8 +143,9 @@ class UserController
      * @return Application|Factory|View
      */
     public function addTeachersInfo(){
+        $tutor_lang =  Category::query()->where('class_name', 'tutor')->get();
         $lang = Category::query()->where('class_name', 'language')->get();
-        return view('user.add-teacher-info', compact('lang'));
+        return view('user.add-teacher-info', compact('lang', 'tutor_lang'));
     }
 
 
@@ -189,9 +190,9 @@ class UserController
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function saveGroupClassMeeting(Request $request): RedirectResponse
+    public function saveGroupClassMeeting(Request $request): JsonResponse
     {
         return $this->userService->saveGroupSessions($request);
     }
@@ -252,6 +253,18 @@ class UserController
         return view('user.discover.sessions', compact('sessions'));
 
     }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function discoverTheme(Request $request)
+    {
+       $data = $this->userService->getUseCases($request);
+        return view('user.course.all_course', $data);
+
+    }
+
 
 
     /**

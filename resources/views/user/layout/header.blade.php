@@ -41,6 +41,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 
 
+    <style>
+
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            z-index: 20;
+            position: absolute;
+            top: 0;
+            left:-5px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .loading-content {
+            background-image: url("{{asset("logo-black.png")}}");
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            /*border: 16px solid #f3f3f3;*/
+            /*border-top: 16px solid #3498db;*/
+            width: 50px;
+            height: 50px;
+            top: 40%;
+            left:50%;
+            animation-name: fade-in;
+            animation-duration: 3s;
+            animation-timing-function: ease-in-out;
+            animation-direction:alternate;
+            animation-iteration-count: 5;
+        }
+
+
+    </style>
 
 
 </head>

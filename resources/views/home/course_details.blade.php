@@ -108,7 +108,7 @@
                                                 </div>
                                             @else
                                                 <div class="figure mb-3">
-                                                    <img src="{{asset('avater2.png')}}" class="img-avatar" alt="author">
+                                                    <img src="{{asset('avater2.png')}}" class="img-avatar" alt="author" style="width: 100px; height: 100px;">
                                                 </div>
                                             @endif
 

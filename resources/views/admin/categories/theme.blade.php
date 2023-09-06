@@ -9,7 +9,7 @@
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">
-                            Use Cases
+                           Create Theme
                         </h3>
                     </div>
                     <div class="block-content block-content-full">
@@ -28,7 +28,7 @@
                                 @endif
 
                                 <div class="box-header well" data-original-title="">
-                                    <h4><i class="glyphicon glyphicon-plus"></i> Add Use Cases</h4>
+                                    <h4><i class="glyphicon glyphicon-plus"></i> Add Theme</h4>
 
                                 </div>
                                 <div class="box-content">

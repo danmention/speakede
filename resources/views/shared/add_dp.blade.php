@@ -1,39 +1,25 @@
  <main>
-        <div class="content">
+
+     <section id="loading">
+         <div id="loading-content"></div>
+     </section>
+
+
+     <div class="content">
 
             <div class="col-xl-11">
-
-
-                @if(Session::has('message'))
-                    <p class="alert alert-success">{{ Session::get('message') }}</p>
-                @endif
-
-
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">x</button>
-                        {{ session('error') }}
-                    </div>
-                @endif
-
 
                 <div class="block block-rounded h-100 mb-0">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">Add Profile Picture</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
-                                <i class="si si-refresh"></i>
-                            </button>
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"><i class="si si-arrow-up"></i></button>
-                        </div>
                     </div>
                     <div class="block-content">
-                        <form method="post" action="{{ route('profile.dp.save')}}"  enctype="multipart/form-data" style="color:#000000;">
+                        <form role="form" method="post" action="#" enctype="multipart/form-data" style="color:#000000;" id="postFormProfilePhoto">
                             {{ csrf_field() }}
                             <div class="row mb-4">
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="file" class="form-control" placeholder="Service Title Here" name="picture">
+                                        <input type="file" class="form-control" placeholder="Service Title Here" name="picture" required="required">
                                         <label class="form-label" for="register4-firstname">Profile Picture</label>
                                         <input type="hidden" name="home" value="home">
                                     </div>

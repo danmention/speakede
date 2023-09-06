@@ -18,7 +18,7 @@
 
                 <div class="row">
                     @foreach($sessions as $row)
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-4 col-sm-6" style="margin-bottom: 20px;">
                             <!-- Single Courses Start -->
                             <a href="{{url('online-sessions/'.$row->url)}}">
                                 <div class="single-course" style="background-color:#ffffff; padding: 10px;box-shadow: 0 33px 73px 0 rgba(0, 0, 0, 0.1);border-radius: 20px;">

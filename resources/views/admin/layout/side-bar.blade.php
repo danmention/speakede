@@ -116,7 +116,13 @@
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.cat')}}">
-                                    <span class="nav-main-link-name">Add Language</span>
+                                    <span class="nav-main-link-name">Add Global Language</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.tutor')}}">
+                                    <span class="nav-main-link-name">Add Tutor Language</span>
                                 </a>
                             </li>
 
