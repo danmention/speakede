@@ -8,10 +8,10 @@
             {{ \Carbon\Carbon::parse($row->start_date)->format(' H:i')}}
             - {{\Carbon\Carbon::parse($row->start_date)->addMinutes($row->duration_in_mins)->format(' H:i')}} {{ \Carbon\Carbon::parse($row->start_date)->format('M D Y')}}</p>
         <div style="margin-bottom: 10px;">
-            <h2 class="title">
+            <h2 class="title" style="font-size: 20px;">
                 <a href="{{url('online-sessions/'.$row->url)}}">{{ucwords($row->title)}}</a>
             </h2>
-            <p>{!! Str::of($row->description)->words(10, ' ....') !!}</p>
+            <p>{!! Str::of($row->description)->words(8, ' ....') !!}</p>
 
         </div>
 

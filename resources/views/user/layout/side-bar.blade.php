@@ -228,11 +228,19 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item {{Request::segment(2)  === "add-withdrawal-details" ? "open" : ""}}">
+                                <a href="{{route('user.withdrawal.details')}}" class="nav-main-link {{Request::segment(2)  === "add-withdrawal-details" ? "active" : ""}}">
+                                    <span class="nav-main-link-nam">UPDATE WITHDRAW DETAILS</span>
+                                </a>
+                            </li>
+
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{ route('user.password') }}">
                                     <span class="nav-main-link-name">CHANGE PASSWORD</span>
                                 </a>
                             </li>
+
+
 
 
                         </ul>

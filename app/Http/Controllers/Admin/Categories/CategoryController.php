@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Categories;
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 
 class CategoryController extends Controller
@@ -41,6 +43,27 @@ class CategoryController extends Controller
     {
         $category = Category::query()->where('id', $id)->get();
         return view('admin.categories.edit-category', compact('category'));
+    }
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function updateLanguage(Request $request): RedirectResponse
+    {
+        $data = Category::find($request->id);
+        $data->title = $request->title;
+        $data->url = strtolower(CommonHelpers::create_unique_slug($request->title,"categories","url"));
+        $data->update();
+
+        if ($data->class_name === "use_cases")
+        {
+            Session::flash('message', "Theme updated");
+        } else {
+            Session::flash('message', "Language updated");
+        }
+        return redirect()->back();
     }
 
     /**
@@ -107,9 +130,15 @@ class CategoryController extends Controller
      */
     public function deleteCategory(Request $request): RedirectResponse
     {
+        $check = Course::query()->where('language', $request->id)->count();
+        if ($check > 0){
+            Session::flash('message', "Cannot delete Language because there are courses with it ");
+            return redirect()->back();
+        }
         $data = Category::find($request->id);
         $data->delete();
-        return back()->withInput()->with('response', 'Language Deleted');
+        Session::flash('message', "Language Deleted");
+        return redirect()->back();
     }
 
     public function makePopular(Request $request): RedirectResponse

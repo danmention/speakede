@@ -37,7 +37,7 @@
                                                     href="{{url('teacher/'.$row->identity)}}">{{$row->firstname. ' '.$row->lastname}}</a>
                                             </h5>
 
-                                            <p>PROFESSIONAL TEACHER</p>
+                                            <p>Tutor</p>
                                             <p>Teaches:</p>
 
                                             @foreach($preferred_lang as $rw)

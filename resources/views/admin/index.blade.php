@@ -27,14 +27,12 @@
                                 <i class="fa fa-wallet fa-2x opacity-25"></i>
                             </div>
                             <div>
-                                <div class="fs-3 fw-semibold">{{$wallet}}</div>
+                                <div class="fs-3 fw-semibold">₦{{number_format($wallet)}}</div>
                                 <div class="fs-sm fw-semibold text-uppercase text-muted">Total Wallet</div>
                             </div>
                         </div>
                     </a>
                 </div>
-
-
                 <!-- END Row #1 -->
             </div>
 

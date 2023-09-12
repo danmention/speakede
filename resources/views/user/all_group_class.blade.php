@@ -7,7 +7,15 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        All Group Meeting
+                        @if(request()->segment(2) === "group" && request()->segment(4) === "paid")
+                            All Paid Group Meeting
+                        @elseif(request()->segment(2) === "group" && request()->segment(4) === "all")
+                            All Created Group Meeting
+                        @elseif(request()->segment(2) === "group" && request()->segment(4) === "sold")
+                            All Sold Group Meeting
+                        @else
+                            All Group Meeting
+                        @endif
                     </h3>
                 </div>
                 <div class="block-content">
@@ -17,8 +25,8 @@
                             <tr>
                                 <th></th>
                                 <th>Title</th>
-                                <th>No of Student</th>
-                                <th>Available Slots</th>
+                                <th>No of Available slots</th>
+                                <th> No of slots taken</th>
                                 <th>Type</th>
                                 <th>Description</th>
                                 <th>Meeting Time</th>

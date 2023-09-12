@@ -94,17 +94,40 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('admin.user.index')}}">
                             <i class="nav-main-link-icon fa fa-user-group"></i>
-                            <span class="nav-main-link-name">All user</span>
+                            <span class="nav-main-link-name">USERS</span>
                         </a>
                     </li>
+
 
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="{{route('admin.transactions.funding')}}">
-                            <i class="nav-main-link-icon fa fa-wallet"></i>
-                            <span class="nav-main-link-name">Wallet Funding</span>
+                        <a class="nav-main-link" href="{{route('admin.course.all')}}">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">COURSES</span>
                         </a>
                     </li>
 
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('admin.group.all')}}">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">GROUP SESSIONS</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('admin.private.sessions.all')}}">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">PRIVATE SESSIONS</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link "href="{{route('admin.transactions.funding')}}">
+                            <i class="nav-main-link-icon fa fa-wallet"></i>  <span class="nav-main-link-name">WALLET TRANSACTION</span>
+                        </a>
+                    </li>
 
 
                     <li class="nav-main-heading">OTHERS</li>
@@ -114,17 +137,23 @@
                             <span class="nav-main-link-name">Language</span>
                         </a>
                         <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.cat')}}">
-                                    <span class="nav-main-link-name">Add Global Language</span>
-                                </a>
-                            </li>
 
-                            <li class="nav-main-item">
-                                <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.tutor')}}">
-                                    <span class="nav-main-link-name">Add Tutor Language</span>
-                                </a>
-                            </li>
+                            @foreach(\App\Http\Controllers\Admin\AdminController::getAccessControl(auth()->user()->id) as $row)
+
+                                @if($row->title === "Create")
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.cat')}}">
+                                            <span class="nav-main-link-name">Add Global Language</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-main-item">
+                                        <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.tutor')}}">
+                                            <span class="nav-main-link-name">Add Tutor Language</span>
+                                        </a>
+                                    </li>
+                                @endif
+                               @endforeach
 
                             <li class="nav-main-item">
                                 <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.view.cat')}}">
@@ -134,25 +163,21 @@
                         </ul>
                     </li>
 
+
                     <li class="nav-main-item">
-                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                            <i class="nav-main-link-icon fa fa-vector-square"></i>
-                            <span class="nav-main-link-name">theme</span>
+                        <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.use.cases')}}">
+                            <i class="nav-main-link-icon fa fa-vector-square"></i> <span class="nav-main-link-name">THEME</span>
                         </a>
-                        <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.use.cases')}}">
-                                    <span class="nav-main-link-name">Add theme</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
+
+
                     <li class="nav-main-heading">Account</li>
+
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-user-lock"></i>
-                            <span class="nav-main-link-name">Settings </span>
+                            <span class="nav-main-link-name">USERS </span>
                         </a>
                         <ul class="nav-main-submenu">
 
@@ -162,11 +187,29 @@
                                 </a>
                             </li>
 
-                            <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{ route('admin.user.add') }}">
-                                    <span class="nav-main-link-name">Add User</span>
-                                </a>
-                            </li>
+
+                            @foreach(\App\Http\Controllers\Admin\AdminController::getAccessControl(auth()->user()->id) as $row)
+
+                                @if($row->title === "Create")
+
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link" href="{{ route('admin.user.add') }}">
+                                        <span class="nav-main-link-name">Add User</span>
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-user-lock"></i>
+                            <span class="nav-main-link-name">SETTINGS </span>
+                        </a>
+                        <ul class="nav-main-submenu">
+
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{ route('admin.user.password') }}">
                                     <span class="nav-main-link-name">Change Password</span>

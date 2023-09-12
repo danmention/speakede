@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\CommonHelpers;
+use App\Models\AccountDetails;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\GroupClass;
@@ -11,6 +12,7 @@ use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
 use App\Models\ScheduleEvent;
+use App\Models\WithdrawalDetails;
 use App\Services\user\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -19,6 +21,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserController
 {
@@ -283,6 +286,32 @@ class UserController
     {
         $data = $this->userService->sessionsByActions($request);
         return view('user.discover.sessions', $data);
+    }
+
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function addWithdrawalDetails()
+    {
+        $bank_accounts = AccountDetails::query()->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
+        return view('user.bank-accounts', compact('bank_accounts'));
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function saveWithdrawalDetails(Request $request): RedirectResponse
+    {
+        $data = new AccountDetails();
+        $data->bank_name = $request->bank_name;
+        $data->account_number = $request->account_number;
+        $data->account_name = $request->account_name;
+        $data->user_id = Auth::user()->id;
+        $data->save();
+        Session::flash('message', 'Account Number created successfully');
+        return back();
     }
 
 

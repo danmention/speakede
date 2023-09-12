@@ -38,26 +38,31 @@
                             <form role="form" method="post" class="validate" action="{{ route('user.apply.final.save') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
-                                <div class="mb-4">
-                                    <label class="form-label" for="val-select2-multiple">I’d like to tutor learners</label>
-                                    <select class="js-select2 form-select" id="val-select2-multiple" name="language_id[]" style="width: 100%;" data-placeholder="Choose at least one.." multiple>
-                                        <option></option>
-                                       @foreach($tutor_lang as $row)
-                                            <option value="{{$row->id}}">{{$row->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
 
                                 <div class="mb-4 form-group options">
                                     <label class="form-label" for="val-select2-multiple">I speak<span class="text-danger">*</span></label>
-                                    <ul style="list-style: none">
+
+                                    <select class="js-select2 form-select" id="val-select2-multiple" name="i_speak_language_id[]" style="width: 100%;" data-placeholder="Choose at least one.." multiple>
+                                        <option></option>
                                         @foreach($lang as $row)
-                                        <li> <input type="checkbox" name="i_speak_language_id[]" value="{{$row->id}}" required="required"> {{$row->title}}</li>
+                                            <option value="{{$row->id}}">{{$row->title}}</option>
                                         @endforeach
-                                    </ul>
+                                    </select>
 
                                 </div>
+
+
+                                <div class="mb-4">
+                                    <label class="form-label" for="val-select2-multiple">I’d like to tutor learners</label>
+                                    <ul style="list-style: none">
+                                        @foreach($tutor_lang as $row)
+                                            <li> <input type="checkbox" name="language_id[]" value="{{$row->id}}" required="required"> {{$row->title}}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+
+
 
                                 <div class="row mb-4">
                                     <div class="col-12">

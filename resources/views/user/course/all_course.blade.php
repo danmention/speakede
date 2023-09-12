@@ -20,8 +20,11 @@
                                All Sold Courses
                             @elseif(request()->segment(3) === "theme")
                                 All Theme Courses
-                            @elseif(request()->segment(3) === "type")
+                            @elseif(request()->segment(3) === "type" && request()->segment(2) != "discover")
                                 All {{ucwords(request()->segment(4))}} Courses
+
+                            @elseif(request()->segment(2) === "course" && request()->segment(3) === "all")
+                                All Created Courses
                             @else
                             All Courses
                             @endif

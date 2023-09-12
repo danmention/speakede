@@ -5,6 +5,10 @@
     <main>
         <div class="content">
 
+            @if(Session::has('message'))
+                <p class="alert alert-success">{{ Session::get('message') }}</p>
+            @endif
+
             <div class="col-xl-11">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
@@ -40,8 +44,6 @@
                                             <input type="text" class="form-control" id="example-text-input-floating"  name="title">
                                             <label class="form-label" for="example-text-input-floating">Title</label>
                                         </div>
-
-
                                         <button type="submit" class="btn btn-secondary mb-2"><i class="glyphicon glyphicon-plus"></i> Add</button>
                                     </form>
 
@@ -84,7 +86,7 @@
 
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <a href="{{url('admin/secure/category/edit/'.$row->id)}}"
+                                            <a href="{{url('admin/secure/theme/edit/'.$row->id)}}"
                                                class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip"
                                                aria-label="Edit" data-bs-original-title="Edit">
                                                 <i class="fa fa-pencil-alt"></i>

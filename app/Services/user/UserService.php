@@ -49,12 +49,12 @@ class UserService
     public function getUserDashboard($request): array
     {
         if ($request->identity){
-            $user_id = $request->identity;
+            $user_id = User::query()->where('identity',$request->identity)->value('id');
         } else {
             $user_id = Auth::user()->id;
         }
 
-        $wallet = $this->accountBalance();
+        $wallet = $this->accountBalance($user_id);
         $paid_course = CoursePayment::query()->where('user_id', $user_id)->count();
         $sold_course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('courses.user_id', $user_id)->get(['courses.*'])->count();
         $paid_group_sessions = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
@@ -94,12 +94,12 @@ class UserService
 
 
     /**
+     * @param $user_id
      * @return int
      */
-    private function accountBalance(): int
+    private function accountBalance($user_id): int
 
     {
-        $user_id = Auth::user()->id;
         $account_balance = PaymentTransaction::query()->where('user_id', $user_id)->where('type', 1)->sum('amount');
 
         $used_balance = PaymentTransaction::query()->where('user_id', $user_id)->where('type', 0)->sum('amount');
@@ -324,7 +324,7 @@ class UserService
      */
     public function buyCourse($id): array
     {
-        $wallet = $this->accountBalance();
+        $wallet = $this->accountBalance(Auth::user()->id);
         $course = Course::query()->where('id', $id)->get();
 
         return array(
@@ -426,7 +426,7 @@ class UserService
      */
     public function virtualBookingInit(Request $request): array
     {
-        $wallet = $this->accountBalance();
+        $wallet = $this->accountBalance(Auth::user()->id);
         $teacher_id = $request->teacher_id;
         $id = $request->id;
         $lang = $request->language;
@@ -545,7 +545,7 @@ class UserService
             Session::flash('message', "Please login to access this area");
             return redirect()->route('index.login');
         }
-        $wallet = $this->accountBalance();
+        $wallet = $this->accountBalance(Auth::user()->id);
         $teacher_id = $request->teacher_id;
         $slot = $request->slot;
         $slot_id = $request->id;

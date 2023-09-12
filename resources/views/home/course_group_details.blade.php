@@ -88,8 +88,7 @@
                                                         </div>
                                                         <span>({{$row->rating}})</span>
                                                     </div>
-                                                    <span class="meta-action"><i class="fa fa-play-circle"></i> 10 Tutorials</span>
-                                                    <span class="meta-action"><i class="far fa-user"></i> 134 Students</span>
+
                                                 </div>
 
                                                 <p>{!! $instructor->about_me !!}</p>
@@ -128,7 +127,6 @@
                                     </div>
                                     <ul class="description-list">
                                         <li><i class="flaticon-wall-clock"></i> Duration <span>{{ \Carbon\Carbon::parse($row->start_date)->format(' H:i')}}  -  {{\Carbon\Carbon::parse($row->start_date)->addMinutes($row->duration_in_mins)->format(' H:i')}} {{ \Carbon\Carbon::parse($row->start_date)->format('M D Y')}}</span></li>
-                                        <li><i class="fas fa-sliders-h"></i> Level <span>Expert</span></li>
                                     </ul>
 
                                     @if(\Illuminate\Support\Facades\Auth::user())

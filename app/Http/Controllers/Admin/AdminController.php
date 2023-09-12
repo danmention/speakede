@@ -2,8 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\AccountDetails;
+use App\Models\Course;
+use App\Models\CoursePayment;
+use App\Models\GroupClass;
+use App\Models\GroupClassEnrollment;
+use App\Models\Lesson;
 use App\Models\PaymentTransaction;
+use App\Models\Roles;
+use App\Models\ScheduleEvent;
 use App\Models\User;
+use App\Models\UserRoles;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -33,7 +42,9 @@ class AdminController
         foreach ($payment as $row){
             $row->user = User::query()->where('id' ,$row->user_id)->value('firstname');
         }
-        return view('admin.wallet_funding', compact('payment'));
+
+        $total_transaction = $payment->count();
+        return view('admin.wallet_funding', compact('payment','total_transaction'));
     }
 
     public function getPaymentTransactions()
@@ -65,6 +76,16 @@ class AdminController
     public function getUsers()
     {
         $users = User::query()->where('is_admin',0)->get();
+        return view('admin.user.view-user',compact('users'));
+    }
+
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function getAdminUsers()
+    {
+        $users = User::query()->where('is_admin',1)->get();
         return view('admin.users',compact('users'));
     }
 
@@ -84,14 +105,14 @@ class AdminController
      */
     public function SaveUsers(Request $request): RedirectResponse
     {
-
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|',
+            'email' => 'required|email|unique:users,email'
         ]);
 
         if ($validator->fails()) {
+            Session::flash('error', $validator->getMessageBag());
             return redirect()->route('admin.user.add')->withErrors($validator)->withInput();
         }
 
@@ -101,11 +122,25 @@ class AdminController
         $post->email                          = $request->email;
         $post->phone                          = $request->phone;
         $post->user_level                     = $request->user_level;
+        $post->is_admin                       = 1;
         $post->password                       = bcrypt($request->password);
-        $post->remember_token                 = bcrypt($request->password);
         $post->save();
 
-        return back()->withInput()->with('success','User Created successfully');
+        if ($request->user_level == 1){
+
+            $roles = Roles::all();
+            foreach ($roles as $rows){
+                $data = new UserRoles();
+                $data->user_id = $post->id;
+                $data->role_id = $rows->id;
+                $data->status = 1;
+                $data->save();
+            }
+        }
+
+
+        Session::flash('message', "User Created successfully");
+        return back();
     }
 
 
@@ -187,5 +222,197 @@ class AdminController
 
         return response()->json('Password Updated Successfully');
     }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function getAllCourses(){
+
+        $course = Course::join('users', 'users.id', '=', 'courses.user_id')->select('courses.*', 'users.firstname','users.lastname')->orderBy('courses.id','DESC')->get('courses.*');
+        foreach ($course as $row){
+            $row["number_of_lessons"] = Lesson::query()->where('course_id', $row->id)->count();
+        }
+        return view('admin.all_course', compact('course'));
+    }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function getAllGroupSessions()
+    {
+        $schedule = GroupClass::query()->orderBy('id','DESC')->get();
+        foreach ($schedule as $row){
+            $row["zoom_response"] = json_decode($row->zoom_response, true);
+        }
+        return view('admin.all_group_sessions', compact('schedule'));
+    }
+
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function getAllPrivateSession(){
+        $private_sessions = ScheduleEvent::query()->orderBy('id','DESC')->get();
+        return view('admin.all_private_sessions', compact('private_sessions'));
+    }
+
+    public function addUserRole($id){
+        $user = User::query()->where('id', $id)->get();
+        $roles = Roles::all();
+
+        foreach ($roles as $rw){
+            if (UserRoles::query()->where('user_id', $id)->where('role_id', $rw->id)->count() > 0){
+                unset($rw->id);
+            }
+        }
+
+        $user_roles = UserRoles::query()->where('user_id', $id)->get();
+        foreach ($user_roles as $row){
+            $row['title'] = Roles::query()->where('id', $row->role_id)->value('title');
+        }
+        return view('admin.add_user_roles', compact('user','roles','user_roles'));
+
+    }
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function addRoles(Request $request): RedirectResponse
+    {
+        foreach ($request->roles as $rw){
+            $data = new UserRoles();
+            $data->user_id = $request->user_id;
+            $data->role_id = $rw;
+            $data->save();
+        }
+
+        Session::flash('message', "Roles updated for user");
+        return redirect()->back();
+
+    }
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function removeRoles(Request $request): RedirectResponse
+    {
+        $data = UserRoles::find($request->id);
+        $data->delete();
+        Session::flash('message', "Roles deleted for user");
+        return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public  function disableAndEnableUser(Request $request): RedirectResponse
+    {
+        $data = User::find($request->id);
+        $data->status = $request->status;
+        $data->update();
+
+        Session::flash('message', "User Account Updated");
+        return redirect()->back();
+    }
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function disableCourse(Request $request): RedirectResponse
+    {
+        $data = Course::find($request->id);
+        $data->status = $request->status;
+        $data->update();
+
+        Session::flash('message', "User Account Updated");
+        return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function disableGroupSessions(Request $request): RedirectResponse
+    {
+        $data = GroupClass::find($request->id);
+        $data->status = $request->status;
+        $data->update();
+
+        Session::flash('message', "User Account Updated");
+        return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function disablePrivateSessions(Request $request): RedirectResponse
+    {
+        $data = ScheduleEvent::find($request->id);
+        $data->status = $request->status;
+        $data->update();
+
+        Session::flash('message', "User Account Updated");
+        return redirect()->back();
+    }
+
+    public static function getAccessControl($user_id){
+        return UserRoles::join('roles', 'roles.id', '=', 'user_roles.role_id')
+            ->select('roles.*')->where('user_roles.user_id',$user_id)->get();
+    }
+
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function getCourseTransactions($id){
+        $transactions = CoursePayment::query()->where('course_id', $id)->get();
+        $course =  Course::query()->where('id', $id)->get();
+        foreach ($transactions as $row){
+            $course =  Course::query()->where('id', $row->course_id)->get();
+            $row["fullname"] = User::query()->where('id', $row->user_id)->value('firstname');
+            $row["amount"] = $course[0]->price;
+        }
+
+        return view('admin.course_payment_history', compact('transactions','course'));
+
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function getGroupSessionTransactions($id){
+        $transactions = GroupClassEnrollment::query()->where('group_class_id', $id)->get();
+        $course =  GroupClass::query()->where('id', $id)->get();
+        foreach ($transactions as $row){
+            $group_class =  GroupClass::query()->where('id', $row->group_class_id)->get();
+            $row["fullname"] = User::query()->where('id', $row->user_id)->value('firstname');
+            $row["amount"] = $group_class[0]->price;
+        }
+
+        return view('admin.group_session_payment_history', compact('transactions','course'));
+
+    }
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function viewWithdrawalDetails($id)
+    {
+        $bank_accounts = AccountDetails::query()->where('user_id', $id)->orderBy('id', 'desc')->get();
+        return view('admin.bank-accounts', compact('bank_accounts'));
+    }
+
 
 }

@@ -14,13 +14,9 @@
                 @endif
 
 
-                @if (session('error'))
-                    <div class="alert alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">x</button>
-                        {{ session('error') }}
-                    </div>
-                @endif
-
+                    @if(Session::has('error'))
+                        <p class="alert alert-danger">{{ Session::get('error') }}</p>
+                    @endif
 
                 <div class="block block-rounded h-100 mb-0">
                     <div class="block-header block-header-default">
@@ -33,7 +29,7 @@
                         </div>
                     </div>
                     <div class="block-content">
-                            <form role="form" method="post" class="validate" action="{{ route('admin.user.save') }}" enctype="multipart/form-data">
+                            <form role="form" method="post" class="validate" action="{{ route('admin.user.save') }}">
                                 {{ csrf_field() }}
 
                                 <div class="row mb-4">
@@ -77,8 +73,11 @@
                                     <div class="col-6">
                                         <div class="form-floating">
                                                <select name="user_level" class="form-control required">
-                                                   <option value="1"> Super Admin</option>
-                                                   <option value="2"> Sub Admin</option>
+                                                   <option value="1"> Owner</option>
+                                                   <option value="2"> Management</option>
+                                                   <option value="3"> Product owner</option>
+                                                   <option value="4"> Sales exec</option>
+                                                   <option value="5"> Customer exec</option>
                                                </select>
                                             <label class="form-label">Level</label>
                                         </div>

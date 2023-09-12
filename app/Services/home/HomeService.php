@@ -20,6 +20,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,12 +37,14 @@ class HomeService
         $use_cases = Category::query()->where('class_name', 'use_cases')->get();
         $course = Course::query()->orderBy('id', 'desc')->get();
         (new CommonHelpers)->moreCourseInformation($course);
-        $expert_teachers = User::query()->where('status', 1)
+
+        $expert_teachers = User::join('preferred_languages', 'preferred_languages.user_id', '=', 'users.id')
+            ->where('users.status', 1)->groupBy('preferred_languages.user_id')
             ->where(function ($query) use ($user_id) {
                 if (!empty($user_id)) {
-                    $query->where("id", "!=", $user_id);
+                    $query->where("users.id", "!=", $user_id);
                 }
-            })->where('is_admin', 0)->orderBy('id','desc')->limit(4)->get();
+            })->where('users.is_admin', 0)->orderBy(DB::raw('RAND()'))->limit(4)->get(['users.*']);
 
         foreach ($expert_teachers as $row) {
             $lang_ = PreferredLanguage::query()->where('user_id', $row->id)->limit(1)->orderBy('id', 'DESC')->value('language_id');
@@ -177,7 +180,14 @@ class HomeService
      */
     public function findTutor(): LengthAwarePaginator
     {
-        $teachers = User::query()->where('is_admin', 0)->orderBy('id', 'DESC')->paginate(15);
+        $user_id = Auth::user()->id ?? null;
+        $teachers = User::join('preferred_languages', 'preferred_languages.user_id', '=', 'users.id')
+            ->where('users.status', 1)->groupBy('preferred_languages.user_id')
+            ->where(function ($query) use ($user_id) {
+                if (!empty($user_id)) {
+                    $query->where("users.id", "!=", $user_id);
+                }
+            })->where('users.is_admin', 0)->orderBy('users.id','desc')->select(['users.*'])->paginate(15);
 
         foreach ($teachers as $row) {
             $row["preferred_lang"] = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')

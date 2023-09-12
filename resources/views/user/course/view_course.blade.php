@@ -37,7 +37,7 @@
                         <div class="block-header block-header-default">
                             <h3 class="block-title">
                                 <i class="fa fa-fw fa-graduation-cap opacity-50"></i>
-                                Instructor
+                                Tutor
                             </h3>
                         </div>
                         <div class="block-content block-content-full">

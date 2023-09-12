@@ -80,20 +80,24 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('dashboard', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.dashboard']);
         Route::get('group/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.group.call.history']);
         Route::get('call/history', ['uses' => 'Admin\AdminController@getDashboard', 'as' => 'admin.call.history']);
-
         Route::get('/language/add', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.add.cat']);
         Route::get('/language/tutor/add', ['uses' => 'Admin\Categories\CategoryController@getTutorIndex', 'as' => 'admin.add.tutor']);
-        Route::get('/category/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.cat']);
+        Route::get('/language/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getEditCategory', 'as' => 'admin.edit.cat']);
+        Route::post('/language/update', ['uses' => 'Admin\Categories\CategoryController@updateLanguage', 'as' => 'admin.edit.lang.update']);
         Route::get('/category/view', ['uses' => 'Admin\Categories\CategoryController@getCategory', 'as' => 'admin.view.cat']);
         Route::post('/category/add/save', ['uses' => 'Admin\Categories\CategoryController@storeCategory', 'as' => 'admin.add.cat.save']);
         Route::post('category/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.category']);
-
         Route::get('theme/add', ['uses' => 'Admin\Categories\CategoryController@getUseCasesIndex', 'as' => 'admin.add.use.cases']);
-        Route::get('theme/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getIndex', 'as' => 'admin.edit.use.cases']);
+        Route::get('theme/edit/{id}', ['uses' => 'Admin\Categories\CategoryController@getEditCategory', 'as' => 'admin.edit.use.cases']);
         Route::post('theme/add/save', ['uses' => 'Admin\Categories\CategoryController@storeUseCases', 'as' => 'admin.add.use.cases.save']);
         Route::post('theme/delete', ['uses' => 'Admin\Categories\CategoryController@deleteCategory', 'as' => 'delete.use.cases']);
-
         Route::post('category/make-popular', ['uses' => 'Admin\Categories\CategoryController@makePopular', 'as' => 'make.popular.category']);
+        Route::get('all-users', ['uses' => 'Admin\AdminController@getAdminUsers', 'as' => 'admin.user.all']);
+        Route::post('disable-users', ['uses' => 'Admin\AdminController@disableAndEnableUser', 'as' => 'admin.user.enable.disable']);
+
+        Route::get('roles/{id}', ['uses' => 'Admin\AdminController@addUserRole', 'as' => 'admin.user.role']);
+        Route::post('roles/add/save', ['uses' => 'Admin\AdminController@addRoles', 'as' => 'admin.add.user.roles.save']);
+        Route::post('roles/remove', ['uses' => 'Admin\AdminController@removeRoles', 'as' => 'admin.add.user.roles.remove']);
 
         Route::group(['prefix' => 'transactions'], function ()
         {
@@ -104,34 +108,35 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::group(['prefix' => 'user'], function ()
         {
             Route::get('/', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.index']);
+            Route::get('/withdraw-details/{id}', 'Admin\AdminController@viewWithdrawalDetails');
             Route::get('/dashboard', 'Shared\SharedController@getIndex');
-            Route::group(['prefix' => 'course'], function ()
-            {
-                Route::get('all', 'Shared\SharedController@allCourse');
-                Route::get('paid/all', 'Shared\SharedController@allPaidCourse');
-                Route::get('sold/all',  'Shared\SharedController@allSoldCourse');
-                Route::get('view/{url}',  'Shared\SharedController@viewCourse');
-                Route::get('view/{course_url}/{lesson_url}', 'Shared\SharedController@viewPaidCourse');
-                Route::get('type/free',  'Shared\SharedController@allCourseByAction');
-                Route::get('type/paid', 'Shared\SharedController@allCourseByAction');
-                Route::get('theme', 'Shared\SharedController@allCourseByAction');
 
-            });
-
-            Route::group(['prefix' => 'group'], function ()
-            {
-                Route::get('class/all','Shared\SharedController@getGroupClass');
-                Route::get('class/paid','Shared\SharedController@getGroupClassPaid');
-                Route::get('class/sold','Shared\SharedController@getGroupClassSold');
-            });
-
-            Route::get('/all', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.all']);
             Route::get('/add', ['uses' => 'Admin\AdminController@AddUsers', 'as' => 'admin.user.add']);
             Route::post('/save', ['uses' => 'Admin\AdminController@SaveUsers', 'as' => 'admin.user.save']);
             Route::get('/change/password', ['uses' => 'Admin\AdminController@changePassword', 'as' => 'admin.user.password']);
             Route::post('/action/enabling', ['uses' => 'Admin\AdminController@UpdateUserAccount', 'as' => 'admin.user.enabling']);
             Route::get('/profile/photo/add', ['uses' => 'Admin\AdminController@getProfilePhoto', 'as' => 'admin.profile.photo']);
 
+        });
+
+        Route::group(['prefix' => 'course'], function ()
+        {
+            Route::get('/', ['uses' => 'Admin\AdminController@getAllCourses', 'as' => 'admin.course.all']);
+            Route::post('action/disable', ['uses' => 'Admin\AdminController@disableCourse', 'as' => 'admin.course.enable.disable']);
+            Route::get('transactions/{id}', ['uses' => 'Admin\AdminController@getCourseTransactions', 'as' => 'admin.course.transactions']);
+        });
+
+        Route::group(['prefix' => 'group-sessions'], function ()
+        {
+            Route::get('/', ['uses' => 'Admin\AdminController@getAllGroupSessions', 'as' => 'admin.group.all']);
+            Route::post('action/disable', ['uses' => 'Admin\AdminController@disableGroupSessions', 'as' => 'admin.session.enable.disable']);
+            Route::get('transactions/{id}', ['uses' => 'Admin\AdminController@getGroupSessionTransactions', 'as' => 'admin.group.transactions']);
+        });
+
+        Route::group(['prefix' => 'private-sessions'], function ()
+        {
+            Route::get('/', ['uses' => 'Admin\AdminController@getAllPrivateSession', 'as' => 'admin.private.sessions.all']);
+            Route::post('action/disable', ['uses' => 'Admin\AdminController@disablePrivateSessions', 'as' => 'admin.private.session.enable.disable']);
         });
     });
 
@@ -215,6 +220,9 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('group/class/paid',[ 'uses' =>'Shared\SharedController@getGroupClassPaid', 'as' => 'user.group.class.all.paid']);
         Route::get('group/class/sold',[ 'uses' =>'Shared\SharedController@getGroupClassSold', 'as' => 'user.group.class.all.sold']);
         Route::post('group/create/save',[ 'uses' =>'User\UserController@saveGroupClassMeeting', 'as' => 'user.group.class.save']);
+
+        Route::get('/add-withdrawal-details', ['uses' => 'User\UserController@addWithdrawalDetails', 'as' => 'user.withdrawal.details']);
+        Route::post('/add-withdrawal-details/save', ['uses' => 'User\UserController@saveWithdrawalDetails', 'as' => 'user.withdrawal.details.save']);
 
 
     });
