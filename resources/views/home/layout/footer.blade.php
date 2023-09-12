@@ -141,9 +141,9 @@
 ============================================ -->
 <script src="{{asset("home/assets/js/vendor/jquery-1.12.4.min.js")}}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+<script src="{{asset("home/js/jquery.min.js")}}"></script>
+<script src="{{asset("home/js/moment.min.js")}}"></script>
+<script src="{{asset("home/js/fullcalendar.js")}}"></script>
 
 <script>
     var SITE_URL = "{{ url('/') }}";

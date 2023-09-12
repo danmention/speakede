@@ -14,6 +14,22 @@
 </div>
 <!-- END Page Container -->
 
+<script>
+    document.onreadystatechange = function () {
+        var state = document.readyState
+        if (state == 'interactive') {
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+        } else if (state == 'complete') {
+            setTimeout(function(){
+                $('#loading').removeClass('loading');
+                $('#loading-content').removeClass('loading-content');
+            },1000);
+        }
+    }
+
+</script>
+
 <script src="{{asset("admin/assets/js/codebase.app.min.js")}}"></script>
 
 <!-- jQuery (required for DataTables plugin) -->

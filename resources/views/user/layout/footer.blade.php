@@ -37,17 +37,21 @@
 <script>Codebase.helpersOnLoad(['js-ckeditor', 'js-simplemde','js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-rangeslider', 'jq-masked-inputs', 'jq-pw-strength']);</script>
 
 <script>
-
-    $(window).on('load', function() {
-        $('#loading').removeClass('loading');
-        $('#loading-content').removeClass('loading-content');
-
-    });
-
-    $('#loading').addClass('loading');
-    $('#loading-content').addClass('loading-content');
+    document.onreadystatechange = function () {
+        var state = document.readyState
+        if (state == 'interactive') {
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+        } else if (state == 'complete') {
+            setTimeout(function(){
+                $('#loading').removeClass('loading');
+                $('#loading-content').removeClass('loading-content');
+            },1000);
+        }
+    }
 
 </script>
+
 <script>
     $(document).ready(function () {
 
@@ -58,6 +62,18 @@
         });
 
         var SITE_URL = "{{ url('/') }}";
+
+        // Return today's date and time
+        var currentTime = new Date()
+
+        // returns the month (from 0 to 11)
+        var month = currentTime.getMonth() + 1
+
+        // returns the day of the month (from 1 to 31)
+        var day = currentTime.getDate()
+
+        var full_year = currentTime.getFullYear();
+
 
         var calendar = $('#calendar').fullCalendar({
             editable: true,
@@ -125,6 +141,10 @@
                         alert("Availability updated");
                     }
                 })
+            },
+            validRange: {
+                start: full_year+"-"+month+"-"+day,
+                end: full_year+"-12-30",
             },
 
             eventClick: function (event) {

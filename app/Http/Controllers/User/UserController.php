@@ -186,7 +186,7 @@ class UserController
      * @return Application|Factory|View
      */
     public function createGroupClass(){
-        $preferred_lang = $this->getPreferred_lang();
+        $preferred_lang = Category::query()->where('class_name','tutor')->get();
         return view('user.create_group_class', compact('preferred_lang'));
     }
 

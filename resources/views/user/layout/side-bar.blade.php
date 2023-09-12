@@ -230,7 +230,7 @@
 
                             <li class="nav-item {{Request::segment(2)  === "add-withdrawal-details" ? "open" : ""}}">
                                 <a href="{{route('user.withdrawal.details')}}" class="nav-main-link {{Request::segment(2)  === "add-withdrawal-details" ? "active" : ""}}">
-                                    <span class="nav-main-link-nam">ADD WITHDRAWAL DETAILS</span>
+                                    <span class="nav-main-link-nam">ADD ACCOUNT DETAILS</span>
                                 </a>
                             </li>
 
@@ -246,7 +246,7 @@
                         </ul>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="{{route('account.logout')}}">
+                        <a class="nav-main-link"  href="{{route('account.logout')}}">
                             <i class="nav-main-link-icon fa fa-sign-out-alt"></i>
                             <span class="nav-main-link-name">LOGOUT</span>
                         </a>

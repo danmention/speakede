@@ -6,6 +6,7 @@ use App\Enums\PaymentType;
 use App\Enums\ScheduleTypes;
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\CommunicationPayment;
 use App\Models\GroupClassEnrollment;
 use App\Models\PaymentTransaction;
@@ -71,10 +72,22 @@ class ScheduleCalendarController extends Controller
      */
     public function getCreateScheduleEvent(Request $request)
     {
-        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
-            ->where('preferred_languages.user_id', Auth::user()->id)->get(['categories.*']);
+        $preferred_lang = Category::query()->where('class_name','tutor')->get();
         return view('user.set-availability', compact('preferred_lang'));
     }
+
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function getEditScheduleEvent($id)
+    {
+        $preferred_lang = Category::query()->where('class_name','tutor')->get();
+        $events = ScheduleEvent::query()->where('id', $id)->get();
+        return view('user.edit-availability', compact('preferred_lang','events'));
+    }
+
 
 
     /**
@@ -120,6 +133,27 @@ class ScheduleCalendarController extends Controller
 
     /**
      * @param Request $request
+     * @return RedirectResponse
+     */
+    public function updateSchedule(Request $request): RedirectResponse
+    {
+        $event = ScheduleEvent::find($request->id);
+        $event->title =  $request->title;
+        $event->start = $request->start;
+        $event->end = $request->end;
+        $event->price = $request->price;
+        $event->description = $request->description;
+        $event->type = $request->schedule_type;
+        $event->language_id = $request->language_id;
+        $event->status = 1;
+        $event->save();
+        Session::flash('message', "Schedule Updated successful");
+        return redirect()->route('user.dashboard');
+    }
+
+
+    /**
+     * @param Request $request
      * @return RedirectResponse|null
      */
     public function bookingSchedule(Request $request): ?RedirectResponse
@@ -133,8 +167,7 @@ class ScheduleCalendarController extends Controller
                 $event->start = $request->start;
                 $event->end = $request->end;
 
-                $user_id = User::query()->where('identity',$request->identity)->value('id');
-                $event->instructor_user_id = $user_id;
+                $event->instructor_user_id = $request->teacher_id;
                 $event->initiate_user_id = Auth::user()->id;
                 $event->type = ScheduleTypes::BOOKED;
                 $event->schedule_events_id = $request->id;

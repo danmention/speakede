@@ -18,7 +18,7 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        All Private Schedule Meeting
+                        All Created Private Session
                     </h3>
                 </div>
                 <div class="block-content">
@@ -32,6 +32,7 @@
                                 <th>Type</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -45,6 +46,18 @@
                                     <td>{{$row->type}}</td>
                                     <td>{{$row->start}}</td>
                                     <td>{{$row->end}}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" id="dropdown-default-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </button>
+                                                <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-default-primary">
+                                                    <a class="dropdown-item" href="{{url('user/meeting/private/edit/'.$row->id)}}">Edit Session</a>
+                                                </div>
+                                        </div>
+
+                                    </td>
+
                                 </tr>
                             @endforeach
                             </tbody>

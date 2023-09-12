@@ -214,6 +214,8 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
         Route::get('meeting/private/paid',[ 'uses' =>'User\ScheduleCalendarController@getPaidPrivateMeeting', 'as' => 'user.private.meeting.paid']);
         Route::get('meeting/private/sold',[ 'uses' =>'User\ScheduleCalendarController@getSoldPrivateMeeting', 'as' => 'user.private.meeting.sold']);
+        Route::get('meeting/private/edit/{id}',[ 'uses' =>'User\ScheduleCalendarController@getEditScheduleEvent', 'as' => 'user.private.meeting.edit']);
+        Route::post('meeting/private/update',[ 'uses' =>'User\ScheduleCalendarController@updateSchedule', 'as' => 'user.schedule.update']);
 
         Route::get('group/class/create',[ 'uses' =>'User\UserController@createGroupClass', 'as' => 'user.group.class.create']);
         Route::get('group/class/all',[ 'uses' =>'Shared\SharedController@getGroupClass', 'as' => 'user.group.class.all']);

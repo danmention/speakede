@@ -167,6 +167,14 @@ class AdminController
     public function UpdateProfilePhoto(Request $request): JsonResponse
     {
 
+        $validator = Validator::make($request->all(), [
+            'picture' => 'required|file|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('Image is more than 500kb',500);
+        }
+
         $id = Auth::user()->id;
 
         $image = $request->picture;
@@ -183,7 +191,7 @@ class AdminController
         $post = User::find($id);
         $post->profile_image = $filename;
         $post->save();
-        return response()->json('Course added successfully');
+        return response()->json('profile photo added successfully');
 
     }
 

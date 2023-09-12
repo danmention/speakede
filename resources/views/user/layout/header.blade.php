@@ -38,7 +38,7 @@
     <link rel="stylesheet" id="css-main" href="{{asset("admin/assets/css/codebase.min.css")}}">
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+    <link rel="stylesheet" href="{{asset("home/css/fullcalendar.css")}}" />
 
 
     <style>
@@ -49,8 +49,8 @@
         }
 
         .loading {
-            z-index: 20;
-            position: absolute;
+            position:fixed;
+            z-index:9999;
             top: 0;
             left:-5px;
             width: 100%;

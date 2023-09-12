@@ -61,7 +61,7 @@ $("#postFormCourse").submit(function(e){
         statusCode: {
             500: function(response) {
                 console.log(response)
-                toast.fire('Oops...', 'Something went wrong!', 'error');
+                toast.fire('Oops...', response.responseJSON, 'error');
 
                 $('#loading').removeClass('loading');
                 $('#loading-content').removeClass('loading-content');
@@ -110,7 +110,7 @@ $("#postFormProfilePhoto").submit(function(e){
         statusCode: {
             500: function(response) {
                 console.log(response)
-                toast.fire('Oops...', 'Something went wrong!', 'error');
+                toast.fire('Oops...', response.responseJSON, 'error');
 
                 $('#loading').removeClass('loading');
                 $('#loading-content').removeClass('loading-content');
@@ -215,7 +215,7 @@ $("#postFormSessionCourse").submit(function(e){
         statusCode: {
             500: function(response) {
                 console.log(response)
-                toast.fire('Oops...', 'Something went wrong!', 'error');
+                toast.fire('Oops...', response.responseJSON, 'error');
 
                 $('#loading').removeClass('loading');
                 $('#loading-content').removeClass('loading-content');
@@ -268,7 +268,7 @@ $("#postFormLesson").submit(function(e){
         statusCode: {
             500: function(response) {
                 console.log(response)
-                toast.fire('Oops...', 'Something went wrong!', 'error');
+                toast.fire('Oops...', response.responseJSON, 'error');
 
                 $('#loading').removeClass('loading');
                 $('#loading-content').removeClass('loading-content');

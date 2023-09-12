@@ -27,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class UserService
 {
@@ -134,6 +135,15 @@ class UserService
      */
     public function saveCourse(Request $request): JsonResponse
     {
+
+        $validator = Validator::make($request->all(), [
+            'picture' => 'required|file|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('Image is more than 500kb',500);
+        }
+
         $use_cases_ids  = json_decode($request->use_cases_id,true);
         $use_cases_id = $use_cases_ids[0];
 
@@ -451,6 +461,15 @@ class UserService
      */
     public function saveGroupSessions(Request  $request): JsonResponse
     {
+
+        $validator = Validator::make($request->all(), [
+            'picture' => 'required|file|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('Image is more than 500kb',500);
+        }
+
         $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
 
         $image = $request->picture;

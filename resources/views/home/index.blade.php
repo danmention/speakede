@@ -176,7 +176,6 @@
                           <!-- Single Team Start -->
                           <div class="single-team text-center">
                               <div class="team-img">
-                                  <img class="shape-1" src="{{asset("home/assets/images/shape/team-shape.png")}}" alt="">
                                   <a href="{{url('teacher/'.$row->identity)}}"> @if(!empty($row->profile_image))
                                       <img src="{{asset('profile/photo/'.$row->id.'/'.$row->profile_image)}}" alt="author" style="width: 100px;height: 100px;">
                                   @else
