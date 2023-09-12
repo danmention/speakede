@@ -432,8 +432,7 @@ class UserService
         $instructor = User::query()->where('identity', $teacher_id)->get();
         $schedule_info = ScheduleEvent::query()->where('id', $id)->get();
 
-        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
-            ->where('preferred_languages.id',$lang)->get(['categories.*','preferred_languages.price']);
+        $preferred_lang = Category::query()->where('id', $lang)->get();
 
         return array(
             'instructor' => $instructor,

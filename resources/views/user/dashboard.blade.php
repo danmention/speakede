@@ -3,6 +3,11 @@
     @include('user.layout.side-bar')
     <!-- Main Container -->
     <main id="main-container">
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
         <!-- Page Content -->
         <div class="content">
 

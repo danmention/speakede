@@ -11,6 +11,10 @@
 
     <main id="main-container">
 
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
 
         @foreach($course as $row)
         <!-- Page Content -->

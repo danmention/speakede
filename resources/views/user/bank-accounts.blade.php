@@ -4,6 +4,11 @@
 
 
     <main>
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
         <div class="content">
             <div class="col-xl-12">
 

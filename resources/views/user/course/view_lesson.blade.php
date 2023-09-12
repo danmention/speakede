@@ -5,6 +5,11 @@
 
     <main id="main-container">
 
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
         @foreach($lessons as $row)
             <!-- Page Content -->
             <div class="content">

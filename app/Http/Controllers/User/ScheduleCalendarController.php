@@ -226,8 +226,9 @@ class ScheduleCalendarController extends Controller
     {
         foreach ($data as $row) {
             $instructor = User::query()->where('id', $row->instructor_user_id)->get();
-            $row['student'] = $instructor[0]->firstname . ' ' . $instructor[0]->lastname;
-            $row["instructor"] = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+            $student = User::query()->where('id', $row->initiate_user_id)->get();
+            $row['student'] = $student[0]->firstname . ' ' . $student[0]->lastname;
+            $row["instructor"] = $instructor[0]->firstname . ' ' . $instructor[0]->lastname;
             $row["zoom_response"] = json_decode($row->zoom_response, true);
         }
         return view('user.booked-schedule', compact('data'));

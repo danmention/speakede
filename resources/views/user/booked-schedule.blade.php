@@ -26,8 +26,14 @@
                             <thead>
                             <tr>
                                 <th></th>
+                                @if(request()->segment(2) === "meeting" && request()->segment(4) === "paid")
+                                @else
                                 <th>Learner</th>
+                                @endif
+                                @if(request()->segment(2) === "meeting" && request()->segment(4) === "sold")
+                                @else
                                 <th>Tutor</th>
+                                @endif
                                 <th>Description</th>
                                 <th>Meeting Time</th>
                                 <th>Meeting Duration</th>
@@ -40,8 +46,14 @@
                             @foreach($data as $row)
                                 <tr>
                                     <td>{{$x++}}</td>
+                                    @if(request()->segment(2) === "meeting" && request()->segment(4) === "paid")
+                                    @else
                                     <td>{{$row->student}}</td>
+                                    @endif
+                                    @if(request()->segment(2) === "meeting" && request()->segment(4) === "sold")
+                                    @else
                                     <td> {{$row->instructor}}</td>
+                                    @endif
                                     <td>{{$row->zoom_response["agenda"]}}</td>
                                     <td>{{$row->zoom_response["start_time"]}}</td>
                                     <td>{{$row->zoom_response["duration"]}} mins</td>

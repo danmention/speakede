@@ -3,6 +3,11 @@
     @include('user.layout.side-bar')
 
     <main>
+
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
+
         <div class="content">
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
@@ -25,8 +30,11 @@
                             <tr>
                                 <th></th>
                                 <th>Title</th>
+                                @if(request()->segment(4) === "paid")
+                                @else
                                 <th>No of Available slots</th>
                                 <th> No of slots taken</th>
+                                @endif
                                 <th>Type</th>
                                 <th>Description</th>
                                 <th>Meeting Time</th>
@@ -42,8 +50,11 @@
                                 <tr>
                                     <td>{{$x++}}</td>
                                     <td>{{$row->title}}</td>
+                                    @if(request()->segment(4) === "paid")
+                                    @else
                                     <td>{{$row->slot}}</td>
                                     <td>{{$row->slot}}</td>
+                                    @endif
                                     <td>{{$row->type}}</td>
                                     <td>{{$row->zoom_response["agenda"]}}</td>
                                     <td>{{$row->zoom_response["start_time"]}}</td>

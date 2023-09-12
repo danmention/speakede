@@ -230,7 +230,7 @@
 
                             <li class="nav-item {{Request::segment(2)  === "add-withdrawal-details" ? "open" : ""}}">
                                 <a href="{{route('user.withdrawal.details')}}" class="nav-main-link {{Request::segment(2)  === "add-withdrawal-details" ? "active" : ""}}">
-                                    <span class="nav-main-link-nam">UPDATE WITHDRAW DETAILS</span>
+                                    <span class="nav-main-link-nam">ADD WITHDRAWAL DETAILS</span>
                                 </a>
                             </li>
 

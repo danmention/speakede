@@ -37,6 +37,18 @@
 <script>Codebase.helpersOnLoad(['js-ckeditor', 'js-simplemde','js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-rangeslider', 'jq-masked-inputs', 'jq-pw-strength']);</script>
 
 <script>
+
+    $(window).on('load', function() {
+        $('#loading').removeClass('loading');
+        $('#loading-content').removeClass('loading-content');
+
+    });
+
+    $('#loading').addClass('loading');
+    $('#loading-content').addClass('loading-content');
+
+</script>
+<script>
     $(document).ready(function () {
 
         $.ajaxSetup({
