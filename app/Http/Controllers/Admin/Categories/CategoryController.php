@@ -25,7 +25,13 @@ class CategoryController extends Controller
      */
     public function getIndex()
     {
-        return view('admin.categories.add-category');
+        if (request()->segment(3) === "language" && request()->segment(4) === "add"){
+            $type = "language";
+        } else {
+            $type = "tutor";
+        }
+        $category = Category::query()->where('class_name',$type)->orderBy('id','desc')->get();
+        return view('admin.categories.add-category', compact('category'));
     }
 
     /**
@@ -33,7 +39,13 @@ class CategoryController extends Controller
      */
     public function getTutorIndex()
     {
-        return view('admin.categories.add-category');
+        if (request()->segment(3) === "language" && request()->segment(4) === "add"){
+            $type = "language";
+        } else {
+            $type = "tutor";
+        }
+        $category = Category::query()->where('class_name',$type)->orderBy('id','desc')->get();
+        return view('admin.categories.add-category', compact('category'));
     }
 
     /**

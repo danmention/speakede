@@ -12,7 +12,6 @@ use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
 use App\Models\ScheduleEvent;
-use App\Models\WithdrawalDetails;
 use App\Services\user\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;

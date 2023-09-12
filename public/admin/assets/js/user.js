@@ -75,7 +75,7 @@ $("#postFormCourse").submit(function(e){
             toast.fire('Success', 'Course added successfully', 'success');
 
             $(".swal2-confirm").click(function(event){
-                window.location.href = SITE_URL+'/user/discover';
+                window.location.href = SITE_URL+'/user/course/all';
             });
 
         }
@@ -282,7 +282,7 @@ $("#postFormLesson").submit(function(e){
             toast.fire('Success', 'Lesson added successfully', 'success');
 
             $(".swal2-confirm").click(function(event){
-                window.location.href = SITE_URL+'/user/dashboard';
+                window.location.href = SITE_URL+'/user/course/all';
             });
 
         }

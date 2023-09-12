@@ -118,8 +118,7 @@ class UserService
      */
     public function getAddCourseInfo(): array
     {
-        $preferred_lang = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
-            ->where('preferred_languages.user_id',Auth::user()->id)->get(['categories.*','preferred_languages.price']);
+        $preferred_lang = Category::query()->where('class_name','tutor')->orderBy('id','desc')->get();
         $use_cases = Category::query()->where('class_name','use_cases')->orderBy('id','desc')->get();
 
         return array(
@@ -569,12 +568,20 @@ class UserService
      */
     public function getTutors(): array
     {
-        $tutors = User::join('courses', 'courses.user_id', '=', 'users.id')->groupBy('users.id')->select(['users.*'])->orderBy('users.id', 'DESC')->paginate(15);
+
+        $tutors = User::join('preferred_languages', 'preferred_languages.user_id', '=', 'users.id')
+            ->where('users.status', 1)->groupBy('preferred_languages.user_id')->where('users.is_admin', 0)->orderBy('users.id','desc')->select(['users.*'])->paginate(15);
+
         foreach ($tutors as $row) {
             $row["preferred_lang"] = PreferredLanguage::join('categories', 'categories.id', '=', 'preferred_languages.language_id')
                 ->where('preferred_languages.user_id', $row->id)->get(['categories.*']);
+
+            $row["language_i_speak"] = LanguageISpeak::join('categories', 'categories.id', '=', 'language_i_speaks.language_id')
+                ->where('language_i_speaks.user_id', $row->id)->get(['categories.*']);
+
             $row["rating"] = CommonHelpers::ratingUser($row->id);
         }
+
         return array(
             'tutors' => $tutors
         );

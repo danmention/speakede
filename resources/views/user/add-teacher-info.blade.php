@@ -56,7 +56,7 @@
                                     <label class="form-label" for="val-select2-multiple">I’d like to tutor learners</label>
                                     <ul style="list-style: none">
                                         @foreach($tutor_lang as $row)
-                                            <li> <input type="checkbox" name="language_id[]" value="{{$row->id}}" required="required"> {{$row->title}}</li>
+                                            <li> <input type="checkbox" name="language_id[]" value="{{$row->id}}"> {{$row->title}}</li>
                                         @endforeach
                                     </ul>
                                 </div>
