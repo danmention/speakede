@@ -22,7 +22,7 @@
                                         <th></th>
                                         <th>Student</th>
                                         <th>tutor</th>
-                                        <th>Course Title</th>
+                                        <th>Title</th>
                                         <th>Token Number</th>
                                         <th>Amount </th>
                                         <th>Status</th>
@@ -69,7 +69,7 @@
                                         <th></th>
                                         <th>Student</th>
                                         <th>tutor</th>
-                                        <th>Course Title</th>
+                                        <th>Title</th>
                                         <th>Token Number</th>
                                         <th>Amount </th>
                                         <th>Status</th>

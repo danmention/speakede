@@ -34,6 +34,7 @@
                                 @else
                                 <th>Tutor</th>
                                 @endif
+                                <th>Title</th>
                                 <th>Description</th>
                                 <th>Meeting Time</th>
                                 <th>Meeting Duration</th>
@@ -54,6 +55,7 @@
                                     @else
                                     <td> {{$row->instructor}}</td>
                                     @endif
+                                    <td>{{$row->title}}</td>
                                     <td>{{$row->zoom_response["agenda"]}}</td>
                                     <td>{{$row->zoom_response["start_time"]}}</td>
                                     <td>{{$row->zoom_response["duration"]}} mins</td>

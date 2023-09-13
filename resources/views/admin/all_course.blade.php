@@ -27,6 +27,7 @@
                                     <th>Price</th>
                                     <th>No of lessons </th>
                                     <th>Status</th>
+                                    <th>Total Transactions</th>
                                     <th>Date created</th>
                                     <th>Date Updated</th>
 
@@ -50,6 +51,7 @@
                                                 <span class="badge bg-danger">Deactivated</span>
                                             @endif
                                         </td>
+                                        <td>{{$row->total}}</td>
                                         <td>{{$row->created_at}}</td>
                                         <td>{{$row->updated_at}}</td>
                                         <td>

@@ -7,10 +7,8 @@ use App\Enums\ScheduleTypes;
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\CommunicationPayment;
 use App\Models\GroupClassEnrollment;
 use App\Models\PaymentTransaction;
-use App\Models\PreferredLanguage;
 use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
@@ -201,7 +199,10 @@ class ScheduleCalendarController extends Controller
     public function getPaidPrivateMeeting()
     {
         $user_id = Auth::user()->id;
-        $data = Schedule::query()->where('initiate_user_id',$user_id)->where('instructor_user_id', '!=', $user_id)->where('status',1)->get();
+        $data = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
+            ->where('schedules.initiate_user_id',$user_id)->where('schedules.instructor_user_id', '!=', $user_id)
+            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title')->orderBy('schedules.id','DESC')->get('schedules.*');
+
         return $this->privateMeetingInfo($data);
     }
 
@@ -211,7 +212,11 @@ class ScheduleCalendarController extends Controller
     public function getSoldPrivateMeeting()
     {
         $user_id = Auth::user()->id;
-        $data = Schedule::query()->where('instructor_user_id',$user_id)->where('initiate_user_id', '!=', $user_id)->where('status',1)->get();
+
+        $data = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
+            ->where('schedules.instructor_user_id',$user_id)->where('schedules.initiate_user_id', '!=', $user_id)
+            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title')->orderBy('schedules.id','DESC')->get('schedules.*');
+
         return $this->privateMeetingInfo($data);
     }
 

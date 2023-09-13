@@ -29,6 +29,7 @@
                                 <th>Description</th>
                                 <th>Meeting Time</th>
                                 <th>Meeting Duration</th>
+                                <th>Total Transactions</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -51,6 +52,7 @@
                                     <td>{{$row->zoom_response["agenda"]}}</td>
                                     <td>{{$row->zoom_response["start_time"]}}</td>
                                     <td>{{$row->zoom_response["duration"]}} mins</td>
+                                    <td>{{$row->total}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary dropdown-toggle" id="dropdown-default-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

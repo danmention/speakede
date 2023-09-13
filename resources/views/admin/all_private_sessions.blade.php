@@ -25,6 +25,7 @@
                                 <th>Status</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Total Transactions</th>
                                 <th>Date Created</th>
                                 <th>Action</th>
 
@@ -48,6 +49,7 @@
                                     </td>
                                     <td>{{$row->start}}</td>
                                     <td>{{$row->end}}</td>
+                                    <td>{{$row->total}}</td>
                                     <td>{{$row->created_at}}</td>
                                     <td>
                                         <div class="dropdown">

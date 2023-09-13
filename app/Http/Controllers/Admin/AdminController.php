@@ -265,6 +265,7 @@ class AdminController
         $course = Course::join('users', 'users.id', '=', 'courses.user_id')->select('courses.*', 'users.firstname','users.lastname')->orderBy('courses.id','DESC')->get('courses.*');
         foreach ($course as $row){
             $row["number_of_lessons"] = Lesson::query()->where('course_id', $row->id)->count();
+            $row["total"] = CoursePayment::query()->where('course_id',  $row->id)->count();
         }
         return view('admin.all_course', compact('course'));
     }
@@ -278,6 +279,7 @@ class AdminController
         $schedule = GroupClass::query()->orderBy('id','DESC')->get();
         foreach ($schedule as $row){
             $row["zoom_response"] = json_decode($row->zoom_response, true);
+            $row["total"] = GroupClassEnrollment::query()->where('group_class_id',  $row->id)->count();
         }
         return view('admin.all_group_sessions', compact('schedule'));
     }
@@ -288,6 +290,9 @@ class AdminController
      */
     public function getAllPrivateSession(){
         $private_sessions = ScheduleEvent::query()->orderBy('id','DESC')->get();
+        foreach ($private_sessions as $row){
+            $row["total"] = Schedule::query()->where('schedule_events_id',  $row->id)->count();
+        }
         return view('admin.all_private_sessions', compact('private_sessions'));
     }
 
@@ -437,10 +442,9 @@ class AdminController
 
     public function getPrivateSessionTransactions($id){
 
-
         $transactions = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
             ->where('schedule_events.id', $id)
-            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id')->orderBy('schedules.id','DESC')->get('schedules.*');
+            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title')->orderBy('schedules.id','DESC')->get('schedules.*');
 
         $this->TransactionHistoryUserInfo($transactions);
         return view('admin.private_session_payment_history', compact('transactions'));
