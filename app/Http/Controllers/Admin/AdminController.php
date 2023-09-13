@@ -12,6 +12,7 @@ use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
 use App\Models\Roles;
+use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Models\UserRoles;
@@ -408,15 +409,13 @@ class AdminController
      * @return Application|Factory|View
      */
     public function getCourseTransactions($id){
-        $transactions = CoursePayment::query()->where('course_id', $id)->get();
-        $course =  Course::query()->where('id', $id)->get();
-        foreach ($transactions as $row){
-            $course =  Course::query()->where('id', $row->course_id)->get();
-            $row["fullname"] = User::query()->where('id', $row->user_id)->value('firstname');
-            $row["amount"] = $course[0]->price;
-        }
 
-        return view('admin.course_payment_history', compact('transactions','course'));
+        $transactions = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')
+            ->where('course_payments.course_id', $id)
+            ->select('course_payments.*','courses.*','course_payments.user_id as payer_user_id')->orderBy('course_payments.id','DESC')->get('course_payments.*');
+
+        $this->TransactionHistoryUserInfo($transactions);
+        return view('admin.course_payment_history', compact('transactions'));
 
     }
 
@@ -425,15 +424,26 @@ class AdminController
      * @return Application|Factory|View
      */
     public function getGroupSessionTransactions($id){
-        $transactions = GroupClassEnrollment::query()->where('group_class_id', $id)->get();
-        $course =  GroupClass::query()->where('id', $id)->get();
-        foreach ($transactions as $row){
-            $group_class =  GroupClass::query()->where('id', $row->group_class_id)->get();
-            $row["fullname"] = User::query()->where('id', $row->user_id)->value('firstname');
-            $row["amount"] = $group_class[0]->price;
-        }
 
-        return view('admin.group_session_payment_history', compact('transactions','course'));
+        $transactions = GroupClassEnrollment::join('group_classes', 'group_classes.id', '=', 'group_class_enrollments.group_class_id')
+            ->where('group_classes.id', $id)
+            ->select('group_class_enrollments.*','group_classes.*','group_class_enrollments.user_id as payer_user_id')->orderBy('group_class_enrollments.id','DESC')->get('group_class_enrollments.*');
+
+        $this->TransactionHistoryUserInfo($transactions);
+
+        return view('admin.group_session_payment_history', compact('transactions'));
+
+    }
+
+    public function getPrivateSessionTransactions($id){
+
+
+        $transactions = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
+            ->where('schedule_events.id', $id)
+            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id')->orderBy('schedules.id','DESC')->get('schedules.*');
+
+        $this->TransactionHistoryUserInfo($transactions);
+        return view('admin.private_session_payment_history', compact('transactions'));
 
     }
 
@@ -444,6 +454,21 @@ class AdminController
     {
         $bank_accounts = AccountDetails::query()->where('user_id', $id)->orderBy('id', 'desc')->get();
         return view('admin.bank-accounts', compact('bank_accounts'));
+    }
+
+    /**
+     * @param $transactions
+     * @return void
+     */
+    private function TransactionHistoryUserInfo($transactions): void
+    {
+        foreach ($transactions as $row) {
+            $student = User::query()->where('id', $row->payer_user_id)->get();
+            $tutor = User::query()->where('id', $row->user_id)->get();
+            $row["student"] = $student[0]->firstname . ' ' . $student[0]->lastname;
+            $row["tutor"] = $tutor[0]->firstname . ' ' . $tutor[0]->lastname;
+
+        }
     }
 
 

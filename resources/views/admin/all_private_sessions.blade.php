@@ -25,7 +25,9 @@
                                 <th>Status</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Date Created</th>
                                 <th>Action</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -46,15 +48,14 @@
                                     </td>
                                     <td>{{$row->start}}</td>
                                     <td>{{$row->end}}</td>
+                                    <td>{{$row->created_at}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary dropdown-toggle" id="dropdown-default-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Action
                                             </button>
                                             <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-default-primary">
-                                                <a class="dropdown-item" href="javascript:void(0)">Session views</a>
-                                                <a class="dropdown-item" href="javascript:void(0)">Session Purchases</a>
-                                                <a class="dropdown-item" href="javascript:void(0)">Session shares</a>
+                                                <a class="dropdown-item" href="{{url('admin/secure/private-sessions/transactions/'.$row->id)}}">Session Purchases</a>
 
                                                 @foreach(\App\Http\Controllers\Admin\AdminController::getAccessControl(auth()->user()->id) as $rw)
 

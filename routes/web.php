@@ -139,6 +139,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
         {
             Route::get('/', ['uses' => 'Admin\AdminController@getAllPrivateSession', 'as' => 'admin.private.sessions.all']);
             Route::post('action/disable', ['uses' => 'Admin\AdminController@disablePrivateSessions', 'as' => 'admin.private.session.enable.disable']);
+            Route::get('transactions/{id}', ['uses' => 'Admin\AdminController@getPrivateSessionTransactions', 'as' => 'admin.private.transactions']);
         });
     });
 

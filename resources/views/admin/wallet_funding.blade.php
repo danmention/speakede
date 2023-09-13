@@ -36,10 +36,9 @@
                                                 <th>Name</th>
                                                 <th>Token Number</th>
                                                 <th>Amount </th>
+                                                <th>Status</th>
                                                 <th>Description</th>
-
-                                                <th>Status
-                                                </th>
+                                                <th>Date Created</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -51,7 +50,6 @@
                                                     <td>{{$row->user}}</td>
                                                     <td> {{$row->ref_no}}</td>
                                                     <td>{{$row->amount}}</td>
-                                                    <td>{{$row->description}}</td>
                                                     <td>
 
                                                         @if($row->status ==1 )
@@ -60,6 +58,8 @@
                                                             <span class="badge bg-danger">Failed</span>
                                                         @endif
                                                     </td>
+                                                    <td>{{$row->description}}</td>
+                                                    <td>{{$row->created_at}}</td>
                                                 </tr>
                                             @endforeach
 
