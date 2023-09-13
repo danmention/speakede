@@ -108,10 +108,12 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::group(['prefix' => 'user'], function ()
         {
             Route::get('/', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.index']);
+            Route::get('tutors', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.tutors']);
             Route::get('/withdraw-details/{id}', 'Admin\AdminController@viewWithdrawalDetails');
             Route::get('/dashboard', 'Shared\SharedController@getIndex');
 
-            Route::get('/add', ['uses' => 'Admin\AdminController@AddUsers', 'as' => 'admin.user.add']);
+            Route::get('/team/member', ['uses' => 'Admin\AdminController@AddTeamMembers', 'as' => 'admin.user.add']);
+            Route::get('/user/account', ['uses' => 'Admin\AdminController@AddUserAccount', 'as' => 'admin.user.account.add']);
             Route::post('/save', ['uses' => 'Admin\AdminController@SaveUsers', 'as' => 'admin.user.save']);
             Route::get('/change/password', ['uses' => 'Admin\AdminController@changePassword', 'as' => 'admin.user.password']);
             Route::post('/action/enabling', ['uses' => 'Admin\AdminController@UpdateUserAccount', 'as' => 'admin.user.enabling']);

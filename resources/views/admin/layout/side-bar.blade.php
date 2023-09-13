@@ -98,6 +98,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('admin.user.tutors')}}">
+                            <i class="nav-main-link-icon fa fa-user-group"></i>
+                            <span class="nav-main-link-name">TUTORS</span>
+                        </a>
+                    </li>
+
 
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('admin.course.all')}}">
@@ -134,7 +141,7 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-vector-square"></i>
-                            <span class="nav-main-link-name">Language</span>
+                            <span class="nav-main-link-name">LANGUAGE</span>
                         </a>
                         <ul class="nav-main-submenu">
 
@@ -143,13 +150,13 @@
                                 @if($row->title === "Create")
                                     <li class="nav-main-item">
                                         <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.cat')}}">
-                                            <span class="nav-main-link-name">Add Global Language</span>
+                                            <span class="nav-main-link-name">ADD GLOBAL LANGUAGE</span>
                                         </a>
                                     </li>
 
                                     <li class="nav-main-item">
                                         <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.add.tutor')}}">
-                                            <span class="nav-main-link-name">Add Tutor Language</span>
+                                            <span class="nav-main-link-name">ADD TUTOR LANGUAGE</span>
                                         </a>
                                     </li>
                                 @endif
@@ -157,7 +164,7 @@
 
                             <li class="nav-main-item">
                                 <a class="nav-main-link " aria-haspopup="true" aria-expanded="false" href="{{route('admin.view.cat')}}">
-                                    <span class="nav-main-link-name">All Language</span>
+                                    <span class="nav-main-link-name">ALL LANGUAGE</span>
                                 </a>
                             </li>
                         </ul>
@@ -172,7 +179,7 @@
 
 
 
-                    <li class="nav-main-heading">Account</li>
+                    <li class="nav-main-heading">ACCOUNT</li>
 
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
@@ -183,7 +190,7 @@
 
                             <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{ route('admin.user.all') }}">
-                                    <span class="nav-main-link-name">All User</span>
+                                    <span class="nav-main-link-name">ALL TEAM</span>
                                 </a>
                             </li>
 
@@ -194,11 +201,17 @@
 
                                 <li class="nav-main-item">
                                     <a class="nav-main-link" href="{{ route('admin.user.add') }}">
-                                        <span class="nav-main-link-name">Add User</span>
+                                        <span class="nav-main-link-name">ADD TEAM MEMBER</span>
                                     </a>
                                 </li>
                                 @endif
                             @endforeach
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ route('admin.user.account.add') }}">
+                                    <span class="nav-main-link-name"> ADD USER ACCOUNT</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </li>
@@ -302,7 +315,7 @@
     <!-- Header Search -->
     <div id="page-header-search" class="overlay-header bg-body-extra-light">
         <div class="content-header">
-            <form class="w-100" action="be_pages_generic_search.html" method="POST">
+            <form class="w-100" action="#" method="POST">
                 <div class="input-group">
                     <!-- Close Search Section -->
                     <!-- Layout API, functionality initialized in Template._uiApiLayout() -->

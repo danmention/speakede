@@ -130,7 +130,32 @@ class HomeService
         $post->verify_code = $verify;
         $post->save();
 
+        if ($request->admin){
+            if (!empty($request->language_id)){
+                foreach ($request->language_id as $row){
+                    $lang = new PreferredLanguage();
+                    $lang->user_id = $post->id;
+                    $lang->language_id = $row;
+                    $lang->save();
+                }
+            }
+
+            foreach ($request->i_speak_language_id as $row){
+                $lang = new LanguageISpeak();
+                $lang->user_id = $post->id;
+                $lang->language_id = $row;
+                $lang->save();
+            }
+
+            $profile = User::find($post->id);
+            $profile->about_me = $request->about_me;
+            $profile->update();
+        }
+
         Session::flash('message', ' Your registration was successful, please login');
+        if ($request->admin){
+            return redirect()->back();
+        }
         return redirect()->route('index.login');
     }
 

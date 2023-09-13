@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AccountDetails;
+use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursePayment;
 use App\Models\GroupClass;
 use App\Models\GroupClassEnrollment;
 use App\Models\Lesson;
 use App\Models\PaymentTransaction;
+use App\Models\PreferredLanguage;
 use App\Models\Roles;
 use App\Models\ScheduleEvent;
 use App\Models\User;
@@ -75,7 +77,19 @@ class AdminController
      */
     public function getUsers()
     {
-        $users = User::query()->where('is_admin',0)->get();
+        if (request()->segment(3) ==="user" && (empty(request()->segment(4)))){
+
+            $users = User::query()->where('is_admin',0)->get();
+            foreach ($users as $key => $item){
+                if (PreferredLanguage::query()->where('user_id', $item->id)->count() > 0){
+                    unset($users[$key]);
+                }
+            }
+        } else {
+            $users = User::join('preferred_languages', 'preferred_languages.user_id', '=', 'users.id')
+                ->where('users.status', 1)->groupBy('preferred_languages.user_id')->where('users.is_admin', 0)->orderBy('users.id','desc')->get(['users.*']);
+        }
+
         return view('admin.user.view-user',compact('users'));
     }
 
@@ -93,9 +107,19 @@ class AdminController
     /**
      * @return Factory|View|Application
      */
-    public function AddUsers()
+    public function AddTeamMembers()
     {
         return view('admin.user.add-user');
+    }
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function AddUserAccount()
+    {
+        $tutor_lang =  Category::query()->where('class_name', 'tutor')->get();
+        $lang = Category::query()->where('class_name', 'language')->get();
+        return view('admin.user.add-user-account', compact('tutor_lang','lang'));
     }
 
 

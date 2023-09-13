@@ -20,13 +20,7 @@
 
                 <div class="block block-rounded h-100 mb-0">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Add User</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
-                                <i class="si si-refresh"></i>
-                            </button>
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"><i class="si si-arrow-up"></i></button>
-                        </div>
+                        <h3 class="block-title">Add Team Member</h3>
                     </div>
                     <div class="block-content">
                             <form role="form" method="post" class="validate" action="{{ route('admin.user.save') }}">
