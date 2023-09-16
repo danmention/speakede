@@ -182,7 +182,7 @@
                     <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
                     <li><a href="{{route('index.all.course')}}">All Courses</a></li>
                     <li><a href="{{route('index.all.online.sessions')}}">Online Sessions</a></li>
-                    <li><a href="{{route('index.register')}}">Become a Tutor</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdr7B4oWmVTs5rNWPqyyw_-SOAg7lavG8KcjBUO5rnNaBarPQ/viewform?usp=sf_link">Become a Tutor</a></li>
 
                     @if(isset(\Illuminate\Support\Facades\Auth::user()->is_admin) && \Illuminate\Support\Facades\Auth::user()->is_admin == 0)
                         <li> <a  href="{{route('user.dashboard')}}"><i class="far fa-user"></i> {{Auth::user()->firstname}}</a></li>
@@ -190,7 +190,7 @@
 
                     @else
                         <li> <a  href="{{route('index.login')}}"><i class="far fa-user"></i> Login</a></li>
-                        <li> <a  href="{{route('index.register')}}">Signup</a></li>
+                        <li> <a  href="https://docs.google.com/forms/d/e/1FAIpQLSdr7B4oWmVTs5rNWPqyyw_-SOAg7lavG8KcjBUO5rnNaBarPQ/viewform?usp=sf_link">Waitlist</a></li>
                     @endif
 
                 </ul>
