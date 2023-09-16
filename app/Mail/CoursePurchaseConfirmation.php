@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeToXparkSports extends Mailable
+class CoursePurchaseConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,9 +26,9 @@ class WelcomeToXparkSports extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): CoursePurchaseConfirmation
     {
-        return $this->from('info@xparksports.com')
-            ->view('mail.welcome')->with(['details'=>$this->details]);
+        return $this->from('no-reply@speakede.com')
+            ->view('mail.course-purchase-booking')->with(['details'=>$this->details]);
     }
 }

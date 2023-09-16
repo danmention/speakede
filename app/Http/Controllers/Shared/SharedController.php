@@ -32,7 +32,7 @@ class SharedController
     {
         $data = $this->userService->getUserDashboard($request);
         if ($request->identity){
-            return view('admin.user-dashboard', $data);
+            return view('admin.user.dashboard.user-dashboard', $data);
         } else {
             if (empty(Auth::user()->about_me)){
                 return redirect()->route('user.apply.final');
@@ -50,8 +50,12 @@ class SharedController
      */
     public function allCourse(Request $request)
     {
-        $data = $this->userService->allCourse();
-        return view('user.course.all_course',$data);
+        $data = $this->userService->allCourse($request);
+        if ($request->identity){
+            return view('admin.user.dashboard.all_course', $data);
+        } else {
+            return view('user.course.all_course', $data);
+        }
     }
 
 
@@ -60,16 +64,25 @@ class SharedController
      */
     public function allPaidCourse(Request $request)
     {
-        $data = $this->userService->paidCourse();
-        return view('user.course.all_course', $data);
+        $data = $this->userService->paidCourse($request);
+
+        if ($request->identity){
+            return view('admin.user.dashboard.all_course', $data);
+        } else {
+            return view('user.course.all_course', $data);
+        }
     }
 
     /**
      * @return Application|Factory|View
      */
     public function allSoldCourse(Request $request){
-        $data = $this->userService->soldCourse();
-        return view('user.course.all_course',  $data);
+        $data = $this->userService->soldCourse($request);
+        if ($request->identity){
+            return view('admin.user.dashboard.all_course', $data);
+        } else {
+            return view('user.course.all_course', $data);
+        }
     }
 
 
@@ -80,7 +93,12 @@ class SharedController
     public function allCourseByAction(Request $request)
     {
         $data = $this->userService->courseByActions($request);
-        return view('user.course.all_course',  $data);
+
+        if ($request->identity){
+            return view('admin.user.dashboard.all_course', $data);
+        } else {
+            return view('user.course.all_course', $data);
+        }
     }
 
     /**
@@ -107,8 +125,13 @@ class SharedController
      * @return Application|Factory|View
      */
     public function getGroupClass(Request $request){
-        $data = $this->userService->getGroupSessions();
-        return view('user.all_group_class',$data );
+        $data = $this->userService->getGroupSessions($request);
+
+        if ($request->identity){
+            return view('admin.user.dashboard.all_group_sessions', $data);
+        } else {
+            return view('user.all_group_class', $data);
+        }
     }
 
 
@@ -117,8 +140,13 @@ class SharedController
      */
     public function getGroupClassPaid(Request $request){
 
-        $data = $this->userService->getPaidGroupSessions();
-        return view('user.all_group_class',$data );
+        $data = $this->userService->getPaidGroupSessions($request);
+
+        if ($request->identity){
+            return view('admin.user.dashboard.all_group_sessions', $data);
+        } else {
+            return view('user.all_group_class', $data);
+        }
     }
 
 
@@ -126,8 +154,13 @@ class SharedController
      * @return Application|Factory|View
      */
     public function getGroupClassSold(Request $request){
-        $data = $this->userService->getSoldGroupSessions();
-        return view('user.all_group_class', $data);
+        $data = $this->userService->getSoldGroupSessions($request);
+
+        if ($request->identity){
+            return view('admin.user.dashboard.all_group_sessions', $data);
+        } else {
+            return view('user.all_group_class', $data);
+        }
     }
 
 }

@@ -58,9 +58,15 @@ class ScheduleCalendarController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function getAllSchedule(){
-        $schedule = ScheduleEvent::query()->where('user_id',Auth::user()->id)->orderBy('id','DESC')->get();
-        return view('user.schedule-all', compact('schedule'));
+    public function getAllSchedule(Request $request){
+
+        $user_id = $this->getUserId($request);
+        $schedule = ScheduleEvent::query()->where('user_id',$user_id)->orderBy('id','DESC')->get();
+        if ($request->identity){
+            return view('admin.user.dashboard.all_schedule', compact('schedule'));
+        } else {
+            return view('user.schedule-all', compact('schedule'));
+        }
     }
 
 
@@ -196,28 +202,27 @@ class ScheduleCalendarController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function getPaidPrivateMeeting()
+    public function getPaidPrivateMeeting(Request $request)
     {
-        $user_id = Auth::user()->id;
+        $user_id = $this->getUserId($request);
         $data = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
             ->where('schedules.initiate_user_id',$user_id)->where('schedules.instructor_user_id', '!=', $user_id)
             ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title')->orderBy('schedules.id','DESC')->get('schedules.*');
 
-        return $this->privateMeetingInfo($data);
+        return $this->privateMeetingInfo($data, $request);
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function getSoldPrivateMeeting()
+    public function getSoldPrivateMeeting(Request $request)
     {
-        $user_id = Auth::user()->id;
-
+        $user_id = $this->getUserId($request);
         $data = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
             ->where('schedules.instructor_user_id',$user_id)->where('schedules.initiate_user_id', '!=', $user_id)
             ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title')->orderBy('schedules.id','DESC')->get('schedules.*');
 
-        return $this->privateMeetingInfo($data);
+        return $this->privateMeetingInfo($data, $request);
     }
 
 
@@ -258,9 +263,10 @@ class ScheduleCalendarController extends Controller
 
     /**
      * @param $data
+     * @param $request
      * @return Application|Factory|View
      */
-    private function privateMeetingInfo($data)
+    private function privateMeetingInfo($data, $request)
     {
         foreach ($data as $row) {
             $instructor = User::query()->where('id', $row->instructor_user_id)->get();
@@ -269,6 +275,25 @@ class ScheduleCalendarController extends Controller
             $row["instructor"] = $instructor[0]->firstname . ' ' . $instructor[0]->lastname;
             $row["zoom_response"] = json_decode($row->zoom_response, true);
         }
-        return view('user.booked-schedule', compact('data'));
+        if ($request->identity){
+            return view('admin.user.dashboard.all_private_sessions', compact('data'));
+        } else {
+            return view('user.booked-schedule', compact('data'));
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    private function getUserId(Request $request)
+    {
+        if ($request->identity) {
+            $user_id = User::query()->where('identity', $request->identity)->value('id');
+        } else {
+            $user_id = Auth::user()->id;
+        }
+        return $user_id;
     }
 }

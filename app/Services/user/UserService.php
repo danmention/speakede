@@ -49,11 +49,7 @@ class UserService
      */
     public function getUserDashboard($request): array
     {
-        if ($request->identity){
-            $user_id = User::query()->where('identity',$request->identity)->value('id');
-        } else {
-            $user_id = Auth::user()->id;
-        }
+        $user_id = $this->getUserId($request);
 
         $wallet = $this->accountBalance($user_id);
         $paid_course = CoursePayment::query()->where('user_id', $user_id)->count();
@@ -161,10 +157,12 @@ class UserService
         $image = $request->picture;
         $filename = time().".".$image->extension();
         // Create directory if it does not exist
-        $path = public_path()."/course/photo/". Auth::user()->id ."/";
-        if(!File::isDirectory($path)) {
-            File::makeDirectory(public_path().'/'.$path,0777,true);
+
+        if (!is_dir("course/photo/". Auth::user()->id ."/")) {
+            $path = "course/photo/". Auth::user()->id ."/";
+            File::makeDirectory(public_path() . '/' . $path, 0777, true);
         }
+
         $location = public_path('course/photo/'. Auth::user()->id .'/');
         $image->move($location, $filename);
 
@@ -197,36 +195,43 @@ class UserService
     }
 
     /**
+     * @param Request $request
      * @return array
      */
-    public function allCourse(): array
+    public function allCourse(Request $request): array
     {
+        $user_id = $this->getUserId($request);
 
-        $course = Course::query()->where('user_id', Auth::user()->id)->orderBy('id','DESC')->get();
+        $course = Course::query()->where('user_id', $user_id)->orderBy('id','DESC')->get();
         return array(
             "course" => $course,
         );
     }
 
     /**
+     * @param Request $request
      * @return array
      */
-    public function paidCourse(): array
+    public function paidCourse(Request $request): array
     {
+        $user_id = $this->getUserId($request);
+
         $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')
-            ->where('course_payments.user_id', Auth::user()->id)->select('course_payments.user_id as payed_user_id','courses.*' )->get(['courses.*']);
+            ->where('course_payments.user_id', $user_id)->select('course_payments.user_id as payed_user_id','courses.*' )->get(['courses.*']);
         return array(
             "course" => $course,
         );
     }
 
     /**
+     * @param Request $request
      * @return array
      */
-    public function soldCourse(): array
+    public function soldCourse(Request $request): array
     {
+        $user_id = $this->getUserId($request);
 
-        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('courses.user_id', Auth::user()->id)
+        $course = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')->where('courses.user_id', $user_id)
             ->get(['courses.*']);
         return array(
             "course" => $course,
@@ -475,10 +480,12 @@ class UserService
         $image = $request->picture;
         $filename = time().".".$image->extension();
         // Create directory if it does not exist
-        $path = public_path()."/group/class/photo/". Auth::user()->id ."/";
-        if(!File::isDirectory($path)) {
-            File::makeDirectory(public_path().'/'.$path,0777,true);
+
+        if (!is_dir("group/class/photo/". Auth::user()->id ."/")) {
+            $path = "group/class/photo/". Auth::user()->id ."/";
+            File::makeDirectory(public_path() . '/' . $path, 0777, true);
         }
+
         $location = public_path('group/class/photo/'. Auth::user()->id .'/');
         $image->move($location, $filename);
 
@@ -503,11 +510,13 @@ class UserService
 
 
     /**
+     * @param Request $request
      * @return array
      */
-    public function getGroupSessions(): array
+    public function getGroupSessions(Request $request): array
     {
-        $user_id = Auth::user()->id;
+        $user_id = $this->getUserId($request);
+
         $schedule = GroupClass::join('categories', 'categories.id', '=', 'group_classes.language_id')
             ->where('group_classes.user_id',$user_id)->get(['group_classes.*']);
         foreach ($schedule as $row){
@@ -519,11 +528,12 @@ class UserService
     }
 
     /**
+     * @param Request $request
      * @return array
      */
-    public function getPaidGroupSessions(): array
+    public function getPaidGroupSessions(Request $request): array
     {
-        $user_id = Auth::user()->id;
+        $user_id = $this->getUserId($request);
         $schedule = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
             ->where('group_class_enrollments.user_id',$user_id)->get(['group_classes.*']);
         foreach ($schedule as $row){
@@ -536,11 +546,12 @@ class UserService
 
 
     /**
+     * @param Request $request
      * @return array
      */
-    public function getSoldGroupSessions(): array
+    public function getSoldGroupSessions(Request $request): array
     {
-        $user_id = Auth::user()->id;
+        $user_id = $this->getUserId($request);
         $schedule = GroupClass::join('group_class_enrollments', 'group_class_enrollments.group_class_id', '=', 'group_classes.id')
             ->where('group_classes.user_id',$user_id)->get(['group_classes.*']);
         foreach ($schedule as $row){
@@ -656,5 +667,19 @@ class UserService
         return array(
             'course' => $course
         );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    private function getUserId(Request $request)
+    {
+        if ($request->identity) {
+            $user_id = User::query()->where('identity', $request->identity)->value('id');
+        } else {
+            $user_id = Auth::user()->id;
+        }
+        return $user_id;
     }
 }

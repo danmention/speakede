@@ -33,7 +33,7 @@
                       </ul>
 
                       <div class="hero-btn">
-                          <a class="btn" href="{{url('register')}}" style="background-color: #000000 !important;">START NOW </a>
+                          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdr7B4oWmVTs5rNWPqyyw_-SOAg7lavG8KcjBUO5rnNaBarPQ/viewform?usp=sf_link" style="background-color: #000000 !important;">WAITLIST </a>
                       </div>
                   </div>
                   <!-- Hero Content End -->
@@ -287,7 +287,7 @@
                               <h3 class="title">Learn From Influencers, Celebrities And Peers</h3>
                               <p>Speakede helps you learn from peers as well as from icons you already know and love</p>
                               <div class="hero-btn">
-                                  <a class="btn" href="{{url('register')}}" style="background-color: #000000 !important;">START NOW </a>
+                                  <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdr7B4oWmVTs5rNWPqyyw_-SOAg7lavG8KcjBUO5rnNaBarPQ/viewform?usp=sf_link" style="background-color: #000000 !important;">WAITLIST </a>
                               </div>
                           </div>
                       </div>

@@ -205,10 +205,13 @@ class AdminController
         $image = $request->picture;
         $filename = time().".".$image->extension();
         // Create directory if it does not exist
-        $path = public_path()."/profile/photo/". Auth::user()->id ."/";
-        if(!File::isDirectory($path)) {
-            File::makeDirectory(public_path().'/'.$path,0777,true);
+
+
+        if (!is_dir("profile/photo/". Auth::user()->id ."/")) {
+            $path = "profile/photo/". Auth::user()->id ."/";
+            File::makeDirectory(public_path() . '/' . $path, 0777, true);
         }
+
         $location = public_path('profile/photo/'. Auth::user()->id .'/');
         $image->move($location, $filename);
 
@@ -417,7 +420,8 @@ class AdminController
 
         $transactions = CoursePayment::join('courses', 'courses.id', '=', 'course_payments.course_id')
             ->where('course_payments.course_id', $id)
-            ->select('course_payments.*','courses.*','course_payments.user_id as payer_user_id')->orderBy('course_payments.id','DESC')->get('course_payments.*');
+            ->select('course_payments.*','courses.*','course_payments.user_id as payer_user_id','course_payments.created_at as created_at')
+            ->orderBy('course_payments.id','DESC')->get('course_payments.*');
 
         $this->TransactionHistoryUserInfo($transactions);
         return view('admin.course_payment_history', compact('transactions'));
@@ -432,7 +436,8 @@ class AdminController
 
         $transactions = GroupClassEnrollment::join('group_classes', 'group_classes.id', '=', 'group_class_enrollments.group_class_id')
             ->where('group_classes.id', $id)
-            ->select('group_class_enrollments.*','group_classes.*','group_class_enrollments.user_id as payer_user_id')->orderBy('group_class_enrollments.id','DESC')->get('group_class_enrollments.*');
+            ->select('group_class_enrollments.*','group_classes.*','group_class_enrollments.user_id as payer_user_id','group_class_enrollments.created_at as created_at')
+            ->orderBy('group_class_enrollments.id','DESC')->get('group_class_enrollments.*');
 
         $this->TransactionHistoryUserInfo($transactions);
 
@@ -444,7 +449,7 @@ class AdminController
 
         $transactions = Schedule::join('schedule_events', 'schedule_events.id', '=', 'schedules.schedule_events_id')
             ->where('schedule_events.id', $id)
-            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title')->orderBy('schedules.id','DESC')->get('schedules.*');
+            ->select('schedule_events.*','schedules.*','schedules.initiate_user_id as payer_user_id','schedule_events.title as title','schedules.created_at as created_at')->orderBy('schedules.id','DESC')->get('schedules.*');
 
         $this->TransactionHistoryUserInfo($transactions);
         return view('admin.private_session_payment_history', compact('transactions'));

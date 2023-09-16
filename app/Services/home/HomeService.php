@@ -3,6 +3,7 @@
 namespace App\Services\home;
 
 use App\Helpers\CommonHelpers;
+use App\Mail\VerifyYourSpeakedeAccount;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseRating;
@@ -21,6 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -151,6 +153,15 @@ class HomeService
             $profile->about_me = $request->about_me;
             $profile->update();
         }
+
+        $details    =   [
+            'name'=>$request->firstname. ' '.$request->lastname,
+            'code' => $verify,
+            'email'=> $request->email,
+            'link' => url('verify-account/'.$identity.'/'.$verify)
+        ];
+
+        Mail::to($request->email)->send(new VerifyYourSpeakedeAccount($details));
 
         Session::flash('message', ' Your registration was successful, please login');
         if ($request->admin){

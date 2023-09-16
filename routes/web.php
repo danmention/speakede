@@ -28,8 +28,8 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('online-sessions', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.online.sessions']);
     Route::get('online-sessions/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
     Route::get('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
-    Route::get('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
-    Route::post('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
+//    Route::get('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
+//    Route::post('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
 
 
     Route::get('/payment/callback', ['uses' =>'User\PaymentController@handleGatewayCallback' ,'as' => 'user.payment.callback']);
@@ -59,6 +59,12 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::post('course/review/save', ['uses' => 'Home\HomeController@SubmitReviews', 'as' => 'index.course.review.save']);
     Route::post('user/review/save', ['uses' => 'Home\HomeController@SubmitUserReviews', 'as' => 'index.user.review.save']);
     Route::get('search-result', ['uses' => 'Home\SearchController@getSearchResult', 'as' =>'search.now']);
+
+    Route::get('privacy-policy',  'Home\HomeController@getPrivacyPolicy');
+    Route::get('payment-policy', 'Home\HomeController@getPaymentPolicy');
+    Route::get('copyright-policy', 'Home\HomeController@getCopyrightPolicy');
+    Route::get('tutor-policy',  'Home\HomeController@getTutorPolicy');
+    Route::get('terms-of-service', 'Home\HomeController@getTermsOfService');
 
     /**
      * GENERAL ACTION ROUTES
@@ -110,7 +116,22 @@ Route::namespace('App\Http\Controllers')->group(function () {
             Route::get('/', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.index']);
             Route::get('tutors', ['uses' => 'Admin\AdminController@getUsers', 'as' => 'admin.user.tutors']);
             Route::get('/withdraw-details/{id}', 'Admin\AdminController@viewWithdrawalDetails');
-            Route::get('/dashboard', 'Shared\SharedController@getIndex');
+
+            Route::group(['prefix' => 'dashboard'], function ()
+            {
+                Route::get('/',  'Shared\SharedController@getIndex');
+                Route::get('course', 'Shared\SharedController@allCourse');
+                Route::get('course/sold', 'Shared\SharedController@allSoldCourse');
+                Route::get('course/paid', 'Shared\SharedController@allPaidCourse');
+                Route::get('private-session', 'User\ScheduleCalendarController@getAllSchedule');
+                Route::get('private-session/sold', 'User\ScheduleCalendarController@getSoldPrivateMeeting');
+                Route::get('private-session/paid', 'User\ScheduleCalendarController@getPaidPrivateMeeting');
+                Route::get('group-session',  'Shared\SharedController@getGroupClass');
+                Route::get('group-session/sold',  'Shared\SharedController@getGroupClassSold');
+                Route::get('group-session/paid',  'Shared\SharedController@getGroupClassPaid');
+
+            });
+
 
             Route::get('/team/member', ['uses' => 'Admin\AdminController@AddTeamMembers', 'as' => 'admin.user.add']);
             Route::get('/user/account', ['uses' => 'Admin\AdminController@AddUserAccount', 'as' => 'admin.user.account.add']);
@@ -238,6 +259,9 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('{teacher}/{id}/{language}', ['uses' => 'Home\HomeController@getTeacherLang', 'as' => 'index.teacher.view']);
     Route::get('{category}/{user}/view', ['uses' => 'Home\HomeController@userStatusUpdate', 'as' => 'index.status']);
     Route::get('{group-class}/{language}', ['uses' => 'Home\HomeController@getGroupClass', 'as' => 'index.group.class']);
+
+
+    Route::get('verify-account/{slug}/{slug2}',  ['uses' => 'Home\HomeController@VerifyUserAccount', 'as' => 'reg.verify.2']);
 
 
 });

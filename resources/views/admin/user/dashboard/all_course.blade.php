@@ -13,7 +13,15 @@
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">
-                            All Courses
+                            @if(request()->segment(6) === "paid")
+                                All Paid Courses
+                            @elseif(request()->segment(6)=== "sold")
+                                All Sold Courses
+                            @else
+                                All  Courses
+                            @endif
+
+                             ( {{ ucwords( \App\Helpers\CommonHelpers::getName(request()->identity))}} )
                         </h3>
                     </div>
                     <div class="block-content">
@@ -27,6 +35,7 @@
                                     <th>Price</th>
                                     <th>No of lessons </th>
                                     <th>Status</th>
+                                    <th>Total Transactions</th>
                                     <th>Date created</th>
                                     <th>Date Updated</th>
 
@@ -50,6 +59,7 @@
                                                 <span class="badge bg-danger">Deactivated</span>
                                             @endif
                                         </td>
+                                        <td>{{$row->total}}</td>
                                         <td>{{$row->created_at}}</td>
                                         <td>{{$row->updated_at}}</td>
                                         <td>

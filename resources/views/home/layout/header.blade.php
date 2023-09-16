@@ -7,13 +7,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Speakede</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    @if(App::environment('production'))
+        @include('home.seo')
+    @else
+        <title>Speakede</title>
+    @endif
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset("home/img/cropped-speakede-icon-black-1-32x32.png")}}">
 
     <!-- CSS
 	============================================ -->
@@ -103,7 +103,7 @@
                                 <li><a href="{{route('index.find.tutor')}}">Find a tutor</a></li>
                                 <li><a href="{{route('index.all.course')}}">All Courses</a></li>
                                 <li><a href="{{route('index.all.online.sessions')}}">Online Sessions</a></li>
-                                <li><a href="{{route('index.register')}}">Become a Tutor</a></li>
+                                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdr7B4oWmVTs5rNWPqyyw_-SOAg7lavG8KcjBUO5rnNaBarPQ/viewform?usp=sf_link">Become a Tutor</a></li>
                             </ul>
                         </div>
                         <!--  Header Menu End  -->
@@ -138,7 +138,7 @@
 
                         @else
                             <a class="link" href="{{route('index.login')}}"><i class="far fa-user"></i> Login</a>
-                            <a class="link" href="{{route('index.register')}}">Signup</a>
+                            <a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSdr7B4oWmVTs5rNWPqyyw_-SOAg7lavG8KcjBUO5rnNaBarPQ/viewform?usp=sf_link">Waitlist</a>
                         @endif
                         </div>
 

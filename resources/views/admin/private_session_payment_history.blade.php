@@ -25,7 +25,7 @@
                                             <th>Title</th>
                                             <th>Amount </th>
                                             <th>Status</th>
-                                            <th>Date Created</th>
+                                            <th>Date of purchase</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -70,7 +70,7 @@
                                             <th>Title</th>
                                             <th>Amount </th>
                                             <th>Status</th>
-                                            <th>Date Created</th>
+                                            <th>Date of purchase</th>
                                         </tr>
                                         </thead>
                                         <tbody>

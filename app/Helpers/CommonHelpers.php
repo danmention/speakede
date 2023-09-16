@@ -271,4 +271,42 @@ class CommonHelpers
         }
     }
 
+
+    public static function seoTemplate($type, $title_ = null) : array {
+
+        $title = "Speakede | Speakede helps you learn from peers as well as from icons you already know and love. - speakede.com";
+        $desc = "Speakede helps you learn from peers as well as from icons you already know and love";
+        $post_url = url('/');
+        $post_image = asset('logo-black.png');
+
+        switch ($type){
+            case "home" :
+                $listed = ["title" => $title,"desc" => $desc, "post_url" => $post_url,"post_image" => $post_image];
+                break;
+            case "about-us":
+                $desc_ ="At speakede we make it easy for businesses to hire bluecollar workers across Nigeria. Currently we have verified professionals in over 30 categories ranging from tailors, to beauticians, to plumbers, and tailors. Through the use of technology we unlock important career tools such as digital profiles, product galleries, customer reviews, and more.";
+                $listed = ["title" => "speakede - ".ucwords($type),"desc" => $desc_, "post_url" => $post_url,"post_image" => $post_image];
+                break;
+            default:
+                if(!empty($title_)){
+                    $listed = ["title" => "speakede | ".ucwords($type), "desc" => $title_, "post_url" => $post_url,"post_image" => $post_image];
+                }else {
+                    $listed = ["title" => "speakede | ".ucwords($type), "desc" => $desc, "post_url" => $post_url,"post_image" => $post_image];
+                }
+
+        }
+        return $listed;
+    }
+
+
+    /**
+     * @param $identity
+     * @return string
+     */
+    public static function getName($identity): string
+    {
+      $user =  User::query()->where('identity', $identity)->get();
+        return $user[0]->firstname.' '.$user[0]->lastname;
+    }
+
 }

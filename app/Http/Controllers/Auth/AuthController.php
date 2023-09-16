@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
+use App\Mail\ResetYourSpeakedePassword;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,7 +12,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -100,7 +103,14 @@ class AuthController extends Controller
      */
     public function forgetPassword()
     {
-        return view('home.forget-password');
+        /** SEO */
+        $seo = CommonHelpers::seoTemplate("Login");
+        /** END OF SEO */
+
+        if (App::environment('production')) {
+            $data = $seo;
+        }
+        return view('home.forget-password', $data);
     }
 
     /**
@@ -127,7 +137,7 @@ class AuthController extends Controller
                 'link' => url('password/verify?ref='.$check[0]->identity)
             ];
 
-//            Mail::to($request->email)->send(new ResetYourPassword($details));
+            Mail::to($request->email)->send(new ResetYourSpeakedePassword($details));
 
             return back()->withInput()->with('responses','Verification link has been sent to your email');
 

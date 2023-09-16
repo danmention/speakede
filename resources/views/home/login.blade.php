@@ -57,9 +57,12 @@
                                     <div class="form-btn">
                                         <button class="btn">Login</button>
                                     </div>
+
                                     <div class="single-form">
-                                        <p><a href="#">Lost your password?</a></p>
+                                        <p><a href="{{route('account.forget.pass')}}">Lost your password?</a></p>
                                     </div>
+
+                                    <br />
 
                                     <a href="{{ url('auth/google') }}" style="margin-top: 0px !important;background: #C84130;color: #ffffff;padding: 8px;border-radius:6px;" class="ml-2">
                                         <strong>Login with Google</strong>

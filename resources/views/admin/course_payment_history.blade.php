@@ -25,7 +25,7 @@
                                         <th>Token Number</th>
                                         <th>Amount </th>
                                         <th>Status</th>
-                                        <th>Date Created</th>
+                                        <th>Date of purchase </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -72,7 +72,7 @@
                                         <th>Token Number</th>
                                         <th>Amount </th>
                                         <th>Status</th>
-                                        <th>Date Created</th>
+                                        <th>Date of purchase</th>
                                     </tr>
                                     </thead>
                                     <tbody>
