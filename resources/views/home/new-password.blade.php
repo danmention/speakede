@@ -16,52 +16,60 @@
                         <div class="login-register-box">
                             <!-- Section Title Start -->
                             <div class="section-title">
-                                <h2 class="title">Login</h2>
+                                <h2 class="title">New Password</h2>
                             </div>
                             <!-- Section Title End -->
 
                             <div class="login-register-form">
-                                <form action="{{ route('login.in.user') }}" method="post" class="js-validation-signin">
+                                <form action="{{ route('password.verify.save') }}" method="post" class="js-validation-signin">
                                     {{ csrf_field() }}
 
 
-                                    @if (session('error'))
+                                    @if(session('error'))
+
                                         <div class="alert alert-danger" role="alert">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style=""></button>
                                             {{ session('error') }}
                                         </div>
+
                                     @endif
 
-                                    @if (session('response'))
+
+                                    @if(session('response'))
+
                                         <div class="alert alert-success" role="alert">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style=""></button>
                                             {{ session('response') }}
                                         </div>
+
                                     @endif
 
+
                                     <div class="single-form">
-                                        <input type="text" class="form-control" placeholder="Email or Phone" name="options">
+                                        <input type="text" name="verify_code" class="form-control" placeholder="Verify Code" required="required">
+                                    </div>
+
+                                    <div class="single-form">
+                                        <input type="password" class="form-control" placeholder="New Password" name="password">
+                                        @if ($errors->has('password'))
+                                            <div class="alert alert-info">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="single-form">
-                                        <input type="password" class="form-control" placeholder="Password" name="password">
+                                        <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
+                                        @if ($errors->has('password_confirmation'))
+                                            <div class="alert alert-info">
+                                                <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                            </div>
+                                        @endif
                                     </div>
-                                    <div class="single-form form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">Remember me</label>
-                                    </div>
+
                                     <div class="form-btn">
-                                        <button class="btn">Login</button>
+                                        <button class="btn">Submit</button>
                                     </div>
 
-                                    <div class="single-form">
-                                        <p><a href="{{route('account.forget.pass')}}">Lost your password?</a></p>
-                                    </div>
-
-                                    <br />
-
-                                    <a href="{{ url('auth/google') }}" style="margin-top: 0px !important;background: #C84130;color: #ffffff;padding: 8px;border-radius:6px;" class="ml-2">
-                                        <strong>Login with Google</strong>
-                                    </a>
                                 </form>
                             </div>
                         </div>

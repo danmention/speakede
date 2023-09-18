@@ -139,11 +139,13 @@ class AuthController extends Controller
 
             Mail::to($request->email)->send(new ResetYourSpeakedePassword($details));
 
-            return back()->withInput()->with('responses','Verification link has been sent to your email');
+            Session::flash('message', ' Reset password link has been sent to your email');
+            return back();
 
 
         }else {
-            return back()->withInput()->with('responses','Email address not found');
+            Session::flash('message', 'Email address not found');
+            return back();
         }
 
     }
@@ -156,17 +158,27 @@ class AuthController extends Controller
     public function VerifyUserAccountPasswordResetView(Request $request)
     {
 
+
         if(!empty($request->ref)){
+            /** SEO */
+            $seo = CommonHelpers::seoTemplate("New Password");
+            /** END OF SEO */
+
+            if (App::environment('production')) {
+                $data = $seo;
+            }
+
             $check = User::where('identity', $request->ref)->get();
             if($check->count() > 0){
-
-                return view('home.new-password');
+                return view('home.new-password', $data);
             }
             else {
-                return redirect('/account/login')->with('response','invalid code');
+                Session::flash('message', 'invalid code');
+                return redirect('/login');
             }
         }else {
-            return redirect('/account/login')->with('response','invalid');
+            Session::flash('message', 'invalid');
+            return redirect('/login');
         }
 
     }
@@ -185,7 +197,6 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
-
             if ($validator->fails()) {
                 return redirect()->route('password.verify')->withErrors($validator)->withInput();
             }
@@ -195,11 +206,10 @@ class AuthController extends Controller
             $data->password                       = bcrypt($request->password);
             $data->update();
 
-
-            return redirect('/account/login')->with('response','Password Changed successfully');
+            return redirect('/login')->with('response','Password Changed successfully');
 
         }else {
-            return back()->withInput()->with('responses','Invalid code');
+            return back()->withInput()->with('error', "Invalid code");
         }
     }
 

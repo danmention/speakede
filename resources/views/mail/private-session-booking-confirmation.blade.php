@@ -159,9 +159,9 @@
                                     <!-- Brand Colors -->
                                     <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%;max-width:100%;">
                                         <tr>
-                                            <td align="center" width="33.33%" height="10" data-bgcolor="1st Color" bgcolor="#325288" style="width:33.33%;"></td>
-                                            <td align="center" width="33.33%" height="10" data-bgcolor="2nd Color" bgcolor="#D96098" style="width:33.33%;"></td>
-                                            <td align="center" width="33.33%" height="10" data-bgcolor="3rd Color" bgcolor="#24A19C" style="width:33.33%;"></td>
+                                            <td align="center" width="33.33%" height="10" data-bgcolor="1st Color" bgcolor="#FBCC26" style="width:33.33%;"></td>
+                                            <td align="center" width="33.33%" height="10" data-bgcolor="2nd Color" bgcolor="#FBCC26" style="width:33.33%;"></td>
+                                            <td align="center" width="33.33%" height="10" data-bgcolor="3rd Color" bgcolor="#000000" style="width:33.33%;"></td>
                                         </tr>
                                     </table>
                                     <!-- Brand Colors -->
@@ -264,7 +264,7 @@
                                                 <!-- Button -->
                                                 <table border="0" cellspacing="0" cellpadding="0" role="presentation" align="left">
                                                     <tr>
-                                                        <td align="center" data-border-radius-default="0,6,36" data-border-radius-custom="Header Button" data-bgcolor="Header Button" bgcolor="#24A19C" style="border-radius: 0px;">
+                                                        <td align="center" data-border-radius-default="0,6,36" data-border-radius-custom="Header Button" data-bgcolor="Header Button" bgcolor="#000000" style="border-radius: 0px;">
                                                             <!--[if (gte mso 9)|(IE)]>
                                                             <table border="0" cellpadding="0" cellspacing="0" align="center">
                                                                 <tr>
@@ -323,52 +323,53 @@
                                 <td align="center">
                                     <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
                                         <tr class="center-on-mobile">
-                                            <td data-element="freya-footer-1st-link" data-label="1st Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
+                                            <td data-element="freya-footer-1st-link" data-label="1st Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
                                                 <!-- Links -->
                                                 <singleline>
-                                                    <a href="https://speakede.com/about" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>About us</span></a>
+                                                    <a href="https://speakede.com/about" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>About</span></a>
                                                 </singleline>
                                                 <!-- Links -->
                                             </td>
                                             <td data-element="freya-footer-gap-1" data-label="1st Gap" class="hide-mobile" align="center" valign="middle">
                                                 <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" data-width="freya-gap-1-width" data-width-label="1st Gap" width="84" style="width:84px;">
                                                     <tr>
-                                                        <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:700;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">•</td>
+                                                        <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:700;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">•</td>
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td data-element="freya-footer-2nd-link" data-label="2nd Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
+                                            <td data-element="freya-footer-2nd-link" data-label="2nd Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
                                                 <!-- Links -->
                                                 <singleline>
-                                                    <a href="https://speakede.com/contact-us" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>Contact us</span></a>
+                                                    <a href="https://speakede.com/contact-us" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>Contact</span></a>
                                                 </singleline>
                                                 <!-- Links -->
                                             </td>
                                             <td data-element="freya-footer-gap-2" data-label="2nd Gap" class="hide-mobile" align="center" valign="middle">
                                                 <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" data-width="freya-gap-2-width" data-width-label="2nd Gap" width="84" style="width:84px;">
                                                     <tr>
-                                                        <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:700;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">•</td>
+                                                        <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:700;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">•</td>
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td data-element="freya-footer-3rd-link" data-label="3rd Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
+                                            <td data-element="freya-footer-3rd-link" data-label="3rd Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
                                                 <!-- Links -->
                                                 <singleline>
-                                                    <a href="https://speakede.com/privacy-policy" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>Privacy policy</span></a>
+                                                    <a href="https://speakede.com/privacy-policy" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>Privacy policy</span></a>
                                                 </singleline>
                                                 <!-- Links -->
                                             </td>
                                             <td data-element="freya-footer-gap-3" data-label="3rd Gap" class="hide-mobile" align="center" valign="middle">
                                                 <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" data-width="freya-gap-3-width" data-width-label="3rd Gap" width="84" style="width:84px;">
                                                     <tr>
-                                                        <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:700;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">•</td>
+                                                        <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:700;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">•</td>
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td data-element="freya-footer-4rd-link" data-label="4rd Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
+                                            <td data-element="freya-footer-4rd-link" data-label="4rd Link" data-text-style="Footer Links" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
                                                 <!-- Links -->
                                                 <singleline>
-                                                    <a href="https://speakede.com/" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:400;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>24/7 Customer Service</span></a>
+                                                    <a href="https://speakede.com/" mc:edit data-button data-text-style="Footer Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:14px;line-height:28px;font-weight:400;font-style:normal;color:#000000
+                                                    ;text-decoration:none;letter-spacing:0px;display:inline-block;vertical-align:middle;"><span>24/7 Customer Service</span></a>
                                                 </singleline>
                                                 <!-- Links -->
                                             </td>
@@ -476,28 +477,7 @@
                                                             </table>
                                                             <!-- Links -->
                                                         </td>
-                                                        <td data-element="freya-footer-gap" data-label="Gap" class="hide-mobile" calign="center">
-                                                            <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
-                                                                <tr>
-                                                                    <td width="5"></td>
-                                                                    <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:500;font-style:normal;color:#666666;text-decoration:none;letter-spacing:0px;">|</td>
-                                                                    <td width="5"></td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                        <td data-element="freya-footer-phone-number" data-label="Phone number" class="rwd-on-mobile row" align="center" valign="middle">
-                                                            <!-- Links -->
-                                                            <table border="0" cellspacing="0" cellpadding="0" class="center-float">
-                                                                <tr>
-                                                                    <td align="center">
-                                                                        <singleline>
-                                                                            <a href="" mc:edit data-button data-text-style="Links" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:500;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;"><span>+234 706 948 1591</span></a>
-                                                                        </singleline>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                            <!-- Links -->
-                                                        </td>
+
                                                     </tr>
                                                 </table>
 
@@ -523,7 +503,7 @@
                                                             <singleline>
                                                                 <div mc:edit data-text-edit>
                                                                     2022 speakede Limited . All Rights Reserved. <br>
-                                                                    Head Office: B7, Obanta Close, Off Ajao Road, Ikeja, Lagos
+
                                                                 </div>
                                                             </singleline>
                                                         </td>
@@ -570,9 +550,9 @@
                                     <!-- Brand Colors -->
                                     <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%;max-width:100%;">
                                         <tr>
-                                            <td align="center" width="33.33%" height="10" data-bgcolor="1st Color" bgcolor="#325288" style="width:33.33%;"></td>
-                                            <td align="center" width="33.33%" height="10" data-bgcolor="2nd Color" bgcolor="#D96098" style="width:33.33%;"></td>
-                                            <td align="center" width="33.33%" height="10" data-bgcolor="3rd Color" bgcolor="#24A19C" style="width:33.33%;"></td>
+                                            <td align="center" width="33.33%" height="10" data-bgcolor="1st Color" bgcolor="#FBCC26" style="width:33.33%;"></td>
+                                            <td align="center" width="33.33%" height="10" data-bgcolor="2nd Color" bgcolor="#FBCC26" style="width:33.33%;"></td>
+                                            <td align="center" width="33.33%" height="10" data-bgcolor="3rd Color" bgcolor="#000000" style="width:33.33%;"></td>
                                         </tr>
                                     </table>
                                     <!-- Brand Colors -->
@@ -589,7 +569,7 @@
                                             <td data-text-style="Paragraphs" align="left" class="center-text" style="font-family:'Roboto',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:400;font-style:normal;color:#333333;text-decoration:none;letter-spacing:0px;">
                                                 <singleline>
                                                     <div mc:edit data-text-edit>
-                                                        You have received this email from Artisan Oga  when you registered your speakede business account.
+                                                        You have received this email from speakede  when you registered your speakede business account.
                                                     </div>
                                                 </singleline>
                                             </td>
@@ -598,32 +578,32 @@
                                             <td align="center">
                                                 <table border="0" align="left" cellpadding="0" cellspacing="0" role="presentation" class="center-float">
                                                     <tr class="center-on-mobile">
-                                                        <td data-element="freya-footer-unsubscribe" data-label="Unsubscribe" data-text-style="Paragraphs" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
-                                                            <unsubscribe href="#" data-mergetag="Unsubscribe" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;line-height:28px;color:#325288;text-decoration:none;">Unsubscribe</unsubscribe>
+                                                        <td data-element="freya-footer-unsubscribe" data-label="Unsubscribe" data-text-style="Paragraphs" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
+                                                            <unsubscribe href="#" data-mergetag="Unsubscribe" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;line-height:28px;color:#FBCC26;text-decoration:none;">Unsubscribe</unsubscribe>
                                                         </td>
                                                         <td data-element="freya-footer-gap-1" data-label="1st Gap" class="rwd-on-mobile center-text" align="center" valign="middle">
                                                             <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
                                                                 <tr>
                                                                     <td width="5"></td>
-                                                                    <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:400;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">/</td>
+                                                                    <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:400;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">/</td>
                                                                     <td width="5"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                        <td data-element="freya-footer-webversion" data-label="Web version" data-text-style="Paragraphs" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
-                                                            <webversion href="#" data-mergetag="Web version" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;line-height:28px;color:#325288;text-decoration:none;">View on browser</webversion>
+                                                        <td data-element="freya-footer-webversion" data-label="Web version" data-text-style="Paragraphs" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
+                                                            <webversion href="#" data-mergetag="Web version" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;line-height:28px;color:#FBCC26;text-decoration:none;">View on browser</webversion>
                                                         </td>
                                                         <td data-element="freya-footer-gap-2" data-label="2nd Gap" class="rwd-on-mobile center-text" align="center" valign="middle">
                                                             <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
                                                                 <tr>
                                                                     <td width="5"></td>
-                                                                    <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:400;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">/</td>
+                                                                    <td class="center-text" data-text-style="Paragraphs" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:400;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">/</td>
                                                                     <td width="5"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                        <td data-element="freya-footer-forward" data-label="Forward" data-text-style="Paragraphs" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:300;font-style:normal;color:#325288;text-decoration:none;letter-spacing:0px;">
-                                                            <forward href="#" data-mergetag="Forward" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;line-height:28px;color:#325288;text-decoration:none;">Forward</forward>
+                                                        <td data-element="freya-footer-forward" data-label="Forward" data-text-style="Paragraphs" class="rwd-on-mobile center-text" align="center" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;line-height:28px;font-weight:300;font-style:normal;color:#FBCC26;text-decoration:none;letter-spacing:0px;">
+                                                            <forward href="#" data-mergetag="Forward" style="font-family:'IBM Plex Sans Thai Looped',Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;line-height:28px;color:#FBCC26;text-decoration:none;">Forward</forward>
                                                         </td>
                                                     </tr>
                                                 </table>

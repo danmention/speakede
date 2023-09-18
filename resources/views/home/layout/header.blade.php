@@ -67,6 +67,13 @@
             animation-direction:alternate;
             animation-iteration-count: 5;
         }
+        .btn-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 2;
+            padding: 1.25rem 1rem;
+        }
 
 
     </style>

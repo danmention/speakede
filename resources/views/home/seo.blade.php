@@ -9,7 +9,7 @@
 <meta property="og:title" content="{{ $title }}" />
 <meta property="og:description" content="{{ $desc }}" />
 <meta property="og:url" content="{{ $post_url }}" />
-<meta property="og:site_name" content="artisanOga" />
+<meta property="og:site_name" content="Speakede" />
 <meta property="og:image" content="{{ $post_image }}" />
 <meta name="copyright" content="Copyright by Speakede, All Rights Reserved." />
 
