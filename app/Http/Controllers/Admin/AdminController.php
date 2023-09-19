@@ -261,6 +261,39 @@ class AdminController
 
 
     /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function ChangeAdminPassword(Request $request): RedirectResponse
+    {
+        $user = User::find(Auth::user()->id);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withInput()->with('error','The current password is incorrect');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'new_password' => ['nullable', 'string'],
+            'confirm_new_password' => ['nullable', 'required_with:new_password', 'same:new_password']
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput()->with('error','Password didn\'t match or your current password is wrong');
+        }
+
+        $password                   =   $request->new_password;
+        $encrypt_pass               =   bcrypt($password);
+        $Users                      =   User::find(Auth()->user()->id);
+        $Users->password            =   $encrypt_pass;
+        $Users->save();
+
+        return back()->withInput()->with('success','Password Updated Successfully');
+    }
+
+
+
+
+    /**
      * @return Application|Factory|View
      */
     public function getAllCourses(){
@@ -478,6 +511,13 @@ class AdminController
             $row["tutor"] = $tutor[0]->firstname . ' ' . $tutor[0]->lastname;
 
         }
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function changePassword(){
+        return view('admin.user.change-password');
     }
 
 

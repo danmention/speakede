@@ -40,7 +40,7 @@
                                     @endif
 
                                     <div class="single-form">
-                                        <input type="text" class="form-control" placeholder="Email or Phone" name="options">
+                                        <input type="text" class="form-control" placeholder="Email" name="options">
                                     </div>
                                     <div class="single-form">
                                         <input type="password" class="form-control" placeholder="Password" name="password">

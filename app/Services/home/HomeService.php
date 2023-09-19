@@ -130,6 +130,7 @@ class HomeService
         $post->password = bcrypt($request->password);
         $post->identity = $identity;
         $post->verify_code = $verify;
+        $post->status = 0;
         $post->save();
 
         if ($request->admin){
@@ -163,11 +164,10 @@ class HomeService
 
         Mail::to($request->email)->send(new VerifyYourSpeakedeAccount($details));
 
-        Session::flash('message', ' Your registration was successful, please login');
         if ($request->admin){
-            return redirect()->back();
+            return redirect()->back()->with('response', "Your registration was successful, please login");
         }
-        return redirect()->route('index.login');
+        return redirect()->route('index.login')->with('response', "Your registration was successful, please login");
     }
 
 

@@ -102,32 +102,6 @@ class HomeController extends Controller
     }
 
 
-    /**
-     * @return Application|Factory|View
-     */
-    public function getGroupClass()
-    {
-        return view('home.category');
-    }
-
-
-    /**
-     * @return Application|Factory|View
-     */
-    public function getCommunity()
-    {
-        return view('home.category');
-    }
-
-
-    /**
-     * @return Application|Factory|View
-     */
-    public function getTeacherLang()
-    {
-        return view('home.teacher-view');
-    }
-
 
     /**
      * @param $id
@@ -413,11 +387,9 @@ class HomeController extends Controller
             $data->status = 1;
             $data->is_verified = 1;
             $data->update();
-
             return redirect('/login')->with('response','account verified');
-
         }else {
-            return back()->withInput()->with('responses','Invalid code');
+            return  redirect('/login')->with('response','Invalid code');
         }
 
     }

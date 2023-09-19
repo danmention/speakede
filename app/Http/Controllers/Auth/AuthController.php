@@ -23,32 +23,22 @@ class AuthController extends Controller
 
     /**
      * @param Request $request
-     * @return string|RedirectResponse
+     * @return RedirectResponse
      */
-    public function postSignIn(Request $request)
+    public function postSignIn(Request $request): RedirectResponse
     {
         $options = $request->options;
         $check_instance = CommonHelpers::valid_email($options);
-        $check_instance_phone = CommonHelpers::validate_phone_number($options);
 
         if($check_instance){
-            $case = 0;
-        } elseif($check_instance_phone) {
-            $case = 1;
-        } else{
-            return redirect()->back()->with('response','invalid data');
-        }
-
-        switch($case) {
-            case 0:
                 if(auth::attempt([
                     'email'=>$request->input('options'),
                     'password'=>$request->input('password')
                 ])){
                     if( Auth::user()){
-                        if(Auth::user()->status  == 0  && Auth::user()->is_admin  == 2) {
+                        if(Auth::user()->status  == 0) {
                             Auth::logout();
-                            return back()->withInput()->with('error', "Please verify your account.");
+                            return back()->withInput()->with('error', "Please verify your account. check your mail for verification code");
                         }
                         if(Auth::user()->is_admin  == 1) {
                             return redirect()->route('admin.dashboard');
@@ -63,27 +53,8 @@ class AuthController extends Controller
                     return back()->withInput()->with('error', "Email Or Password didn't match");
                 }
                 return back()->withInput()->with('error', "Email Or Password didn't match");
-            case 1:
-                if (auth::attempt([
-                    'phone' => $request->input('options'),
-                    'password' => $request->input('password'),
-                ])) {
-                    if( Auth::user()){
-                        if(Auth::user()->is_admin  == 1) {
-                            return redirect()->route('admin.dashboard');
-                        }elseif(Auth::user()->is_admin  == 0) {
-                            return redirect()->route('user.dashboard');
-                        }
-                        else {
-                            return back()->withInput()->with('error', "you are not allowed here!");
-                        }
-
-                    }
-                }
-                return back()->withInput()->with('responses', 'Phone or password is wrong.');
-            default:
-                $this->redirectTo = '/';
-                return $this->redirectTo;
+        } else {
+            return back()->withInput()->with('error', "Invalid Email Address");
         }
     }
 

@@ -28,8 +28,8 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('online-sessions', ['uses' => 'Home\HomeController@getGroupClasses', 'as' => 'index.all.online.sessions']);
     Route::get('online-sessions/{url}', ['uses' => 'Home\HomeController@getViewGroupCourse', 'as' => 'index.view.group.course']);
     Route::get('login', ['uses' => 'Home\HomeController@getLogin', 'as' => 'index.login']);
-//    Route::get('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
-//    Route::post('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
+    Route::get('register', ['uses' => 'Home\HomeController@getRegister', 'as' => 'index.register']);
+    Route::post('register/save', ['uses' => 'Home\HomeController@saveUser', 'as' => 'index.register.save']);
 
 
     Route::get('/payment/callback', ['uses' =>'User\PaymentController@handleGatewayCallback' ,'as' => 'user.payment.callback']);
@@ -39,7 +39,6 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('callback/google', ['uses' => 'Home\GoogleController@callbackToGoogle', 'as' => 'callback.google']);
 
 
-    Route::get('community', ['uses' => 'Home\HomeController@getCommunity', 'as' => 'index.community']);
     Route::get('become-a-teacher', ['uses' => 'Home\HomeController@getBecomeATeacher', 'as' => 'index.teacher']);
     Route::get('tutor/find', ['uses' => 'Home\HomeController@findTutor', 'as' => 'index.find.tutor']);
 
@@ -137,6 +136,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
             Route::get('/user/account', ['uses' => 'Admin\AdminController@AddUserAccount', 'as' => 'admin.user.account.add']);
             Route::post('/save', ['uses' => 'Admin\AdminController@SaveUsers', 'as' => 'admin.user.save']);
             Route::get('/change/password', ['uses' => 'Admin\AdminController@changePassword', 'as' => 'admin.user.password']);
+            Route::post('/change/password/save', ['uses' => 'Admin\AdminController@ChangeAdminPassword', 'as' => 'admin.user.password.save']);
             Route::post('/action/enabling', ['uses' => 'Admin\AdminController@UpdateUserAccount', 'as' => 'admin.user.enabling']);
             Route::get('/profile/photo/add', ['uses' => 'Admin\AdminController@getProfilePhoto', 'as' => 'admin.profile.photo']);
 
@@ -256,12 +256,9 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
     Route::get('theme', ['uses' => 'Home\HomeController@getUseCasesByCourse', 'as' => 'index.use.cases']);
     Route::get('{teachers}/{language}', ['uses' => 'Home\HomeController@getTeacherByLang', 'as' => 'index.cat']);
-    Route::get('{teacher}/{id}/{language}', ['uses' => 'Home\HomeController@getTeacherLang', 'as' => 'index.teacher.view']);
     Route::get('{category}/{user}/view', ['uses' => 'Home\HomeController@userStatusUpdate', 'as' => 'index.status']);
-    Route::get('{group-class}/{language}', ['uses' => 'Home\HomeController@getGroupClass', 'as' => 'index.group.class']);
+    Route::get('verify-account/{id}/{id2}',  ['uses' => 'Home\HomeController@VerifyUserAccount', 'as' => 'reg.verify.2']);
 
-
-    Route::get('verify-account/{slug}/{slug2}',  ['uses' => 'Home\HomeController@VerifyUserAccount', 'as' => 'reg.verify.2']);
 
 
 });
