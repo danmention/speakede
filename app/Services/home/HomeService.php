@@ -72,102 +72,81 @@ class HomeService
      */
     public function registerUser(Request $request): RedirectResponse
     {
-
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:25',
             'lastname' => 'required|string|max:25',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $options = $request->options;
-        $check_instance = CommonHelpers::valid_email($options);
-        $check_instance_phone = CommonHelpers::validate_phone_number($options);
+        $email = $request->options;
+        $check_instance = CommonHelpers::valid_email($email);
 
-        if ($check_instance) {
-            $case = 0;
-        } elseif ($check_instance_phone) {
-            $case = 1;
-        } else {
-            $validator->getMessageBag()->add('email/phone', 'invalid data supplied');
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        if ($check_instance){
 
-
-        if ($case == 0) {
-            $check = User::where('email', $options)->count();
+            $check = User::where('email', $email)->count();
             if ($check > 0) {
                 $validator->getMessageBag()->add('email', 'Email Address already exist');
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-        } else {
-            $check = User::where('phone', $options)->count();
-            if ($check > 0) {
-                $validator->getMessageBag()->add('phone', 'Phone Number already exist');
+
+            if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-        }
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+            $post = new User();
+            $identity = CommonHelpers::generateCramp("user");
+            $verify = CommonHelpers::code_ref(6);
 
-        $post = new User();
-        switch ($case) {
-            case 0:
-                $post->email = $options;
-                break;
-            default:
-                $post->phone = $options;
-                break;
-        }
+            $post->role = $request->account_type;
+            $post->firstname = $request->firstname;
+            $post->lastname = $request->lastname;
+            $post->password = bcrypt($request->password);
+            $post->identity = $identity;
+            $post->verify_code = $verify;
+            $post->email = $email;
+            $post->status = 0;
+            $post->save();
 
-        $identity = CommonHelpers::generateCramp("user");
-        $verify = CommonHelpers::code_ref(6);
+            if ($request->admin){
+                if (!empty($request->language_id)){
+                    foreach ($request->language_id as $row){
+                        $lang = new PreferredLanguage();
+                        $lang->user_id = $post->id;
+                        $lang->language_id = $row;
+                        $lang->save();
+                    }
+                }
 
-        $post->role = $request->account_type;
-        $post->firstname = $request->firstname;
-        $post->lastname = $request->lastname;
-        $post->password = bcrypt($request->password);
-        $post->identity = $identity;
-        $post->verify_code = $verify;
-        $post->status = 0;
-        $post->save();
-
-        if ($request->admin){
-            if (!empty($request->language_id)){
-                foreach ($request->language_id as $row){
-                    $lang = new PreferredLanguage();
+                foreach ($request->i_speak_language_id as $row){
+                    $lang = new LanguageISpeak();
                     $lang->user_id = $post->id;
                     $lang->language_id = $row;
                     $lang->save();
                 }
+
+                $profile = User::find($post->id);
+                $profile->about_me = $request->about_me;
+                $profile->update();
             }
 
-            foreach ($request->i_speak_language_id as $row){
-                $lang = new LanguageISpeak();
-                $lang->user_id = $post->id;
-                $lang->language_id = $row;
-                $lang->save();
+            $details    =   [
+                'name'=>$request->firstname. ' '.$request->lastname,
+                'code' => $verify,
+                'email'=> $email,
+                'link' => url('verify-account/'.$identity.'/'.$verify)
+            ];
+
+            Mail::to($email)->send(new VerifyYourSpeakedeAccount($details));
+
+            if ($request->admin){
+                return redirect()->back()->with('response', "Your registration was successful, please check your mail for verification link");
             }
+            return redirect()->route('index.login')->with('response', "Your registration was successful, please check your mail for verification link");
 
-            $profile = User::find($post->id);
-            $profile->about_me = $request->about_me;
-            $profile->update();
+        } else {
+            $validator->getMessageBag()->add('email', 'invalid data supplied');
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-
-        $details    =   [
-            'name'=>$request->firstname. ' '.$request->lastname,
-            'code' => $verify,
-            'email'=> $request->email,
-            'link' => url('verify-account/'.$identity.'/'.$verify)
-        ];
-
-        Mail::to($request->email)->send(new VerifyYourSpeakedeAccount($details));
-
-        if ($request->admin){
-            return redirect()->back()->with('response', "Your registration was successful, please login");
-        }
-        return redirect()->route('index.login')->with('response', "Your registration was successful, please login");
     }
 
 

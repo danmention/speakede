@@ -22,11 +22,16 @@
                             {{ csrf_field() }}
 
 
+                            @if(session('response'))
 
-                            @if(Session::has('message'))
-                                <p class="alert alert-success">{{ Session::get('message') }}</p>
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <h3 class="alert-heading fs-5 fw-bold mb-1">Success</h3>
+                                    <p class="mb-0">
+                                        {{session('response')}}
+                                    </p>
+                                </div>
                             @endif
-
 
                             <div class="error-message">
                                 <div>
