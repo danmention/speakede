@@ -4,6 +4,8 @@ namespace App\Services\user;
 
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\User\PaymentController;
+use App\Mail\CoursePurchaseConfirmation;
+use App\Mail\NewCoursePurchase;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursePayment;
@@ -26,6 +28,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -395,6 +398,12 @@ class UserService
             $data->is_active = "yes";
             $data->save();
 
+            //sending mail
+            $this->sendingCoursePurchaseMailToBuyer($request, $ref);
+            $fullname = Auth::user()->firstname. ' '.Auth::user()->lastname;
+            $this->sendingCoursePurchaseMailToCourseOwner($request, $ref,$fullname);
+
+
             Session::flash('message', "payment successful, your course is available for viewing");
             return redirect()->route('user.dashboard');
         } catch (\Exception $e){
@@ -681,5 +690,48 @@ class UserService
             $user_id = Auth::user()->id;
         }
         return $user_id;
+    }
+
+    /**
+     * @param Request $request
+     * @param string $ref
+     * @return void
+     */
+    private function sendingCoursePurchaseMailToBuyer(Request $request, string $ref): void
+    {
+        $course_info = Course::query()->where('id', $request->course_id)->get();
+        $tutor_name = User::query()->where('id', $course_info[0]->user_id)->get();
+
+        $details_learner = [
+            'name' => Auth::user()->firstname . ' ' . Auth::user()->lastname,
+            'learner_name' => $tutor_name[0]->firstname . ' ' . $tutor_name[0]->lastname,
+            'course_name' => $course_info[0]->title,
+            'transaction_id' => $ref,
+            'purchase_date' => Carbon::now(),
+        ];
+
+        Mail::to(Auth::user()->email)->send(new CoursePurchaseConfirmation($details_learner));
+    }
+
+    /**
+     * @param Request $request
+     * @param string $ref
+     * @param string $fullname
+     * @return void
+     */
+    private function sendingCoursePurchaseMailToCourseOwner(Request $request, string $ref, string $fullname): void
+    {
+        $course_info = Course::query()->where('id', $request->course_id)->get();
+        $tutor = User::query()->where('id', $course_info[0]->user_id)->get();
+
+        $details_learner = [
+            'name' =>  $tutor[0]->firstname . ' ' . $tutor[0]->lastname,
+            'learner_name' => $fullname,
+            'course_name' => $course_info[0]->title,
+            'transaction_id' => $ref,
+            'purchase_date' => Carbon::now(),
+        ];
+
+        Mail::to($tutor[0]->email)->send(new NewCoursePurchase($details_learner));
     }
 }

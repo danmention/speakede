@@ -6,13 +6,19 @@ use App\Enums\PaymentType;
 use App\Enums\ScheduleTypes;
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
+use App\Mail\GroupSessionBookingConfirmation;
+use App\Mail\NewGroupSessionBooking;
+use App\Mail\NewPrivateSessionBooking;
+use App\Mail\PrivateSessionBookingConfirmation;
 use App\Models\Category;
+use App\Models\GroupClass;
 use App\Models\GroupClassEnrollment;
 use App\Models\PaymentTransaction;
 use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Services\zoom\ZoomServiceImpl;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,6 +26,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class ScheduleCalendarController extends Controller
@@ -163,6 +170,7 @@ class ScheduleCalendarController extends Controller
     public function bookingSchedule(Request $request): ?RedirectResponse
     {
        $zoom_response =  $this->zoomServiceImpl->bookMeeting($request);
+       $zoom_response = json_encode($zoom_response);
         $ref = CommonHelpers::code_ref(10);
         switch ($request->type) {
             case 'add':
@@ -176,7 +184,7 @@ class ScheduleCalendarController extends Controller
                 $event->type = ScheduleTypes::BOOKED;
                 $event->schedule_events_id = $request->id;
                 $event->status = 1;
-                $event->zoom_response = json_encode($zoom_response);
+                $event->zoom_response = $zoom_response;
                 $event->save();
 
 
@@ -189,6 +197,15 @@ class ScheduleCalendarController extends Controller
                 $data->type = PaymentType::DEBIT;
                 $data->status = 1;
                 $data->save();
+
+
+                // sending mail
+                $zoom = json_decode($zoom_response);
+                self::sendingPrivateMeetingMailToBuyer($request,$zoom->join_url,$zoom->start_time);
+                    $fullname = Auth::user()->firstname. ' '.Auth::user()->lastname;
+                self::sendingPrivateMeetingMailToMeetingOwner($request, $fullname,$zoom->start_url,$zoom->start_time);
+
+                //end of sending mail
 
                 Session::flash('message', "Payment successful");
                 return redirect()->route('user.dashboard.discover.tutors');
@@ -253,6 +270,14 @@ class ScheduleCalendarController extends Controller
                 $data->status = 1;
                 $data->save();
 
+                //sending mail
+                $group_class_info = GroupClass::query()->where('id',$request->group_class_id)->get();
+                $zoom = json_decode($group_class_info[0]->zoom_response);
+                self::sendingGroupSessionPurchaseMailToBuyer($request,$zoom->join_url,$zoom->start_time);
+                $fullname = Auth::user()->firstname. ' '.Auth::user()->lastname;
+                self::sendingGroupSessionPurchaseMailToGroupOwner($request,$fullname,$zoom->start_url,$zoom->start_time);
+                //end sending mail
+
                 Session::flash('message', "Payment successful");
                 return redirect()->route('user.dashboard');
             default:
@@ -295,5 +320,96 @@ class ScheduleCalendarController extends Controller
             $user_id = Auth::user()->id;
         }
         return $user_id;
+    }
+
+    /**
+     * @param Request $request
+     * @param $session_link
+     * @param $date
+     * @return void
+     */
+    private function sendingPrivateMeetingMailToBuyer(Request $request, $session_link,$date): void
+    {
+        $private_meeting_info = ScheduleEvent::query()->where('id', $request->id)->get();
+        $tutor_name = User::query()->where('id', $private_meeting_info[0]->user_id)->get();
+
+        $details_learner = [
+            'name' => Auth::user()->firstname . ' ' . Auth::user()->lastname,
+            'learner_name' => $tutor_name[0]->firstname . ' ' . $tutor_name[0]->lastname,
+            'session_name' => $private_meeting_info[0]->title,
+            'session_link' => $session_link,
+            'date' => $date,
+        ];
+
+        Mail::to(Auth::user()->email)->send(new PrivateSessionBookingConfirmation($details_learner));
+    }
+
+    /**
+     * @param Request $request
+     * @param string $fullname
+     * @param $session_link
+     * @param $date
+     * @return void
+     */
+    private function sendingPrivateMeetingMailToMeetingOwner(Request $request, string $fullname, $session_link,$date): void
+    {
+        $private_meeting_info = ScheduleEvent::query()->where('id', $request->id)->get();
+        $tutor = User::query()->where('id', $private_meeting_info[0]->user_id)->get();
+
+        $details_learner = [
+            'name' =>  $tutor[0]->firstname . ' ' . $tutor[0]->lastname,
+            'learner_name' => $fullname,
+            'session_name' => $private_meeting_info[0]->title,
+            'session_link' => $session_link,
+            'date' => $date,
+        ];
+
+        Mail::to($tutor[0]->email)->send(new NewPrivateSessionBooking($details_learner));
+    }
+
+
+    /**
+     * @param Request $request
+     * @param $session_link
+     * @param $date
+     * @return void
+     */
+    private function sendingGroupSessionPurchaseMailToBuyer(Request $request, $session_link,$date): void
+    {
+        $private_meeting_info = GroupClass::query()->where('id', $request->group_class_id)->get();
+        $tutor_name = User::query()->where('id', $private_meeting_info[0]->user_id)->get();
+
+        $details_learner = [
+            'name' => Auth::user()->firstname . ' ' . Auth::user()->lastname,
+            'tutor_name' => $tutor_name[0]->firstname . ' ' . $tutor_name[0]->lastname,
+            'session_name' => $private_meeting_info[0]->title,
+            'session_link' => $session_link,
+            'date' => $date,
+        ];
+
+        Mail::to(Auth::user()->email)->send(new GroupSessionBookingConfirmation($details_learner));
+    }
+
+    /**
+     * @param Request $request
+     * @param string $fullname
+     * @param $session_link
+     * @param $date
+     * @return void
+     */
+    private function sendingGroupSessionPurchaseMailToGroupOwner(Request $request, string $fullname ,$session_link,$date): void
+    {
+        $private_meeting_info = GroupClass::query()->where('id', $request->group_class_id)->get();
+        $tutor = User::query()->where('id', $private_meeting_info[0]->user_id)->get();
+
+        $details_learner = [
+            'name' =>  $tutor[0]->firstname . ' ' . $tutor[0]->lastname,
+            'learner_name' => $fullname,
+            'session_name' => $private_meeting_info[0]->title,
+            'session_link' => $session_link,
+            'date' => $date,
+        ];
+
+        Mail::to($tutor[0]->email)->send(new NewGroupSessionBooking($details_learner));
     }
 }

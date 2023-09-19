@@ -29,6 +29,6 @@ class CoursePurchaseConfirmation extends Mailable
     public function build(): CoursePurchaseConfirmation
     {
         return $this->from('no-reply@speakede.com')
-            ->view('mail.course-purchase-booking')->with(['details'=>$this->details]);
+            ->view('mail.course-purchase-confirmation')->with(['details'=>$this->details]);
     }
 }

@@ -229,7 +229,7 @@
                                                                 <div mc:edit data-text-edit>
                                                                     "Hello {{ucwords($details['name'])}},
                                                                     <br><br>
-                                                                    Congratulations! A learner has purchased your course "{{ucwords($details['course_name'])}} on Speakede.
+                                                                    Congratulations! A learner has purchased your course "{{ucwords($details['course_name'])}}" on Speakede.
                                                                     <br><br />
                                                                     <b>Here are the details:</b>
                                                                     <p>- Learner's Name: {{ucwords($details['learner_name'])}} </p>

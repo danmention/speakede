@@ -233,7 +233,7 @@
                                                                     <br>
 
                                                                     <b>Here are the details:</b>
-                                                                    <p>- Tutor's Name: {{ucwords($details['tutor_name'])}}</p>
+                                                                    <p>- Tutor's Name: {{ucwords($details['learner_name'])}}</p>
                                                                     <p>- Session Name: {{ucwords($details['session_name'])}}</p>
                                                                     <p>- Date and Time: {{ucwords($details['date'])}}</p>
                                                                     <p>- Session Link: {{ucwords($details['session_link'])}}</p>

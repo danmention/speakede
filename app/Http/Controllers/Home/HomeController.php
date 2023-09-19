@@ -116,7 +116,7 @@ class HomeController extends Controller
         $data = $this->homeService->teacherProfile($id);
 
         if (App::environment('production')) {
-            $data = $seo;
+            $data = array_merge($data,$seo);
         }
 
         return view('home.teacher_profile',$data);
