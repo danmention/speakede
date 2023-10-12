@@ -219,6 +219,44 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-user-lock"></i>
+                            <span class="nav-main-link-name">CMS </span>
+                        </a>
+                        <ul class="nav-main-submenu">
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ url('admin/secure/cms/privacy-policy') }}">
+                                    <span class="nav-main-link-name">PRIVACY POLICY</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ url('admin/secure/cms/payment-policy') }}">
+                                    <span class="nav-main-link-name">PAYMENT POLICY</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ url('admin/secure/cms/copyright-policy') }}">
+                                    <span class="nav-main-link-name">COPYRIGHT POLICY</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ url('admin/secure/cms/tutor-policy') }}">
+                                    <span class="nav-main-link-name">TUTOR POLICY</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ url('admin/secure/cms/terms-of-service') }}">
+                                    <span class="nav-main-link-name">TERMS OF SERVICE</span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-user-lock"></i>
                             <span class="nav-main-link-name">SETTINGS </span>
                         </a>
                         <ul class="nav-main-submenu">

@@ -49,7 +49,9 @@
 <script src="{{asset("admin/assets/js/plugins/datatables-buttons/buttons.print.min.js")}}"></script>
 <script src="{{asset("admin/assets/js/plugins/datatables-buttons/buttons.html5.min.js")}}"></script>
 
-<script>Codebase.helpersOnLoad(['jq-maxlength', 'jq-select2']);</script>
+<script src="{{asset("admin/assets/js/plugins/ckeditor5-classic/build/ckeditor.js")}}"></script>
+
+<script>Codebase.helpersOnLoad(['jq-maxlength', 'jq-select2','js-ckeditor5']);</script>
 
 <!-- Page JS Code -->
 <script src="{{asset("admin/assets/js/pages/be_tables_datatables.min.js")}}"></script>

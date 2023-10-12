@@ -274,8 +274,8 @@ class CommonHelpers
 
     public static function seoTemplate($type, $title_ = null) : array {
 
-        $title = "Speakede | Speakede helps you learn from peers as well as from icons you already know and love. - speakede.com";
-        $desc = "Speakede helps you learn from peers as well as from icons you already know and love";
+        $title = "Speakede | Learn a language in 2 weeks";
+        $desc = "Learn a language in 2 weeks";
         $post_url = url('/');
         $post_image = asset('logo-black.png');
 

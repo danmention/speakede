@@ -59,11 +59,11 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::post('user/review/save', ['uses' => 'Home\HomeController@SubmitUserReviews', 'as' => 'index.user.review.save']);
     Route::get('search-result', ['uses' => 'Home\SearchController@getSearchResult', 'as' =>'search.now']);
 
-    Route::get('privacy-policy',  'Home\HomeController@getPrivacyPolicy');
-    Route::get('payment-policy', 'Home\HomeController@getPaymentPolicy');
-    Route::get('copyright-policy', 'Home\HomeController@getCopyrightPolicy');
-    Route::get('tutor-policy',  'Home\HomeController@getTutorPolicy');
-    Route::get('terms-of-service', 'Home\HomeController@getTermsOfService');
+    Route::get('privacy-policy',  'Home\HomeController@CMSPages');
+    Route::get('payment-policy', 'Home\HomeController@CMSPages');
+    Route::get('copyright-policy', 'Home\HomeController@CMSPages');
+    Route::get('tutor-policy',  'Home\HomeController@CMSPages');
+    Route::get('terms-of-service', 'Home\HomeController@CMSPages');
 
     /**
      * GENERAL ACTION ROUTES
@@ -161,6 +161,16 @@ Route::namespace('App\Http\Controllers')->group(function () {
             Route::get('/', ['uses' => 'Admin\AdminController@getAllPrivateSession', 'as' => 'admin.private.sessions.all']);
             Route::post('action/disable', ['uses' => 'Admin\AdminController@disablePrivateSessions', 'as' => 'admin.private.session.enable.disable']);
             Route::get('transactions/{id}', ['uses' => 'Admin\AdminController@getPrivateSessionTransactions', 'as' => 'admin.private.transactions']);
+        });
+
+        Route::group(['prefix' => 'cms'], function ()
+        {
+            Route::get('privacy-policy', 'Admin\AdminController@updateCMSPages');
+            Route::get('payment-policy', 'Admin\AdminController@updateCMSPages');
+            Route::get('copyright-policy',  'Admin\AdminController@updateCMSPages');
+            Route::get('tutor-policy',  'Admin\AdminController@updateCMSPages');
+            Route::get('terms-of-service',  'Admin\AdminController@updateCMSPages');
+            Route::post('update',  'Admin\AdminController@saveUpdateCMSPages');
         });
     });
 

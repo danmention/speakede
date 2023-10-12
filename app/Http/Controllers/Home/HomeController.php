@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Helpers\CommonHelpers;
 use App\Http\Controllers\Controller;
+use App\Models\Settings;
 use App\Models\User;
 use App\Services\home\HomeService;
 use Illuminate\Contracts\Foundation\Application;
@@ -392,6 +393,25 @@ class HomeController extends Controller
             return  redirect('/login')->with('response','Invalid code');
         }
 
+    }
+
+    public function CMSPages(Request  $request){
+
+        $title = str_replace("-"," ",ucwords(request()->segment(1)));
+        /** SEO */
+        $seo = CommonHelpers::seoTemplate($title);
+        /** END OF SEO */
+
+        $page_info = Settings::query()->where('url', $request->segment(1))->get();
+        $data = array(
+            "page_info" =>$page_info
+        );
+
+        if (App::environment('production')) {
+            $data = array_merge($data,$seo);
+        }
+
+        return view('home.cms', $data);
     }
 
 

@@ -14,6 +14,7 @@ use App\Models\PreferredLanguage;
 use App\Models\Roles;
 use App\Models\Schedule;
 use App\Models\ScheduleEvent;
+use App\Models\Settings;
 use App\Models\User;
 use App\Models\UserRoles;
 use Illuminate\Contracts\Foundation\Application;
@@ -518,6 +519,21 @@ class AdminController
      */
     public function changePassword(){
         return view('admin.user.change-password');
+    }
+
+    public function updateCMSPages(Request  $request){
+        $page_info = Settings::query()->where('url', $request->segment(4))->get();
+        return view('admin.cms', compact('page_info'));
+    }
+
+    public function saveUpdateCMSPages(Request  $request): RedirectResponse
+    {
+        $data = Settings::find($request->id);
+        $data->title = $request->title;
+        $data->desc = $request->desc;
+        $data->update();
+        Session::flash('message', "CMS Page Updated");
+        return redirect()->back();
     }
 
 

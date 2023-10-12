@@ -41,7 +41,8 @@
 
                     @if(!empty(Auth::user()->profile_image))
                         <div class="figure mb-3">
-                            <img src="{{asset('profile/photo/'.Auth::user()->id.'/'.Auth::user()->profile_image)}}" class="img-avatar" alt="image">
+                            <div style="background-image: url({{asset('profile/photo/'.Auth::user()->id.'/'.Auth::user()->profile_image)}}); background-size: cover;width: 100px;height: 100px; border-radius: 100%"></div>
+
                         </div>
                     @else
                         <div class="figure mb-3">
@@ -56,8 +57,8 @@
                     <a class="img-link" href="{{route('user.dashboard')}}">
 
                         @if(!empty(Auth::user()->profile_image))
-                            <div class="figure mb-3">
-                                <img src="{{asset('profile/photo/'.Auth::user()->id.'/'.Auth::user()->profile_image)}}" class="img-avatar" alt="image">
+                            <div class="figure mb-3" style="margin-top: 20px;">
+                                <div style="background-image: url({{asset('profile/photo/'.Auth::user()->id.'/'.Auth::user()->profile_image)}}); background-size: cover;width: 100px;height: 100px; border-radius: 100%"></div>
                             </div>
                         @else
                             <div class="figure mb-3">

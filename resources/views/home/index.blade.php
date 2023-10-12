@@ -176,9 +176,10 @@
                           <!-- Single Team Start -->
                           <div class="single-team text-center">
                               <div class="team-img">
-                                  <a href="{{url('teacher/'.$row->identity)}}"> @if(!empty($row->profile_image))
-                                      <img src="{{asset('profile/photo/'.$row->id.'/'.$row->profile_image)}}" alt="author" style="width: 100px;height: 100px;">
-                                  @else
+                                  <a href="{{url('teacher/'.$row->identity)}}">
+                                      @if(!empty($row->profile_image))
+                                              <div style="background-image: url({{asset('profile/photo/'.$row->id.'/'.$row->profile_image)}}); background-size: cover;width: 100px;height: 100px; border-radius: 100%"></div>
+                                      @else
                                       <img src="{{asset('avater2.png')}}" alt="author" style="width: 100px">
                                       @endif
                                   </a>

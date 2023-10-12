@@ -20,3 +20,4 @@ yarn-error.log
 /public/profile
 /public/course
 /public/Users
+.DS_Store
