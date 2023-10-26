@@ -68,6 +68,21 @@
                             </div>
                             <div class="block-content block-content-full">
                                 <div class="fw-semibold">{{$row->title}}</div>
+
+                                @if($row->user_id == auth()->user()->id)
+                                    <ul style="list-style: none; margin-left: 40px;">
+                                        <li style="float: left">
+                                        <form action="{{route('user.course.delete.now')}}" method="POST" style="position: center;">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="course_id" value="{{$row->id}}">
+                                                <button type="submit" class="btn btn-sm btn-secondary"  onclick="if (!confirm('Are you sure you want to delete, this will also delete all lessons under this course?')) { return false }">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                    @endif
+
                             </div>
                         </a>
 

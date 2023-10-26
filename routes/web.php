@@ -208,6 +208,10 @@ Route::namespace('App\Http\Controllers')->group(function () {
             Route::get('type/free', ['uses' => 'Shared\SharedController@allCourseByAction', 'as' => 'user.dashboard.course.free']);
             Route::get('type/paid', ['uses' => 'Shared\SharedController@allCourseByAction', 'as' => 'user.dashboard.course.paid']);
             Route::get('theme', ['uses' => 'Shared\SharedController@allCourseByAction', 'as' => 'user.dashboard.course.use.cases']);
+            Route::post('delete/lesson', ['uses' => 'User\UserController@deleteLesson', 'as' => 'user.course.lesson.delete']);
+            Route::post('delete/course', ['uses' => 'User\UserController@deleteCourse', 'as' => 'user.course.delete.now']);
+            Route::get('lesson/edit', ['uses' => 'User\UserController@editLesson', 'as' => 'user.dashboard.course.edit.lesson']);
+            Route::post('lesson/update', ['uses' => 'User\UserController@updateLesson', 'as' => 'user.dashboard.course.lesson.update']);
 
         });
 
@@ -235,6 +239,12 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
         Route::get('wallet/funding', ['uses' => 'User\UserController@buySpeakToken', 'as' => 'user.dashboard.wallet']);
         Route::post('pay', ['uses' =>'User\PaymentController@redirectToGateway' ,'as' => 'user.pay']);
+        Route::get('payment', ['uses' =>'User\PaymentController@postPaymentStripe' ,'as' => 'user.payment']);
+
+        Route::get('payment/checkout', 'User\PaymentController@checkout')->name('checkout');
+        Route::post('payment/session', 'User\PaymentController@session')->name('session');
+        Route::get('payment/success', 'User\PaymentController@success')->name('success');
+
         Route::get('/profile/photo/add', ['uses' => 'User\UserController@getProfilePhoto', 'as' => 'user.profile.photo']);
         Route::get('/change/password', ['uses' => 'User\UserController@changePassword', 'as' => 'user.password']);
 
@@ -259,6 +269,9 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
         Route::get('/add-withdrawal-details', ['uses' => 'User\UserController@addWithdrawalDetails', 'as' => 'user.withdrawal.details']);
         Route::post('/add-withdrawal-details/save', ['uses' => 'User\UserController@saveWithdrawalDetails', 'as' => 'user.withdrawal.details.save']);
+
+        Route::get('/update-profile-info', ['uses' => 'User\UserController@updateProfile', 'as' => 'user.update.profile.get']);
+        Route::post('/update-profile-info/save', ['uses' => 'User\UserController@saveProfileInfo', 'as' => 'user.update.profile.save']);
 
 
     });

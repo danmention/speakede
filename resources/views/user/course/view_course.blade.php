@@ -15,6 +15,18 @@
             <div id="loading-content"></div>
         </section>
 
+        @if(Session::has('message'))
+            <p class="alert alert-success">{{ Session::get('message') }}</p>
+        @endif
+
+
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                {{ session('error') }}
+            </div>
+        @endif
+
 
         @foreach($course as $row)
         <!-- Page Content -->
@@ -22,6 +34,8 @@
             <nav class="breadcrumb push bg-body-extra-light rounded-pill px-4 py-2">
                 <a class="breadcrumb-item" href="#">Courses</a>
                 <span class="breadcrumb-item active">{{$row->title}}</span>
+
+
             </nav>
             <div class="row">
                 <div class="col-xl-4">
@@ -108,9 +122,21 @@
                                     </td>
                                     <td class="text-end">
                                         {{$lesson->course_duration}}
-                                        <button type="button" class="btn btn-sm btn-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+
+                                        @if($iAddedThisCourse)
+                                            <a href="{{(url('user/course/lesson/edit?url='.$lesson->url))}}" class="btn btn-sm btn-secondary js-bs-tooltip-enabled" >
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+
+                                            <form action="{{route('user.course.lesson.delete')}}" method="POST" style="float: right; margin-left: 10px;">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="lesson_id" value="{{$lesson->id}}">
+                                                <button type="submit" class="btn btn-sm btn-secondary"  onclick="if (!confirm('Are you sure?')) { return false }">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+
                                     </td>
                                 </tr>
                                 @endforeach

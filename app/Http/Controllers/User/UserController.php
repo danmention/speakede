@@ -12,6 +12,7 @@ use App\Models\Lesson;
 use App\Models\PaymentTransaction;
 use App\Models\PreferredLanguage;
 use App\Models\ScheduleEvent;
+use App\Models\User;
 use App\Services\user\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -21,6 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Stevebauman\Location\Facades\Location;
 
 class UserController
 {
@@ -68,6 +70,16 @@ class UserController
         return $this->userService->addLessons($request);
     }
 
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateLesson(Request $request): JsonResponse
+    {
+        return $this->userService->updateLessons($request);
+    }
+
     /**
      * @return Factory|View|Application
      */
@@ -82,8 +94,18 @@ class UserController
      */
     public function buySpeakToken()
     {
+        $ip= request()->ip();
+        $position = Location::get($ip);
         $payment = PaymentTransaction::query()->where('user_id', Auth::user()->id)->orderBy('id','desc')->get();
-        return view('user.wallet_funding', compact('payment'));
+        if (!$position){
+            return view('user.wallet_funding_ng', compact('payment'));
+        }
+        if ($position->countryCode === "NG"){
+            return view('user.wallet_funding_ng', compact('payment'));
+        } else {
+            return view('user.wallet_funding', compact('payment'));
+        }
+
     }
 
 
@@ -311,6 +333,57 @@ class UserController
         $data->save();
         Session::flash('message', 'Account Number created successfully');
         return back();
+    }
+
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function updateProfile()
+    {
+        $user = User::query()->where('id', Auth::user()->id)->get();
+        return view('user.edit-profile', compact('user'));
+    }
+
+    public function saveProfileInfo(Request $request): RedirectResponse
+    {
+        $user = User::find(Auth::user()->id);
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->date_of_birth = $request->dob;
+        $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->about_me = $request->about_me;
+        $user->update();
+
+        Session::flash('message', 'Profile Updated successfully');
+        return back();
+    }
+
+
+
+    public function deleteLesson(Request $request): RedirectResponse
+    {
+        $lesson = Lesson::find($request->lesson_id);
+        $lesson->delete();
+        Session::flash('message', 'Lesson Deleted successfully');
+        return back();
+    }
+
+    public function deleteCourse(Request $request): RedirectResponse
+    {
+        $lesson = Course::find($request->course_id);
+        $lesson->delete();
+
+        Lesson::where('course_id',$request->course_id)->delete();
+        Session::flash('message', 'Course Deleted successfully');
+        return back();
+    }
+
+
+    public function editLesson(Request $request){
+        $lessons = Lesson::query()->where('url', $request->url)->get();
+        return view('user.course.edit-lesson', compact('lessons'));
     }
 
 

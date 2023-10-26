@@ -36,4 +36,9 @@ return [
         'redirect' => 'http://127.0.0.1:8000/callback/google',
     ],
 
+    'stripe' => [
+        'stripe_key' => 'pk_test_51LFO7TE1kCQ0YRV2u0jHjAQpqaJqZKi9mDU5kmSSRjcqukq7RHE0vYBxKewrDX39d1oUValUKXj9tcxLeo1Pp7o000uDmcWVeP',
+        'stripe_secret' => 'sk_test_51LFO7TE1kCQ0YRV2v9SolJL3LCK6F7GwEmiBhT5uDhhdxrpH2nRq1tYZC5rAMswFhLY3m6YQU3TYAYdebkCaq1tX00wkxjomFs',
+    ],
+
 ];

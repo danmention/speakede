@@ -178,7 +178,7 @@ return [
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
         KingFlamez\Rave\RaveServiceProvider::class,
 
-        'Intervention\Image\ImageServiceProvider'
+        'Intervention\Image\ImageServiceProvider',
 
     ],
 

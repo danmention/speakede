@@ -382,6 +382,23 @@ class UserService
 
     /**
      * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateLessons(Request $request): JsonResponse
+    {
+        $data                   = Lesson::find($request->lesson_id);
+        $data->url              = strtolower(CommonHelpers::create_unique_slug($request->title,"lessons","url"));
+        $data->lesson_title     = $request->title;
+        $data->description      = $request->desc;
+        $data->youtube_link     = $request->youtube_link;
+        $data->update();
+
+        return response()->json('Lesson Updated successfully');
+    }
+
+
+    /**
+     * @param Request $request
      * @return RedirectResponse
      */
     public function handleCoursePay(Request $request): RedirectResponse

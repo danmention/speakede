@@ -236,6 +236,12 @@
                             </li>
 
                             <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('user.update.profile.get')}}">
+                                    <span class="nav-main-link-name">UPDATE PROFILE</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{ route('user.password') }}">
                                     <span class="nav-main-link-name">CHANGE PASSWORD</span>
                                 </a>

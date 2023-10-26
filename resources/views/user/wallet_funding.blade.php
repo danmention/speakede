@@ -21,15 +21,15 @@
 
                                 <div>
                                     <div class="fs-sm fw-semibold text-uppercase text-muted">
-                                        <img src="{{asset('home/paystack.png')}}"  style="width: 60%; margin-bottom: 20px"/>
+                                        <img src="{{asset('home/stripe-logo-blue.webp')}}"  style="width: 30%; margin-bottom: 20px"/>
                                     </div>
 
-                                    <form method="POST" action="{{route('user.pay')}}" accept-charset="UTF-8" class="form-horizontal" role="form">
+                                    <form method="get" action="{{ route('user.payment')}}" accept-charset="UTF-8" class="form-horizontal" role="form">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="email" value="{{Auth::user()->email}}"> {{-- required --}}
                                         <input type="hidden" name="orderID" value="{{ \App\Helpers\CommonHelpers::generateCramp('payment') }}">
                                         <input type="hidden" name="quantity" value="1">
-                                        <input type="hidden" name="first_name" value="{{Auth::user()->name}}">
+                                        <input type="hidden" name="name" value="{{Auth::user()->name}}">
                                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
 
                                         <input type="hidden" name="currency" value="NGN">

@@ -57,6 +57,7 @@ class HomeController extends Controller
      */
     public function getLogin()
     {
+        $data = [];
         /** SEO */
         $seo = CommonHelpers::seoTemplate("login");
         /** END OF SEO */
@@ -72,6 +73,8 @@ class HomeController extends Controller
      */
     public function getRegister()
     {
+        $data = [];
+
         /** SEO */
         $seo = CommonHelpers::seoTemplate("register");
         /** END OF SEO */

@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "ext-http": "*",
         "ext-json": "*",
+        "cartalyst/stripe": "^2.4",
         "firebase/php-jwt": "^6.8",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
@@ -17,6 +17,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.8",
         "laravel/tinker": "^2.5",
+        "stevebauman/location": "^6.6",
+        "stripe/stripe-php": "^13.0",
         "unicodeveloper/laravel-paystack": "^1.0"
     },
     "require-dev": {

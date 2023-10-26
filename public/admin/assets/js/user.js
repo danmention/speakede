@@ -289,3 +289,54 @@ $("#postFormLesson").submit(function(e){
     });
 });
 
+$("#editFormLesson").submit(function(e){
+    e.preventDefault();
+
+    $('#loading').addClass('loading');
+    $('#loading-content').addClass('loading-content');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var data = new FormData()
+    data.append('title',$("input[name='title']").val())
+    data.append('youtube_link',$("textarea[name='youtube_link']").val())
+    data.append('lesson_id',$("input[name='course_id']").val())
+    data.append('desc',$("textarea[name='desc']").val())
+
+
+    $.ajax({
+        url: SITE_URL+'/user/course/lesson/update',
+        type: "POST",
+        data: data,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        cache: false,
+        statusCode: {
+            500: function(response) {
+                console.log(response)
+                toast.fire('Oops...', response.responseJSON, 'error');
+
+                $('#loading').removeClass('loading');
+                $('#loading-content').removeClass('loading-content');
+            }
+        },
+        success: function (result) {
+
+            $('#loading').removeClass('loading');
+            $('#loading-content').removeClass('loading-content');
+
+            toast.fire('Success', 'Lesson updated successfully', 'success');
+
+            $(".swal2-confirm").click(function(event){
+                window.location.href = SITE_URL+'/user/course/all';
+            });
+
+        }
+    });
+});
+
